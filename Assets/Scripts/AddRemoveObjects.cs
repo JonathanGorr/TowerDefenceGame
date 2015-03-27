@@ -5,11 +5,14 @@ using UnityEngine.UI;
 
 public class AddRemoveObjects : MonoBehaviour {
 
-	Ray ray;
-	RaycastHit hit;
+	private Ray ray;
+	private RaycastHit hit;
 	public GameObject clone, representation;
 	private GameObject rep;
 	private Transform parent;
+	private RepCollision repCollision;
+
+	public LayerMask blockLayer;
 
 	private Toggle toggle;
 
@@ -24,7 +27,7 @@ public class AddRemoveObjects : MonoBehaviour {
 		parent = GameObject.Find("Cubes").transform;
 
 		rep = Instantiate(representation, Input.mousePosition, Quaternion.identity) as GameObject;
-		//rep.transform.position = new Vector3(0.5f,0.5f,0.5f);
+		repCollision = rep.GetComponent<RepCollision>();
 	}
 
 	void Update () {
@@ -34,19 +37,37 @@ public class AddRemoveObjects : MonoBehaviour {
 		//if so, right click to delete,
 		//cannot instantiate if left clicked again
 		//can build on top if clicked again
+		//if the player is colliding, cannot place
+		//check if mouse is over toggle button, if so, destroy
 
 		ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
 		if(toggle.isOn == true)
 		{
-			if(Physics.Raycast(ray,out hit))
+			if(Physics.Raycast(ray,out hit, Mathf.Infinity, blockLayer))
 			{
+				//move the repCube according to the grid
 				rep.transform.position = Snap ();
 
-				if(Input.GetKeyDown(KeyCode.Mouse0))
+				if(!repCollision.isColWithPlayer)
 				{
-					Snap();
-					InstantiateObject();
+					if(Input.GetKeyDown(KeyCode.Mouse0))
+					{
+						InstantiateObject();
+					}
+				}
+
+				else if(repCollision.isInAnotherCube)
+				{
+					if(Input.GetKeyDown(KeyCode.Mouse0))
+					{
+						InstantiateObject();
+					}
+
+					if(Input.GetKeyDown(KeyCode.Mouse2))
+					{
+						//Destroy cube
+					}
 				}
 			}
 		}
@@ -63,9 +84,11 @@ public class AddRemoveObjects : MonoBehaviour {
 	{
 		var t = new Vector3();
 		t.x = Round( hit.point.x );
-		t.y = 0.5f; //this should be static to avoid a glitch
+		t.y = Round( hit.point.y );
 		t.z = Round( hit.point.z );
-		return t + new Vector3(0.5f, 0, 0.5f);
+
+		//rounded values + the offset to right grid points
+		return t + new Vector3(0.5f, 0.5f, 0.5f);
 	}
 	
 	private float Round( float input )
