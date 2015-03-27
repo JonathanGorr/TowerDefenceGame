@@ -11,7 +11,9 @@ public class AutoSnap : EditorWindow
 	
 	static void Init()
 	{
+		//make an editor window
 		var window = (AutoSnap)EditorWindow.GetWindow( typeof( AutoSnap ) );
+		//set its max size
 		window.maxSize = new Vector2( 200, 100 );
 	}
 	
@@ -23,6 +25,9 @@ public class AutoSnap : EditorWindow
 	
 	public void Update()
 	{
+		//if the script editor window is open, at least 1 object is selected, 
+		//and the object(s) position has changed, 
+		//snap and change the prev position to this.
 		if ( doSnap
 		    && !EditorApplication.isPlaying
 		    && Selection.transforms.Length > 0
@@ -35,6 +40,8 @@ public class AutoSnap : EditorWindow
 	
 	private void Snap()
 	{
+		//for each object transform in the selected objects, find their transforms and round them,
+		//then set the objects transform to the rounded numbers.
 		foreach ( var transform in Selection.transforms )
 		{
 			var t = transform.transform.position;
