@@ -1,37 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CameraFollow : MonoBehaviour {
+public class CameraFollow : MonoBehaviour { 
+	public float interpVelocity;
+	public float minDistance;
+	public float followDistance, speed = 5f;
+	public GameObject target;
+	public Vector3 offset;
+	Vector3 targetPos;
+
+	void Start () {
+		targetPos = transform.position;
+	}
 	
-	public Transform target;
-	public float distance = 10.0f;
-	public float height = 3.0f;
-	public float heightDamping = 2.0f;
-	public float rotationDamping = 3.0f;
-	
-	void LateUpdate () {
-		if (!target)
-			return;
-		
-		//Debug.Log(distance.ToString());
-		float wantedRotationAngle = target.eulerAngles.y;
-		float wantedHeight = target.position.y + height;
-		
-		float currentRotationAngle = transform.eulerAngles.y;
-		float currentHeight = transform.position.y;
-		
-		//currentRotationAngle = Mathf.LerpAngle (currentRotationAngle, wantedRotationAngle, rotationDamping * Time.deltaTime);
-		
-		currentHeight = Mathf.Lerp (currentHeight, wantedHeight, heightDamping * Time.deltaTime);
-		
-		Quaternion currentRotation = Quaternion.Euler (0, currentRotationAngle, 0);
-		
-		transform.position = target.position;
-		transform.position -= currentRotation * Vector3.forward * distance;
-		Vector3 temp = transform.position;
-		temp.y = currentHeight;
-		transform.position = temp;
-		
-		transform.LookAt (target);
+	// Update is called once per frame
+	void FixedUpdate () {
+		if (target)
+        {
+			Vector3 posNoZ = transform.position;
+			posNoZ.z = target.transform.position.z;
+			Vector3 targetDirection = (target.transform.position - posNoZ); 
+			interpVelocity = targetDirection.magnitude * speed;
+			targetPos = transform.position + (targetDirection.normalized * interpVelocity * Time.deltaTime);
+	        transform.position = Vector3.Lerp( transform.position, targetPos + offset, 0.25f);
+		}
 	}
 }
