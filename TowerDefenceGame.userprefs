@@ -1,8 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="..\StarHopper\Assets\Scripts\LevelManager.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Health.cs">
     <Files>
-      <File FileName="..\StarHopper\Assets\Scripts\LevelManager.cs" Line="132" Column="60" />
+      <File FileName="Assets\Scripts\HitPoints.cs" Line="7" Column="2" />
+      <File FileName="Assets\Scripts\Health.cs" Line="57" Column="6" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -48,6 +48,9 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\AddRemoveObjects.cs" />
      <Compile Include="Assets\Scripts\CameraFollow.cs" />
+     <Compile Include="Assets\Scripts\Grid.cs" />
+     <Compile Include="Assets\Scripts\Health.cs" />
+     <Compile Include="Assets\Scripts\HitPoints.cs" />
      <Compile Include="Assets\Scripts\RepCollision.cs" />
      <Compile Include="Assets\Scripts\SnapToGrid.cs" />
      <Compile Include="Assets\don_stuff\Script\KeyboardRigidbody.cs" />

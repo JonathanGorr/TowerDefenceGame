@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class KeyboardRigidbody : MonoBehaviour {
@@ -46,13 +46,13 @@ public class KeyboardRigidbody : MonoBehaviour {
 			walking = false;
 			xDirection = 0;
 		}
-		
 	}
 
 	void FixedUpdate () {
 		// Stop movement when there is no input
 		Vector3 velocity = new Vector3(0,0,0);
 		Vector3 localScale = transform.localScale;
+
 		if(walking){
 			if(xDirection > 0){
 				localScale.x = 1f; // Flip the player to face right
@@ -83,6 +83,5 @@ public class KeyboardRigidbody : MonoBehaviour {
 		}
 
 		GetComponent<Rigidbody>().velocity = velocity;
-
 	}
 }
