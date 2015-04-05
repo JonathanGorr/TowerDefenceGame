@@ -7,23 +7,34 @@ public class AddRemoveObjects : MonoBehaviour {
 
 	private Ray ray;
 	private RaycastHit hit;
-	public GameObject clone, representation;
+	public GameObject
+		dirtPrefab,
+		stonePrefab,
+		woodPrefab,
+		representation;
+
+	private GameObject selected;
+
 	private GameObject rep;
 	private Transform parent;
 	private RepCollision repCollision;
 
 	public LayerMask blockLayer;
 
-	private Toggle toggle;
+	private Button
+		dirt,
+		stone,
+		wood;
 
 	//snaps
 	private Vector3 prevPosition;
 	public float snapValue = 0.5f;
+
+	private bool building;
 	
 	void Awake()
 	{
-		toggle = GameObject.Find("BuildToggle").GetComponent<Toggle>();
-		toggle.isOn = false;
+		dirt = GameObject.Find("Dirt").GetComponent<Button>();
 		parent = GameObject.Find("Cubes").transform;
 
 		rep = Instantiate(representation, Input.mousePosition, Quaternion.identity) as GameObject;
@@ -42,7 +53,9 @@ public class AddRemoveObjects : MonoBehaviour {
 
 		ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-		if(toggle.isOn == true)
+		building = true;
+
+		if(building)
 		{
 			if(Physics.Raycast(ray,out hit, Mathf.Infinity, blockLayer))
 			{
@@ -73,9 +86,22 @@ public class AddRemoveObjects : MonoBehaviour {
 		}
 	}
 
+	public void Dirt()
+	{
+		selected = dirtPrefab;
+	}
+	public void Stone()
+	{
+		selected = stonePrefab;
+	}
+	public void Wood()
+	{
+		selected = woodPrefab;
+	}
+
 	private void InstantiateObject()
 	{
-		GameObject obj = Instantiate(clone, Snap(), Quaternion.identity) as GameObject;
+		GameObject obj = Instantiate(selected, Snap(), Quaternion.identity) as GameObject;
 
 		obj.transform.parent = parent;
 	}
