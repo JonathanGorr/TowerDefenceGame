@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour {
 	public KeyCode downKey = KeyCode.S;
 	public KeyCode Attack1Key = KeyCode.Space;
 
-	public float xspeed = 9f;
+	public float xspeed = 6f;
 	public float zspeed = 4f;
 	
 	bool standing, walking, walking2,attack1;
@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour {
 		float absVeloX = Mathf.Abs (GetComponent<Rigidbody>().velocity.x);
 
 
-		//Aniation
+		//Animation
 
 		if (walking) {
 			animator.Play (Animator.StringToHash("Walk"));
@@ -67,6 +67,7 @@ public class PlayerController : MonoBehaviour {
 				localScale.x = -1f; // // Flip the player to face left
 			}
 		}
+
 		velocity.x = xspeed * xDirection; // Move
 		transform.localScale = localScale;
 

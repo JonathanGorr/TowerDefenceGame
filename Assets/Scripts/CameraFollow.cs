@@ -11,8 +11,8 @@ public class CameraFollow : MonoBehaviour {
 
 	void Awake () {
 		targetPos = transform.position;
-		if (!target)
-			target = GameObject.Find ("Player");
+		//if (!target)
+			//target = GameObject.Find ("Player");
 	}
 	
 	// Update is called once per frame
