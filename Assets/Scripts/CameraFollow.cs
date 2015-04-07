@@ -9,10 +9,8 @@ public class CameraFollow : MonoBehaviour {
 	public Vector3 offset;
 	Vector3 targetPos;
 
-	void Awake () {
+	void Start () {
 		targetPos = transform.position;
-		//if (!target)
-			//target = GameObject.Find ("Player");
 	}
 	
 	// Update is called once per frame
