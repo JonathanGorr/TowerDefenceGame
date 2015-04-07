@@ -39,21 +39,13 @@
 	<Reference Include="System.Core" />
 	<Reference Include="System.Xml.Linq" />
 	<Reference Include="UnityEngine">
-	  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>E:/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>E:/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Completed\Scripts\BoardManager.cs" />
-     <Compile Include="Assets\Completed\Scripts\Enemy.cs" />
-     <Compile Include="Assets\Completed\Scripts\GameManager.cs" />
-     <Compile Include="Assets\Completed\Scripts\Loader.cs" />
-     <Compile Include="Assets\Completed\Scripts\MovingObject.cs" />
-     <Compile Include="Assets\Completed\Scripts\Player.cs" />
-     <Compile Include="Assets\Completed\Scripts\SoundManager.cs" />
-     <Compile Include="Assets\Completed\Scripts\Wall.cs" />
      <Compile Include="Assets\Scripts\AddRemoveObjects.cs" />
      <Compile Include="Assets\Scripts\BlockHealth.cs" />
      <Compile Include="Assets\Scripts\Building.cs" />
@@ -76,12 +68,8 @@
      <Compile Include="Assets\Scripts\Wall.cs" />
      <Compile Include="Assets\Scripts\pickupScript.cs" />
  <Reference Include="UnityEngine.UI">
- <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+ <HintPath>E:/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{37FEE728-A8FA-74D6-A47C-9A2DB4B82995}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

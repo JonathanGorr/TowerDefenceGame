@@ -18,6 +18,7 @@ public class Building : MonoBehaviour {
 	private GameObject rep;
 	private Transform parent;
 	private RepCollision repCollision;
+	private LevelManager manager;
 
 	public LayerMask blockLayer;
 
@@ -30,11 +31,12 @@ public class Building : MonoBehaviour {
 	private Vector3 prevPosition;
 	public float snapValue = 1;
 
-	private bool building;
+	private bool building, canBuild;
 	
 	void Awake()
 	{
 		dirt = GameObject.Find("Dirt").GetComponent<Button>();
+		manager = GameObject.Find ("LevelManager").GetComponent<LevelManager> ();
 		parent = GameObject.Find("Cubes").transform;
 
 		rep = Instantiate(representation, Input.mousePosition, Quaternion.identity) as GameObject;
@@ -47,31 +49,39 @@ public class Building : MonoBehaviour {
 
 		building = true;
 
-		if(building)
+		if (manager.currency > 0)
+			canBuild = true;
+		else
+			canBuild = false;
+
+		if(canBuild)
 		{
-			if(Physics.Raycast(ray,out hit, Mathf.Infinity, blockLayer))
+			if(building)
 			{
-				//move the repCube according to the grid
-				rep.transform.position = Snap ();
-
-				if(!repCollision.isColWithPlayer)
+				if(Physics.Raycast(ray,out hit, Mathf.Infinity, blockLayer))
 				{
-					if(Input.GetKeyDown(KeyCode.Mouse0))
-					{
-						InstantiateObject();
-					}
-				}
+					//move the repCube according to the grid
+					rep.transform.position = Snap ();
 
-				else if(repCollision.isInAnotherCube)
-				{
-					if(Input.GetKeyDown(KeyCode.Mouse0))
+					if(!repCollision.isColWithPlayer)
 					{
-						InstantiateObject();
+						if(Input.GetKeyDown(KeyCode.Mouse0))
+						{
+							InstantiateObject();
+						}
 					}
 
-					if(Input.GetKeyDown(KeyCode.Mouse2))
+					else if(repCollision.isInAnotherCube)
 					{
-						//Destroy cube
+						if(Input.GetKeyDown(KeyCode.Mouse0))
+						{
+							InstantiateObject();
+						}
+
+						if(Input.GetKeyDown(KeyCode.Mouse2))
+						{
+							//Destroy cube
+						}
 					}
 				}
 			}

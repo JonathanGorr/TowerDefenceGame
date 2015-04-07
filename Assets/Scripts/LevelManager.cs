@@ -7,24 +7,26 @@ public class LevelManager : MonoBehaviour {
 	[HideInInspector]
 	public int currency = 10;
 
-	public Text soulText;
-	public int soul;
+	private Text soulText;
+	public int soul = 0;
 	
-	void Start () {
-		soul = 0;
-		UpdateSoul ();
-		soulText = GameObject.Find("SoulText").GetComponent<Text>();
+	void Awake () {
+		soulText = GameObject.Find("Currency").GetComponent<Text>();
+		UpdateSoul();
 	}
 	
 	public void AddSoul (int newSoulValue)
 	{
 		soul += newSoulValue;
-		UpdateSoul ();
+		UpdateSoul();
 	}
 	
 	void UpdateSoul()
 	{
-		soulText.text = "Souls: " + soul;
+		if (soulText)
+			soulText.text = "Souls: " + soul;
+		else
+			print ("Soul text cannot be found");
 	}
 
 	public void NextLevel()
