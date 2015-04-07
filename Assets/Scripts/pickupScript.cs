@@ -3,18 +3,18 @@ using System.Collections;
 
 public class pickupScript : MonoBehaviour {
 
-	public GameManager soul;	
+	public LevelManager manager;	
 
 	// Use this for initialization
 	void Start () {
-		soul = GameObject.Find("LevelManager").GetComponent<GameManager>();
+		manager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
 	}
 
 	private void OnTriggerEnter (Collider col)
 	{
 		if(col.tag == "Soul")
 		{
-			soul.AddSoul(1);
+			manager.AddSoul(1);
 			Destroy(col.gameObject);
 		}
 	}
