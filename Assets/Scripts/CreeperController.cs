@@ -20,7 +20,6 @@ public class CreeperController : MonoBehaviour {
 
 	void Update () {
 		CheckDeath ();
-
 	}
 	
 	void FixedUpdate () {
@@ -46,8 +45,6 @@ public class CreeperController : MonoBehaviour {
 		}
 	}
 
-
-
 	public void TakeDamage (int dmg)
 	{
 		//lose health based on dmg taken
@@ -61,7 +58,7 @@ public class CreeperController : MonoBehaviour {
 	private void CheckDeath ()
 	{
 		//Check if food point total is less than or equal to zero.
-		if (health <= 0) 
+		if (health <= 0)
 		{
 			//SoundManager.instance.RandomizeSfx (creeperdeath1, creeperdeath2);
 			GameObject obj = Instantiate(soul, transform.position, Quaternion.identity) as GameObject;

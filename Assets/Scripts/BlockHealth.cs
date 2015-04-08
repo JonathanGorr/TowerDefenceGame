@@ -10,20 +10,16 @@ public class BlockHealth : MonoBehaviour {
 	void Update () {
 		UpdateHealth();
 	}
-
-
-
+	
 	private void OnTriggerEnter (Collider col)
 	{
-		if(col.tag == "Creeper")
+		if(col.tag == "Enemy")
 		{
 			blockhit = true;
-			LoseHealth(1);
+			InvokeRepeating("LoseHealth(1)", 1f, 1f);
 		}
 	}
-
-
-
+	
 	public void LoseHealth (int hit)
 	{
 		health -= hit;

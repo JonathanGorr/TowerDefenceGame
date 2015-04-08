@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEditor;
 using System.Collections;
 using UnityEngine.UI;
 
@@ -35,21 +34,30 @@ public class Building : MonoBehaviour {
 	
 	void Awake()
 	{
-		dirt = GameObject.Find("Dirt").GetComponent<Button>();
 		manager = GameObject.Find ("LevelManager").GetComponent<LevelManager> ();
-		parent = GameObject.Find("Cubes").transform;
 
-		rep = Instantiate(representation, Input.mousePosition, Quaternion.identity) as GameObject;
-		repCollision = rep.GetComponent<RepCollision>();
+		//early out
+		if (manager.inMenu)
+			return;
+
+		dirt = GameObject.Find ("Dirt").GetComponent<Button> ();
+		parent = GameObject.Find ("Cubes").transform;
+
+		rep = Instantiate (representation, Input.mousePosition, Quaternion.identity) as GameObject;
+		repCollision = rep.GetComponent<RepCollision> ();
 	}
 
 	void Update () {
+
+		//early out
+		if (manager.inMenu)
+			return;
 
 		ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
 		building = true;
 
-		if (manager.currency > 0)
+		if (manager.souls > 0)
 			canBuild = true;
 		else
 			canBuild = false;
@@ -106,6 +114,13 @@ public class Building : MonoBehaviour {
 		GameObject obj = Instantiate(selected, Snap(), Quaternion.identity) as GameObject;
 
 		obj.transform.parent = parent;
+
+		if(selected == dirtPrefab)
+			manager.SubtractSoul (1);
+		else if(selected == woodPrefab)
+			manager.SubtractSoul (2);
+		else
+			manager.SubtractSoul (3);
 	}
 
 	private Vector3 Snap()

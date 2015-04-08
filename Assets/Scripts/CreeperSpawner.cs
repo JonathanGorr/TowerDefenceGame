@@ -12,10 +12,10 @@ public class CreeperSpawner : MonoBehaviour {
     public float startWait;
     public float waveWait;
 
-
     void Start ()
     {
-        StartCoroutine (SpawnWaves ());
+		if(GetComponent<LevelManager>().inMenu == false)
+        	StartCoroutine (SpawnWaves ());
     }
 
     IEnumerator SpawnWaves ()
