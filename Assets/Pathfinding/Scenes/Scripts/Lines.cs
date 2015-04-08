@@ -19,18 +19,21 @@ public class Lines : MonoBehaviour
 
     private void DrawPath()
     {
-        if (playerScript.Path.Count > 0)
-        {
-            lineRenderer.SetVertexCount(playerScript.Path.Count);
+		if(playerScript)
+		{
+	        if (playerScript.Path.Count > 0)
+	        {
+	            lineRenderer.SetVertexCount(playerScript.Path.Count);
 
-            for (int i = 0; i < playerScript.Path.Count; i++)
-            {
-                lineRenderer.SetPosition(i, playerScript.Path[i] + Vector3.up);
-            }
-        }
-        else
-        {
-            lineRenderer.SetVertexCount(0);
-        }
+	            for (int i = 0; i < playerScript.Path.Count; i++)
+	            {
+	                lineRenderer.SetPosition(i, playerScript.Path[i] + Vector3.up);
+	            }
+	        }
+	        else
+	        {
+	            lineRenderer.SetVertexCount(0);
+	        }
+		}
     }
 }

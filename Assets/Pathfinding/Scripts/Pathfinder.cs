@@ -17,11 +17,8 @@ public class Pathfinder : MonoBehaviour
     public float MaxFalldownHeight;
     public float ClimbLimit;
     public int HeuristicAggression;
-    public float HighestPoint = 100F;
-    public float LowestPoint = -50F;
-
-    public Vector2 MapStartPosition;
-    public Vector2 MapEndPosition;
+    private float HighestPoint = 100F;
+	private float LowestPoint = -50F;
 
     public List<string> DisallowedTags;
     public List<string> IgnoreTags;
@@ -29,6 +26,8 @@ public class Pathfinder : MonoBehaviour
 
     public bool DrawMapInEditor = false;
     public bool CheckFullTileSize = false;
+
+	private Vector3 mapStart, mapEnd;
 
     //FPS
     private float updateinterval = 1F;
@@ -47,14 +46,21 @@ public class Pathfinder : MonoBehaviour
     void Awake()
     {
         instance = this;
+
+		mapStart.x = GameObject.Find ("MapStart").transform.position.x;
+		mapStart.y = GameObject.Find ("MapStart").transform.position.z;
+		mapEnd = GameObject.Find ("MapEnd").transform.position;
+
+		//LowestPoint = mapStart.y;
+		//HighestPoint = mapStart.y + 3f;
     }
 
 	
 	void Start () 
     {
-        if (Tilesize <= 0)
+        if (Tilesize <= 0.2)
         {
-            Tilesize = 1;
+            Tilesize = 0.2f;
         }
 
         Pathfinder.Instance.CreateMap();
@@ -104,10 +110,10 @@ public class Pathfinder : MonoBehaviour
     private void CreateMap()
     {
         //Find positions for start and end of map
-        int startX  = (int)MapStartPosition.x;
-        int startZ  = (int)MapStartPosition.y;
-        int endX    = (int)MapEndPosition.x;
-        int endZ    = (int)MapEndPosition.y;
+        int startX  = (int)mapStart.x;
+        int startZ  = (int)mapStart.y;
+        int endX    = (int)mapEnd.x;
+        int endZ    = (int)mapEnd.y;
 
         //Find tile width and height
         int width = (int)((endX - startX) / Tilesize);
@@ -333,8 +339,8 @@ public class Pathfinder : MonoBehaviour
 
     public bool IsTheClosestNodeWalkable(Vector3 pos)
     {
-        int x = (MapStartPosition.x < 0F) ? Mathf.FloorToInt(((pos.x + Mathf.Abs(MapStartPosition.x)) / Tilesize)) : Mathf.FloorToInt((pos.x - MapStartPosition.x) / Tilesize);
-        int z = (MapStartPosition.y < 0F) ? Mathf.FloorToInt(((pos.z + Mathf.Abs(MapStartPosition.y)) / Tilesize)) : Mathf.FloorToInt((pos.z - MapStartPosition.y) / Tilesize);
+        int x = (mapStart.x < 0F) ? Mathf.FloorToInt(((pos.x + Mathf.Abs(mapStart.x)) / Tilesize)) : Mathf.FloorToInt((pos.x - mapStart.x) / Tilesize);
+        int z = (mapStart.y < 0F) ? Mathf.FloorToInt(((pos.z + Mathf.Abs(mapStart.y)) / Tilesize)) : Mathf.FloorToInt((pos.z - mapStart.y) / Tilesize);
 
         if (x < 0 || z < 0 || x > Map.GetLength(0) || z > Map.GetLength(1))
             return false;
@@ -345,8 +351,8 @@ public class Pathfinder : MonoBehaviour
 
     private Node FindClosestNode(Vector3 pos)
     {      
-        int x = (MapStartPosition.x < 0F) ? Mathf.FloorToInt(((pos.x + Mathf.Abs(MapStartPosition.x)) / Tilesize)) :  Mathf.FloorToInt((pos.x - MapStartPosition.x) / Tilesize);
-        int z = (MapStartPosition.y < 0F) ? Mathf.FloorToInt(((pos.z + Mathf.Abs(MapStartPosition.y)) / Tilesize)) : Mathf.FloorToInt((pos.z - MapStartPosition.y) / Tilesize);
+        int x = (mapStart.x < 0F) ? Mathf.FloorToInt(((pos.x + Mathf.Abs(mapStart.x)) / Tilesize)) :  Mathf.FloorToInt((pos.x - mapStart.x) / Tilesize);
+        int z = (mapStart.y < 0F) ? Mathf.FloorToInt(((pos.z + Mathf.Abs(mapStart.y)) / Tilesize)) : Mathf.FloorToInt((pos.z - mapStart.y) / Tilesize);
 
         if (x < 0 || z < 0 || x > Map.GetLength(0) || z > Map.GetLength(1))
             return null;
@@ -380,8 +386,8 @@ public class Pathfinder : MonoBehaviour
 
     private void FindEndNode(Vector3 pos)
     {       
-        int x = (MapStartPosition.x < 0F) ? Mathf.FloorToInt(((pos.x + Mathf.Abs(MapStartPosition.x)) / Tilesize)) : Mathf.FloorToInt((pos.x - MapStartPosition.x) / Tilesize);
-        int z = (MapStartPosition.y < 0F) ? Mathf.FloorToInt(((pos.z + Mathf.Abs(MapStartPosition.y)) / Tilesize)) : Mathf.FloorToInt((pos.z - MapStartPosition.y) / Tilesize);
+        int x = (mapStart.x < 0F) ? Mathf.FloorToInt(((pos.x + Mathf.Abs(mapStart.x)) / Tilesize)) : Mathf.FloorToInt((pos.x - mapStart.x) / Tilesize);
+        int z = (mapStart.y < 0F) ? Mathf.FloorToInt(((pos.z + Mathf.Abs(mapStart.y)) / Tilesize)) : Mathf.FloorToInt((pos.z - mapStart.y) / Tilesize);
 
         Node closestNode = Map[x, z];
         List<Node> walkableNodes = new List<Node>();
@@ -905,8 +911,8 @@ public class Pathfinder : MonoBehaviour
         List<Vector2> returnList = new List<Vector2>();
         foreach (Vector3 pos in vList)
         {
-            int x = (MapStartPosition.x < 0F) ? Mathf.FloorToInt(((pos.x + Mathf.Abs(MapStartPosition.x)) / Tilesize)) : Mathf.FloorToInt((pos.x - MapStartPosition.x) / Tilesize);
-            int z = (MapStartPosition.y < 0F) ? Mathf.FloorToInt(((pos.z + Mathf.Abs(MapStartPosition.y)) / Tilesize)) : Mathf.FloorToInt((pos.z - MapStartPosition.y) / Tilesize);
+            int x = (mapStart.x < 0F) ? Mathf.FloorToInt(((pos.x + Mathf.Abs(mapStart.x)) / Tilesize)) : Mathf.FloorToInt((pos.x - mapStart.x) / Tilesize);
+            int z = (mapStart.y < 0F) ? Mathf.FloorToInt(((pos.z + Mathf.Abs(mapStart.y)) / Tilesize)) : Mathf.FloorToInt((pos.z - mapStart.y) / Tilesize);
 
             if (x >= 0 && x < Map.GetLength(0) && z >= 0 && z < Map.GetLength(1))
             {

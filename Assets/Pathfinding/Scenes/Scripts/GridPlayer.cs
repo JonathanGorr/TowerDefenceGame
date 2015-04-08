@@ -6,10 +6,15 @@ public class GridPlayer : Pathfinding
 {
     public Camera playerCam;
     public Camera minimapCam;
+	private float maxY;
 
-    public GUIStyle bgStyle;
 
-	void Update () 
+	private void Awake()
+	{
+		maxY = transform.position.y;//-Mathf.Infinity;
+	}
+
+	void Update ()
     {
         FindPath();
         if (Path.Count > 0)
@@ -19,20 +24,8 @@ public class GridPlayer : Pathfinding
 	}
 
     private void FindPath()
-    {
-
-        if (Input.GetButtonDown("Fire1") && Input.mousePosition.x > (Screen.width / 10) * 7F && Input.mousePosition.y < (Screen.height / 10) * 3.5F)
-        {
-            //Call to the player map
-            Ray ray = minimapCam.ScreenPointToRay(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
-            {             
-               FindPath(transform.position, hit.point);
-            }          
-        }
-        else if (Input.GetButtonDown("Fire1"))
+	{
+        if (Input.GetButtonDown("Fire1"))
         {
             //Call minimap
             Ray ray = playerCam.ScreenPointToRay(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
@@ -58,8 +51,10 @@ public class GridPlayer : Pathfinding
             }
 
             RaycastHit[] hit = Physics.RaycastAll(transform.position + (Vector3.up * 20F), Vector3.down, 100);
-            float maxY = -Mathf.Infinity;
-            foreach (RaycastHit h in hit)
+			//float maxY = transform.position.y;//-Mathf.Infinity;
+            
+			/*
+			foreach (RaycastHit h in hit)
             {
                 if (h.transform.tag == "Untagged")
                 {
@@ -69,12 +64,9 @@ public class GridPlayer : Pathfinding
                     }
                 }
             }
-            transform.position = new Vector3(transform.position.x, maxY + 1F, transform.position.z);
-        }
-    }
+            */
 
-    void OnGUI()
-    {
-        GUI.Label(new Rect(0, 0, Screen.width, Screen.height), "", bgStyle);
+            transform.position = new Vector3(transform.position.x, maxY, transform.position.z);
+        }
     }
 }

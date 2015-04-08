@@ -18,6 +18,7 @@ public class Building : MonoBehaviour {
 	private Transform parent;
 	private RepCollision repCollision;
 	private LevelManager manager;
+	private Camera camera;
 
 	public LayerMask blockLayer;
 
@@ -34,6 +35,7 @@ public class Building : MonoBehaviour {
 	
 	void Awake()
 	{
+		camera = GameObject.Find ("MainCamera").GetComponent<Camera>();
 		manager = GameObject.Find ("LevelManager").GetComponent<LevelManager> ();
 
 		//early out
@@ -53,7 +55,7 @@ public class Building : MonoBehaviour {
 		if (manager.inMenu)
 			return;
 
-		ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		ray = camera.ScreenPointToRay(Input.mousePosition);
 
 		building = true;
 
