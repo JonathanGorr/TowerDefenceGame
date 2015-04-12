@@ -2,7 +2,8 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\EnemyController.cs">
     <Files>
-      <File FileName="Assets\Scripts\EnemyController.cs" Line="51" Column="22" />
+      <File FileName="Assets\Scripts\EnemyController.cs" Line="100" Column="26" />
+      <File FileName="Assets\Pathfinding\Scenes\Scripts\AI.cs" Line="30" Column="6" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

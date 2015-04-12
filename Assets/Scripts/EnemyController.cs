@@ -8,21 +8,31 @@ public class EnemyController : MonoBehaviour {
 	public float jumpSpeed = 8.0F;
 	public float gravity = 20.0F;
 	private Vector3 moveDirection = Vector3.zero;
-	private Transform target;
+	public GameObject target;
 	private CharacterController controller;
 	private float xDir, zDir;
 	private bool moving, aggro, canAttack = true;
 	private Rigidbody rigidBody;
-	private Vector3 distance;
-	public Vector3 attackDistance;
+	private float distance;
+	public float attackDistance = 2f;
 	private Slider targetHealth;
+	private Transform sprite;
+	private Animator anim;
+	public int attackValue = 5;
 
 	private void Awake()
 	{
-		rigidBody = GetComponent<Rigidbody> ();
+		anim = GetComponentInChildren<Animator> ();
+		sprite = transform.Find ("Sprite");
+		rigidBody = GetComponent<Rigidbody>();
 		controller = GetComponent<CharacterController>();
-		target = GameObject.FindGameObjectWithTag("Heart").transform; //insert object of importance
-		targetHealth = target.GetComponentInChildren<Slider>();
+		target = GameObject.FindGameObjectWithTag("Heart"); //insert object of importance
+
+		if(!target)
+			target = GameObject.Find("Player");
+
+		targetHealth = GameObject.Find ("Health").GetComponent<Slider> ();
+		//targetHealth = target.GetComponentInChildren<Slider>();
 	}
 
 	void Update() {
@@ -31,45 +41,59 @@ public class EnemyController : MonoBehaviour {
 		
 		//jump if grounded and stopped
 		if (controller.isGrounded) {
-			if(rigidBody.velocity.magnitude < 0.1f)
+			if (rigidBody.velocity.magnitude < 0.1f)
 				moveDirection.y = jumpSpeed;
 		}
 
-
-		//distance is the difference between the target and enemy location
-		distance = target.transform.position - transform.position;
-
-		//within attack range
-		if(distance.x <= attackDistance.x && distance.z <= attackDistance.y && canAttack)
+		//if not sleeping, is moving; walking
+		if(!rigidBody.IsSleeping())
 		{
-			StartCoroutine("Attack");
+			anim.SetInteger("AnimState", 1);
+			moving = true;
+		}
+		else
+		{
+			anim.SetInteger("AnimState", 0);
+			moving = false;
 		}
 
-		//flipping
+		//distance is the difference between the target and enemy location
+		distance = Vector3.Distance(target.transform.position, transform.position);
+		float direction = target.transform.position.x - transform.position.x;
+
+		//flipping--------------------------------------------------
 		Vector3 localScale = transform.localScale;
 
-		if (moveDirection.x < 0)
-			localScale.x = 1f;
-		else if (moveDirection.x > 0)
-			localScale.x = -1f;
+		if (direction > 0)
+			localScale = new Vector3(1,1,1);
+		else if (direction < 0)
+			localScale = new Vector3(-1,1,1);
 
-		transform.localScale = localScale;
+		sprite.localScale = localScale;
+
+		//----------------------------------------------------------
 
 		moveDirection.y -= gravity * Time.deltaTime;//gravity
 		controller.Move(moveDirection * speed * Time.deltaTime);
+
+		//within attack range
+		if(distance <= attackDistance && canAttack)
+		{
+			StartCoroutine("Attack");
+		}
 	}
 
 	private void MoveEnemy()
 	{
 		//if the target's z position is greater than the x position away, move in that direction, else vice versa
-		if (Mathf.Abs (target.position.x - transform.position.x) < Mathf.Abs(target.position.z - transform.position.z))
+		if (Mathf.Abs (target.transform.position.x - transform.position.x) < Mathf.Abs(target.transform.position.z - transform.position.z))
 		{
-			zDir = target.position.z > transform.position.z ? 1 : -1; //if true: move up, else move down
+			zDir = target.transform.position.z > transform.position.z ? 1 : -1; //if true: move up, else move down
 			xDir = 0;
 		}
 		else
 		{
-			xDir = target.position.x > transform.position.x ? 1 : -1;
+			xDir = target.transform.position.x > transform.position.x ? 1 : -1;
 			zDir = 0;
 		}
 
@@ -79,15 +103,16 @@ public class EnemyController : MonoBehaviour {
 
 	private void OnDrawGizmos()
 	{
-		Gizmos.color = Color.green;
+		Gizmos.color = Color.yellow;
 		if(target)
-			Gizmos.DrawLine (transform.position, target.position);
+			Gizmos.DrawLine (transform.position, target.transform.position);
 	}
 
 	private IEnumerator Attack()
 	{
 		canAttack = false;
-		targetHealth.value --;
+		anim.SetTrigger ("Attack");
+		targetHealth.value -= attackValue;
 		yield return new WaitForSeconds(attackDelay);
 		canAttack = true;
 	}

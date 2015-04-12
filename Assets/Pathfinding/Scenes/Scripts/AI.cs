@@ -14,8 +14,12 @@ public class AI : Pathfinding {
 	private Vector2 distance;
 	public float speed = 5f;
 
-	void Start () 
+	[HideInInspector]
+	public Vector3 direction;
+
+	void Awake ()
     {
+		controller = GetComponent<CharacterController> ();
         AIList = GameObject.FindGameObjectsWithTag("Enemy");
 		//target = GameObject.Find ("Heart").transform;
 		target = GameObject.Find ("Player").transform;
@@ -40,6 +44,7 @@ public class AI : Pathfinding {
         else if (Vector3.Distance(target.position, transform.position) < 2F)
         {
             //Stop!
+			//Attack!
         }
 
 		//else if its still too far away, restructure path and keep moving
@@ -76,13 +81,12 @@ public class AI : Pathfinding {
         yield return new WaitForSeconds(1F);
         newPath = true;
     }
-
-
+	
     private void MoveMethod()
     {
         if (Path.Count > 0)
         {
-            Vector3 direction = (Path[0] - transform.position).normalized;
+            direction = (Path[0] - transform.position).normalized;
 
             foreach (GameObject g in AIList)
             {
@@ -96,7 +100,8 @@ public class AI : Pathfinding {
 
             direction.Normalize();
 
-            transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, Time.deltaTime * speed);
+			//controller.Move(direction * Time.deltaTime * speed);
+			transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, Time.deltaTime * speed);
 
             if (transform.position.x < Path[0].x + 0.4F && transform.position.x > Path[0].x - 0.4F && transform.position.z > Path[0].z - 0.4F && transform.position.z < Path[0].z + 0.4F)
             {
@@ -109,6 +114,11 @@ public class AI : Pathfinding {
 			transform.position = new Vector3(transform.position.x, maxY, transform.position.z);
         }
     }
+
+	public void CreateNewPath()
+	{
+		StartCoroutine(NewPath());
+	}
 
 	private Vector3 Snap()
 	{

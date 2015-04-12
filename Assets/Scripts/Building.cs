@@ -19,6 +19,7 @@ public class Building : MonoBehaviour {
 	private RepCollision repCollision;
 	private LevelManager manager;
 	private Camera camera;
+	private GameObject[] enemy;
 
 	[HideInInspector]
 	public Vector3 mousePos;
@@ -38,6 +39,8 @@ public class Building : MonoBehaviour {
 	
 	void Awake()
 	{
+		enemy = GameObject.FindGameObjectsWithTag("Enemy");
+
 		camera = GameObject.Find ("MainCamera").GetComponent<Camera>();
 		manager = GameObject.Find ("LevelManager").GetComponent<LevelManager> ();
 
@@ -50,17 +53,33 @@ public class Building : MonoBehaviour {
 
 		rep = Instantiate (representation, Input.mousePosition, Quaternion.identity) as GameObject;
 		repCollision = rep.GetComponent<RepCollision> ();
+		rep.SetActive (false);
+		building = false;
 	}
 
 	void Update () {
+
+		//TODO:
+		//if a terrain is selected, toggle rep on,
+		//do a comparison everytime a terrain is selected. If the terrain is the same as already selected,
+		//toggle off building
 
 		//early out
 		if (manager.inMenu)
 			return;
 
-		ray = camera.ScreenPointToRay(Input.mousePosition);
+		foreach(GameObject obj in enemy)
+		{
+			obj.GetComponent<AI>().CreateNewPath();
+		}
 
-		building = true;
+		//toggle building on/off with key
+		if (Input.GetKeyDown (KeyCode.B))
+			building = !building;
+
+		print (building);
+
+		ray = camera.ScreenPointToRay(Input.mousePosition);
 
 		if (manager.souls > 0)
 			canBuild = true;
@@ -71,6 +90,8 @@ public class Building : MonoBehaviour {
 		{
 			if(building)
 			{
+				rep.SetActive(true);
+
 				if(Physics.Raycast(ray,out hit, Mathf.Infinity, blockLayer))
 				{
 					//move the repCube according to the grid
@@ -99,6 +120,8 @@ public class Building : MonoBehaviour {
 					}
 				}
 			}
+			else
+				rep.SetActive(false);
 		}
 	}
 
@@ -118,6 +141,7 @@ public class Building : MonoBehaviour {
 	private void InstantiateObject()
 	{
 		GameObject obj = Instantiate(selected, Snap(), Quaternion.identity) as GameObject;
+
 
 		obj.transform.parent = parent;
 
