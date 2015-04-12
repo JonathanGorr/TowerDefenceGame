@@ -73,7 +73,7 @@ public class PlayerControllerUnityGravity : MonoBehaviour {
 		}
 		else if(action)
 		{
-			print("attacking");
+			//print("attacking");
 
 			if(mousePos.x < 0)
 				localScale.x = 1f;

@@ -1,9 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\EnemyController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Pathfinding\Scripts\Pathfinder.cs">
     <Files>
-      <File FileName="Assets\Scripts\EnemyController.cs" Line="100" Column="26" />
-      <File FileName="Assets\Pathfinding\Scenes\Scripts\AI.cs" Line="30" Column="6" />
+      <File FileName="Assets\Scripts\EnemyController.cs" Line="48" Column="5" />
+      <File FileName="Assets\Pathfinding\Scripts\Pathfinder.cs" Line="24" Column="36" />
+      <File FileName="Assets\Scripts\PlayerControllerUnityGravity.cs" Line="93" Column="2" />
+      <File FileName="Assets\Pathfinding\Scenes\Scripts\TDEnemy.cs" Line="18" Column="17" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -3,35 +3,20 @@ using System.Collections;
 
 public class AI : Pathfinding {
 
-    public Transform target;
+    public Transform player;
     private CharacterController controller;
     private bool newPath = true;
     private bool moving = false;
     private GameObject[] AIList;
-	private float maxY;
-	private float snapValue = 0.5f;
-	private float seekDistance = 25f;
-	private Vector2 distance;
-	public float speed = 5f;
 
-	[HideInInspector]
-	public Vector3 direction;
-
-	void Awake ()
+	void Start () 
     {
-		controller = GetComponent<CharacterController> ();
         AIList = GameObject.FindGameObjectsWithTag("Enemy");
-		//target = GameObject.Find ("Heart").transform;
-		target = GameObject.Find ("Player").transform;
-		maxY = transform.position.y;
 	}
 	
-	void Update ()
+	void Update () 
     {
-		distance = new Vector2((target.transform.position.x - transform.position.x), (target.transform.position.z - transform.position.z));
-
-		//if the target is too far away, create a new path and move to it, setting move bool to true
-        if (Vector3.Distance(target.position, transform.position) < seekDistance && !moving)
+        if (Vector3.Distance(player.position, transform.position) < 25F && !moving)
         {
             if (newPath)
             {
@@ -39,20 +24,15 @@ public class AI : Pathfinding {
             }
             moving = true;
         }
-
-		//else if close enough, stop
-        else if (Vector3.Distance(target.position, transform.position) < 2F)
+        else if (Vector3.Distance(player.position, transform.position) < 2F)
         {
             //Stop!
-			//Attack!
         }
-
-		//else if its still too far away, restructure path and keep moving
-        else if (Vector3.Distance(target.position, transform.position) < 35F && moving)
+        else if (Vector3.Distance(player.position, transform.position) < 35F && moving)
         {
             if (Path.Count > 0)
             {
-                if (Vector3.Distance(target.position, Path[Path.Count - 1]) > 5F)
+                if (Vector3.Distance(player.position, Path[Path.Count - 1]) > 5F)
                 {
                     StartCoroutine(NewPath());
                 }
@@ -64,10 +44,9 @@ public class AI : Pathfinding {
                     StartCoroutine(NewPath());
                 }
             }
-            //Move the ai towards the target
+            //Move the ai towards the player
             MoveMethod();
         }
-		//else not moving
         else
         {
             moving = false;
@@ -77,16 +56,17 @@ public class AI : Pathfinding {
     IEnumerator NewPath()
     {
         newPath = false;
-        FindPath(transform.position, target.position);
+        FindPath(transform.position, player.position);
         yield return new WaitForSeconds(1F);
         newPath = true;
     }
-	
+
+
     private void MoveMethod()
     {
         if (Path.Count > 0)
         {
-            direction = (Path[0] - transform.position).normalized;
+            Vector3 direction = (Path[0] - transform.position).normalized;
 
             foreach (GameObject g in AIList)
             {
@@ -100,53 +80,29 @@ public class AI : Pathfinding {
 
             direction.Normalize();
 
-			//controller.Move(direction * Time.deltaTime * speed);
-			transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, Time.deltaTime * speed);
-
+            
+            transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, Time.deltaTime * 12F);
             if (transform.position.x < Path[0].x + 0.4F && transform.position.x > Path[0].x - 0.4F && transform.position.z > Path[0].z - 0.4F && transform.position.z < Path[0].z + 0.4F)
             {
                 Path.RemoveAt(0);
             }
 
             RaycastHit[] hit = Physics.RaycastAll(transform.position + (Vector3.up * 20F), Vector3.down, 100);
-
-			//transform.position = Snap();
-			transform.position = new Vector3(transform.position.x, maxY, transform.position.z);
+            float maxY = -Mathf.Infinity;
+            foreach (RaycastHit h in hit)
+            {
+                if (h.transform.tag == "Untagged")
+                {
+                    if (maxY < h.point.y)
+                    {
+                        maxY = h.point.y;
+                    }
+                }
+            }
+            if (maxY > -100)
+            {
+                transform.position = new Vector3(transform.position.x, maxY + 1F, transform.position.z);
+            }
         }
     }
-
-	public void CreateNewPath()
-	{
-		StartCoroutine(NewPath());
-	}
-
-	private Vector3 Snap()
-	{
-		var t = new Vector3();
-
-		//if the target's x is further away, move in the x, else move z
-		if(distance.x > distance.y)
-		{
-			t.x = Round(transform.position.x);
-			t.z = transform.position.z;
-		}
-		else if(distance.x < distance.y)
-		{
-			t.x = transform.position.x;
-			t.z = Round(transform.position.z);
-		}
-
-		//y is static
-		t.y = maxY;
-
-		//t.x = Round(transform.position.x);
-		//t.z = Round(transform.position.z);
-
-		return t;
-	}
-	
-	private float Round( float input )
-	{
-		return snapValue * Mathf.Round( ( input / snapValue ) );
-	}
 }

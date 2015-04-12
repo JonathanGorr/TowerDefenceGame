@@ -26,8 +26,6 @@ public class BlockHealth : MonoBehaviour {
 		UpdateHealth();
 	}
 
-
-
 	void UpdateHealth() 
 	{
 		if (health <= 0)

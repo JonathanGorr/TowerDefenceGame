@@ -70,14 +70,12 @@ public class Building : MonoBehaviour {
 
 		foreach(GameObject obj in enemy)
 		{
-			obj.GetComponent<AI>().CreateNewPath();
+			//obj.GetComponent<AI>().CreateNewPath();
 		}
 
 		//toggle building on/off with key
 		if (Input.GetKeyDown (KeyCode.B))
 			building = !building;
-
-		print (building);
 
 		ray = camera.ScreenPointToRay(Input.mousePosition);
 

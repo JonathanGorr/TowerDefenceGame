@@ -9,7 +9,7 @@ public class EnemyController : MonoBehaviour {
 	public float gravity = 20.0F;
 	private Vector3 moveDirection = Vector3.zero;
 	public GameObject target;
-	private CharacterController controller;
+	//private CharacterController controller;
 	private float xDir, zDir;
 	private bool moving, aggro, canAttack = true;
 	private Rigidbody rigidBody;
@@ -25,7 +25,7 @@ public class EnemyController : MonoBehaviour {
 		anim = GetComponentInChildren<Animator> ();
 		sprite = transform.Find ("Sprite");
 		rigidBody = GetComponent<Rigidbody>();
-		controller = GetComponent<CharacterController>();
+		//controller = GetComponent<CharacterController>();
 		target = GameObject.FindGameObjectWithTag("Heart"); //insert object of importance
 
 		if(!target)
@@ -38,12 +38,14 @@ public class EnemyController : MonoBehaviour {
 	void Update() {
 
 		MoveEnemy ();
-		
+
+		/*
 		//jump if grounded and stopped
 		if (controller.isGrounded) {
 			if (rigidBody.velocity.magnitude < 0.1f)
 				moveDirection.y = jumpSpeed;
 		}
+		*/
 
 		//if not sleeping, is moving; walking
 		if(!rigidBody.IsSleeping())
@@ -74,7 +76,7 @@ public class EnemyController : MonoBehaviour {
 		//----------------------------------------------------------
 
 		moveDirection.y -= gravity * Time.deltaTime;//gravity
-		controller.Move(moveDirection * speed * Time.deltaTime);
+		//controller.Move(moveDirection * speed * Time.deltaTime);
 
 		//within attack range
 		if(distance <= attackDistance && canAttack)
