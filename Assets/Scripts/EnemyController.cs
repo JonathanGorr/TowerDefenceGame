@@ -28,12 +28,13 @@ public class EnemyController : MonoBehaviour {
 	void Update() {
 
 		MoveEnemy ();
-	
+		
 		//jump if grounded and stopped
 		if (controller.isGrounded) {
 			if(rigidBody.velocity.magnitude < 0.1f)
 				moveDirection.y = jumpSpeed;
 		}
+
 
 		//distance is the difference between the target and enemy location
 		distance = target.transform.position - transform.position;

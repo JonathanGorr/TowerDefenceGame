@@ -20,6 +20,9 @@ public class Building : MonoBehaviour {
 	private LevelManager manager;
 	private Camera camera;
 
+	[HideInInspector]
+	public Vector3 mousePos;
+
 	public LayerMask blockLayer;
 
 	private Button
@@ -72,6 +75,7 @@ public class Building : MonoBehaviour {
 				{
 					//move the repCube according to the grid
 					rep.transform.position = Snap ();
+					mousePos = rep.transform.position;
 
 					if(!repCollision.isColWithPlayer)
 					{
