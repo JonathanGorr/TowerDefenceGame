@@ -20,9 +20,8 @@ public class Pathfinder : MonoBehaviour
     public float HighestPoint = 100F;
     public float LowestPoint = -50F;
 
-    private Vector2 MapStartPosition;
-    private Vector2 MapEndPosition;
-	private Vector2 start, end;
+    public Vector2 MapStartPosition;
+    public Vector2 MapEndPosition;
 
     public List<string> DisallowedTags;
     public List<string> IgnoreTags;
@@ -48,12 +47,6 @@ public class Pathfinder : MonoBehaviour
     void Awake()
     {
         instance = this;
-
-		start.x = GameObject.Find ("Start").transform.position.x;
-		start.y = GameObject.Find ("Start").transform.position.z;
-
-		end.x = GameObject.Find ("End").transform.position.x;
-		end.y = GameObject.Find ("End").transform.position.z;
     }
 
 	
@@ -111,10 +104,10 @@ public class Pathfinder : MonoBehaviour
     private void CreateMap()
     {
         //Find positions for start and end of map
-        int startX  = (int)start.x;
-        int startZ  = (int)start.y;
-        int endX    = (int)end.x;
-        int endZ    = (int)end.y;
+        int startX  = (int)MapStartPosition.x;
+        int startZ  = (int)MapStartPosition.y;
+        int endX    = (int)MapEndPosition.x;
+        int endZ    = (int)MapEndPosition.y;
 
         //Find tile width and height
         int width = (int)((endX - startX) / Tilesize);

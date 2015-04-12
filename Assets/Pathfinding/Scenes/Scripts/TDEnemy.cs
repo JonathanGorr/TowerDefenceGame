@@ -3,18 +3,12 @@ using System.Collections;
 
 public class TDEnemy : Pathfinding
 {
-    public Vector3 start;
-    public Vector3 end;
+    public Vector3 start = Vector3.zero;
+    public Vector3 end = Vector3.zero;
 
     private bool pathMover = true;
     private bool newPath = true;
-
-	void Awake()
-	{
-		start = GameObject.Find ("Spawn").transform.position;
-		end = GameObject.Find ("Objective").transform.position;
-	}
-
+	
 	void Update () 
     {
         if (transform.position.x < 10.2F)
