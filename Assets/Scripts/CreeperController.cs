@@ -5,7 +5,6 @@ public class CreeperController : MonoBehaviour {
 
 	public float xspeed = 2;
 	public float zspeed;
-	public int health = 4;
 
 	private int[] randomZ = new int[] {-2, 2};
 
@@ -19,7 +18,6 @@ public class CreeperController : MonoBehaviour {
 	}
 
 	void Update () {
-		CheckDeath ();
 	}
 	
 	void FixedUpdate () {
@@ -45,26 +43,42 @@ public class CreeperController : MonoBehaviour {
 		}
 	}
 
-	public void TakeDamage (int dmg)
+	/*void OnTriggerStay (Collider col2)
 	{
-		//lose health based on dmg taken
-		health -= dmg;
-
-		//SoundManager.instance.RandomizeSfx (creeperdmg1, creeperdmg2);
-
-		CheckDeath ();
+		/*if (col2.gameObject.tag == "FrontWall")
+		{
+			zspeed = 2f;
+			xspeed = 2f;
+		}
+		else if (col2.gameObject.tag == "BackWall")
+		{
+			zspeed = -2f;
+			xspeed = 2f;
+		}
+		if (col2.gameObject.tag == "Cube")
+		{
+			Invoke("waitblock", 2);
+			
+		}
 	}
 
-	private void CheckDeath ()
+	public void waitblock ()
 	{
-		//Check if food point total is less than or equal to zero.
-		if (health <= 0)
-		{
-			//SoundManager.instance.RandomizeSfx (creeperdeath1, creeperdeath2);
-			GameObject obj = Instantiate(soul, transform.position, Quaternion.identity) as GameObject;
+		zspeed = randomZ[Random.Range(0, randomZ.Length)];
+		xspeed = 3f;
+	}*/
 
-			Destroy(gameObject);
-		}
+
+
+
+	public void TakeDamage ()
+	{
+		//SoundManager.instance.RandomizeSfx (creeperdmg1, creeperdmg2);
+	}
+
+	private void Death ()
+	{
+		//SoundManager.instance.RandomizeSfx (creeperdeath1, creeperdeath2);
 	}
 
 }

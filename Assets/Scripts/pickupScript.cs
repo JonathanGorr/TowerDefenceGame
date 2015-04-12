@@ -3,11 +3,12 @@ using System.Collections;
 
 public class pickupScript : MonoBehaviour {
 
-	public LevelManager manager;	
+	private LevelManager manager;
+	//public SoulToPlayer soul;	
 
-	// Use this for initialization
 	void Start () {
 		manager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+		//soul = GameObject.Find("Soul").GetComponent<SoulToPlayer>();
 	}
 
 	private void OnTriggerEnter (Collider col)
@@ -15,7 +16,9 @@ public class pickupScript : MonoBehaviour {
 		if(col.tag == "Soul")
 		{
 			manager.AddSoul(1);
-			Destroy(col.gameObject);
+			col.gameObject.GetComponent<SoulToPlayer>().Activate();
+			//col.gameObject.GetComponent<SoulToPlayer>().Activate();
+			//Destroy(col.gameObject);
 		}
 	}
 }

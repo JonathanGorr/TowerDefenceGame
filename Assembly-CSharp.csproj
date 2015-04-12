@@ -71,6 +71,7 @@
      <Compile Include="Assets\Pathfinding\Scripts\WaypointPathfinder.cs" />
      <Compile Include="Assets\Scripts\AddRemoveObjects.cs" />
      <Compile Include="Assets\Scripts\BlockHealth.cs" />
+     <Compile Include="Assets\Scripts\BlockHealthSteve.cs" />
      <Compile Include="Assets\Scripts\Building.cs" />
      <Compile Include="Assets\Scripts\CameraFollow.cs" />
      <Compile Include="Assets\Scripts\CreeperController.cs" />
@@ -86,6 +87,7 @@
      <Compile Include="Assets\Scripts\PlayerController.cs" />
      <Compile Include="Assets\Scripts\PlayerControllerUnityGravity.cs" />
      <Compile Include="Assets\Scripts\RepCollision.cs" />
+     <Compile Include="Assets\Scripts\SoulToPlayer.cs" />
      <Compile Include="Assets\Scripts\SoundManager.cs" />
      <Compile Include="Assets\Scripts\Wall.cs" />
      <Compile Include="Assets\Scripts\pickupScript.cs" />
