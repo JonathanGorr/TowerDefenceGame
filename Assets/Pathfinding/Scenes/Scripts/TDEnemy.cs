@@ -3,17 +3,28 @@ using System.Collections;
 
 public class TDEnemy : Pathfinding
 {
-    public Vector3 start = Vector3.zero;
-    public Vector3 end = Vector3.zero;
+	private TDManager tdManager;
+	public Vector3 spawn;
+	public Vector3 target;
 
     private bool pathMover = true;
     private bool newPath = true;
-	
-	void Update () 
+
+	public float speed = 1f;
+
+	void Awake()
+	{
+		tdManager = GameObject.Find ("LevelManager").GetComponent<TDManager>();
+	}
+
+	void Update ()
     {
+		spawn = tdManager.spawn.transform.position;//GameObject.Find ("Start").transform.position;
+		target = tdManager.target.transform.position;//GameObject.Find ("Player").transform.position;
+
         if (transform.position.x < 10.2F)
         {
-            if (start != Vector3.zero && end != Vector3.zero && newPath)
+            if (newPath)
             {
                 StartCoroutine(PathTimer());
             }
@@ -29,7 +40,7 @@ public class TDEnemy : Pathfinding
     IEnumerator PathTimer()
     {
         newPath = false;
-        FindPath(transform.position, end);
+        FindPath(transform.position, target);
         yield return new WaitForSeconds(0.5F);
         newPath = true;
     }
@@ -57,7 +68,7 @@ public class TDEnemy : Pathfinding
                 {
                    // direction = (end - transform.position).normalized;
                 }
-                transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, Time.deltaTime * 4F);
+                transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, Time.deltaTime * speed);
             }
         }
     }
@@ -72,6 +83,4 @@ public class TDEnemy : Pathfinding
         }
         pathMover= true;
     }
-
-
 }

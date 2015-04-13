@@ -3,23 +3,27 @@ using System.Collections;
 
 public class SoulToPlayer : MonoBehaviour {
 
-	private Vector3 player;
+	private GameObject player;
+	private Vector3 playerPos;
 	public float speed = 8f;
-	private bool idle = false;
+
+	[HideInInspector]
+	public bool active = false;
 
 	void Start () {
-		player = GameObject.Find("Player").transform.position;
-		idle = false;
+		player = GameObject.Find("Player");
+		active = false;
 	}
 
-	public void Activate() {
-		idle = true;
-	}
+	void Update () {
 
-	void FixedUpdate () {
-		if (idle == true) 
+		playerPos = player.transform.position;
+
+		print (active);
+
+		if (active)
 		{
-			transform.position = Vector3.MoveTowards(transform.position, player, speed * Time.deltaTime);
+			transform.position = Vector3.MoveTowards(transform.position, playerPos, speed * Time.deltaTime);
 		}
 	} 
 	private void OnTriggerEnter (Collider col)

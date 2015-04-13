@@ -19,6 +19,7 @@ public class EnemyController : MonoBehaviour {
 	private Transform sprite;
 	private Animator anim;
 	public int attackValue = 5;
+	private GameObject closestObj;
 
 	private void Awake()
 	{
@@ -36,8 +37,6 @@ public class EnemyController : MonoBehaviour {
 	}
 
 	void Update() {
-
-		MoveEnemy ();
 
 		/*
 		//jump if grounded and stopped
@@ -85,6 +84,25 @@ public class EnemyController : MonoBehaviour {
 		}
 	}
 
+	GameObject FindClosestObject()
+	{
+		GameObject[] gos = GameObject.FindGameObjectsWithTag("Cube");
+		distance = Mathf.Infinity;
+
+		foreach (GameObject go in gos) {
+
+			Vector3 diff = go.transform.position - transform.position;
+			float curDistance = diff.sqrMagnitude;
+
+			if (curDistance < distance) {
+				closestObj = go;
+				distance = curDistance;
+			}
+		}
+		return closestObj;
+	}
+
+	/*
 	private void MoveEnemy()
 	{
 		//if the target's z position is greater than the x position away, move in that direction, else vice versa
@@ -102,6 +120,7 @@ public class EnemyController : MonoBehaviour {
 		moveDirection.x = xDir;
 		moveDirection.z = zDir;
 	}
+	*/
 
 	private void OnDrawGizmos()
 	{

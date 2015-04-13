@@ -84,13 +84,13 @@
      <Compile Include="Assets\Scripts\KeyboardRigidbody.cs" />
      <Compile Include="Assets\Scripts\LevelManager.cs" />
      <Compile Include="Assets\Scripts\MovingObject.cs" />
+     <Compile Include="Assets\Scripts\PickupScript.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
      <Compile Include="Assets\Scripts\PlayerControllerUnityGravity.cs" />
      <Compile Include="Assets\Scripts\RepCollision.cs" />
      <Compile Include="Assets\Scripts\SoulToPlayer.cs" />
      <Compile Include="Assets\Scripts\SoundManager.cs" />
      <Compile Include="Assets\Scripts\Wall.cs" />
-     <Compile Include="Assets\Scripts\pickupScript.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

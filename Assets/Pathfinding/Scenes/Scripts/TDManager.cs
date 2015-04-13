@@ -4,21 +4,28 @@ using System.Collections.Generic;
 
 public class TDManager : MonoBehaviour 
 {
-    public GameObject start;
-    public GameObject end;
+    public GameObject spawn;
+    public GameObject target;
+	private Vector3 targetPos;
     public GameObject tower;
     public GameObject ghostTower;
     public GameObject enemy;
+	public LayerMask buildLayer;
+	public float spawnDelay = 5f;
 
     private List<GameObject> towers = new List<GameObject>();
 
-    void Start()
+    void Awake()
     {
-       StartCoroutine(SpawnEnemy());
+		spawn = GameObject.Find ("Spawn");
+		target = GameObject.Find ("Player");
+
+		StartCoroutine(SpawnEnemy());
     }
 	
-	void Update () 
+	void Update ()
     {
+		targetPos = target.transform.position;
         StartCoroutine(PlaceTowers());
 	}
 
@@ -27,7 +34,7 @@ public class TDManager : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit = new RaycastHit();
 
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+		if (Physics.Raycast(ray, out hit, Mathf.Infinity, buildLayer))
         {
             //Make sure to set towers in a grid, by rounding position to an int
             Vector3 newPos = hit.point;
@@ -68,31 +75,40 @@ public class TDManager : MonoBehaviour
             GameObject newTower = Instantiate(tower, new Vector3(Mathf.RoundToInt(hit.point.x) - 0.5F, 0.3F, Mathf.RoundToInt(hit.point.z) + 0.5F), Quaternion.identity) as GameObject;
             towers.Add(newTower);
             yield return new WaitForEndOfFrame();
-            Pathfinder.Instance.InsertInQueue(start.transform.position, end.transform.position, CheckRoute);
+            Pathfinder.Instance.InsertInQueue(spawn.transform.position, targetPos, CheckRoute);
         }      
     }
 
     private void CheckRoute(List<Vector3> list)
-    {     
+    {
         //If we get a list that is empty there is no path, and we blocked the road
-        //Then remove the last added tower!
         if (list.Count < 1 || list == null)
         {
+			GameObject[] Enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+			foreach(GameObject enemy in Enemies)
+			{
+				//enemy.GetComponent<EnemyController>().DestroyClosestBarrier();
+			}
+
+			/*
+			//delete blocking terrain
             if (towers.Count > 0)
             {
                 GameObject g = towers[towers.Count - 1];
                 towers.RemoveAt(towers.Count - 1);
                 Destroy(g);
             }
+            */
         }
     }
 
     IEnumerator SpawnEnemy()
     {
-        yield return new WaitForSeconds(1.5F);
-        GameObject e = Instantiate(enemy, start.transform.position, Quaternion.identity) as GameObject;
-        e.GetComponent<TDEnemy>().start = start.transform.position;
-        e.GetComponent<TDEnemy>().end = end.transform.position;
+        yield return new WaitForSeconds(spawnDelay);
+        GameObject e = Instantiate(enemy, spawn.transform.position, Quaternion.identity) as GameObject;
+        e.GetComponent<TDEnemy>().spawn = spawn.transform.position;
+		e.GetComponent<TDEnemy> ().target = targetPos;//end.transform.position;
         StartCoroutine(SpawnEnemy());
     }
 }
