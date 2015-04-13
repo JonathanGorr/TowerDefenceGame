@@ -88,7 +88,8 @@ public class TDManager : MonoBehaviour
 
 			foreach(GameObject enemy in Enemies)
 			{
-				//enemy.GetComponent<EnemyController>().DestroyClosestBarrier();
+				print("Attack Blocks");
+				enemy.GetComponent<TDEnemy>().AttackClosest();
 			}
 
 			/*

@@ -7,6 +7,9 @@ public class TDEnemy : Pathfinding
 	public Vector3 spawn;
 	public Vector3 target;
 
+	[HideInInspector]
+	public GameObject closest;
+
     private bool pathMover = true;
     private bool newPath = true;
 
@@ -49,7 +52,6 @@ public class TDEnemy : Pathfinding
     {
         if (Path.Count > 0)
         {
-
             if (pathMover)
             {
                 //StartCoroutine(PathRemoval(4F + 2F));
@@ -59,7 +61,6 @@ public class TDEnemy : Pathfinding
             {
                 Path.RemoveAt(0);
             }
-                
 
             if (Path.Count > 0)
             {             
@@ -72,6 +73,32 @@ public class TDEnemy : Pathfinding
             }
         }
     }
+
+	public void AttackClosest()
+	{
+		target = FindClosest().transform.position;
+	}
+
+	public GameObject FindClosest() {
+
+		GameObject[] gos = GameObject.FindGameObjectsWithTag("Player");
+		float distance = Mathf.Infinity;
+
+		//foreach gameobject in gameobjects, find closest,
+		//then return that closest gameobject
+
+		foreach (GameObject go in gos) {
+
+			Vector3 diff = go.transform.position - transform.position;
+			float curDistance = diff.sqrMagnitude;
+
+			if (curDistance < distance) {
+				closest = go;
+				distance = curDistance;
+			}
+		}
+		return closest;
+	}
 
     IEnumerator PathRemoval(float speed)
     {
