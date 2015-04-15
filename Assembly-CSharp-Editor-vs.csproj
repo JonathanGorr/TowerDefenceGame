@@ -50,7 +50,7 @@
      <Compile Include="Assets\Editor\SnapToGrid.cs" />
      <Compile Include="Assets\Pathfinding\Editor\WaypointEditor.cs" />
  <Reference Include="Assembly-UnityScript">
- <HintPath>C:/Users/Jon/Documents/GitHub/TowerDefenceGame/Library/ScriptAssemblies/Assembly-UnityScript.dll</HintPath>
+ <HintPath>C:/Art+Design/College Work/MICA/Spring_15/advanced game design/my stuff/tdg/TowerDefenceGame/Library/ScriptAssemblies/Assembly-UnityScript.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
