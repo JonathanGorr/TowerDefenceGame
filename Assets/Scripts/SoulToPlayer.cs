@@ -7,7 +7,7 @@ public class SoulToPlayer : MonoBehaviour {
 	private Vector3 playerPos;
 	public float speed = 8f;
 
-	//[HideInInspector]
+	[HideInInspector]
 	public bool active = false;
 
 	void Start () {
@@ -19,7 +19,7 @@ public class SoulToPlayer : MonoBehaviour {
 
 		playerPos = player.transform.position;
 
-		//print (active);
+		print (active);
 
 		if (active)
 		{

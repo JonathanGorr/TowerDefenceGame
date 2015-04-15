@@ -5,16 +5,15 @@ public class CreeperController : MonoBehaviour {
 
 	public float xspeed = 2;
 	public float zspeed;
+
 	private int[] randomZ = new int[] {-2, 2};
 
 	private Rigidbody rigidbody;
-	//public AudioClip creeperdmg1;
-	//public AudioClip creeperdmg2;
-	//public AudioClip creeperdeath1;
-	//public AudioClip creeperdeath2;
+	private GameObject soul;
 
 	void Start () {
 		rigidbody = GetComponent<Rigidbody>();
+		soul = GameObject.Find("Soul");
 		zspeed = 0f;
 	}
 
@@ -68,6 +67,8 @@ public class CreeperController : MonoBehaviour {
 		zspeed = randomZ[Random.Range(0, randomZ.Length)];
 		xspeed = 3f;
 	}*/
+
+
 
 
 	public void TakeDamage ()
