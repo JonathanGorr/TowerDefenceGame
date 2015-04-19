@@ -140,7 +140,6 @@ public class Building : MonoBehaviour {
 	{
 		GameObject obj = Instantiate(selected, Snap(), Quaternion.identity) as GameObject;
 
-
 		obj.transform.parent = parent;
 
 		if(selected == dirtPrefab)

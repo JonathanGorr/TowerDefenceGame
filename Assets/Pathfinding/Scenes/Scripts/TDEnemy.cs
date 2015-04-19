@@ -5,7 +5,16 @@ public class TDEnemy : Pathfinding
 {
 	private TDManager tdManager;
 	public Vector3 spawn;
-	public Vector3 target;
+	public Transform target;
+	private Transform player;
+	private Transform heart;
+	private Transform sprite;
+	private Vector3 targetDistance;
+	private Vector3 localScale;
+
+	private Vector3 
+		chaseRange = new Vector3 (2, 2, 2),
+		attackRange = new Vector3 (1,1,1);
 
 	[HideInInspector]
 	public GameObject closest;
@@ -13,42 +22,92 @@ public class TDEnemy : Pathfinding
     private bool pathMover = true;
     private bool newPath = true;
 
-	public float speed = 1f;
+	public float 
+		seekSpeed = 1f,
+		chaseSpeed = 2f;
+
+	//state machine
+	private States currentState = States.Seeking;
+	private States lastState = States.Dead;
+	private Animator animator;
+
+	private enum States{
+		Seeking,
+		Chasing,
+		Attacking,
+		Dead
+	}
 
 	void Awake()
 	{
+		sprite = transform.Find ("Sprite").transform;
+		heart = GameObject.FindGameObjectWithTag ("Heart").transform;
+		player = GameObject.FindGameObjectWithTag ("Player").transform;
+		animator = GetComponentInChildren<Animator> ();
 		tdManager = GameObject.Find ("LevelManager").GetComponent<TDManager>();
+
+		//flipping
+		localScale = transform.localScale;
 	}
 
-	void Update ()
-    {
-		spawn = tdManager.spawn.transform.position;//GameObject.Find ("Start").transform.position;
-		target = tdManager.target.transform.position;//GameObject.Find ("Player").transform.position;
+	private void Update()
+	{
+		// This if() makes sure that each state only runs when it is entered. Since this example is using IEnumerator functions and Animator triggers, running the code only once is critical
+		// switch case conditional which uses currentState's value
+		switch(currentState){
 
-        if (transform.position.x < 10.2F)
-        {
-            if (newPath)
-            {
-                StartCoroutine(PathTimer());
-            }
+			// If the switch condition matches this case then do this...
+		case States.Seeking:
+			animator.SetTrigger ("Seeking");
+			StartCoroutine(Seeking(.5f)); // Run the IEnumerator function with StartCoroutine
+			break; // don't forget to add break for each case or the next case will also execute!
 
-            Movement();
-        }
-        else
-        {
-            DestroyImmediate(gameObject);
-        }
+		case States.Chasing:
+			animator.SetTrigger ("Attacking");
+			StartCoroutine(Attacking(.05f));
+			break;
+			
+		case States.Attacking:
+			animator.SetTrigger ("Attacking");
+			StartCoroutine(Attacking(.05f));
+			break;
+			
+		case States.Dead:
+			Dead ();
+			break;
+		}
+
+		//currentState = States.Attacking;
+
+		print(currentState);
+
+		// Update lastState to whatever currentState was set to
+		//lastState = currentState;
+
+		Vector3 distanceToPlayer = player.transform.position - transform.position;
+		targetDistance = target.position - transform.position;
+
+		Vector3 left = new Vector3 (-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+		Vector3 right = new Vector3 (transform.localScale.x, transform.localScale.y, transform.localScale.z);
+
+		//based on movement
+		if (targetDistance.x > 0)
+			localScale = right;
+		else if (targetDistance.x < 0)
+			localScale = left;
+
+       	transform.localScale = localScale;
 	}
 
     IEnumerator PathTimer()
     {
         newPath = false;
-        FindPath(transform.position, target);
+        FindPath(transform.position, target.transform.position);
         yield return new WaitForSeconds(0.5F);
         newPath = true;
     }
 
-    private void Movement()
+    private void Movement(float speed)
     {
         if (Path.Count > 0)
         {
@@ -65,7 +124,8 @@ public class TDEnemy : Pathfinding
             if (Path.Count > 0)
             {             
                 Vector3 direction = (new Vector3(Path[0].x, transform.position.y, Path[0].z) - transform.position).normalized;
-                if (direction == Vector3.zero)
+                
+				if (direction == Vector3.zero)
                 {
                    // direction = (end - transform.position).normalized;
                 }
@@ -76,7 +136,7 @@ public class TDEnemy : Pathfinding
 
 	public void AttackClosest()
 	{
-		target = FindClosest().transform.position;
+		target = FindClosest().transform;
 	}
 
 	public GameObject FindClosest() {
@@ -110,4 +170,50 @@ public class TDEnemy : Pathfinding
         }
         pathMover= true;
     }
+
+	IEnumerator Seeking(float interval)
+	{
+		spawn = tdManager.spawn.transform.position;
+		//target = tdManager.target.transform;
+
+		//TODO:
+		//set this to absolute distance greater than attackdistance
+		if (transform.position.x < 10.2F)
+		{
+			if (newPath)
+			{
+				StartCoroutine(PathTimer());
+			}
+			
+			Movement(seekSpeed);
+		}
+		else
+		{
+			DestroyImmediate(gameObject);
+		}
+
+		yield return new WaitForSeconds(interval);
+	}
+	
+	IEnumerator Chasing(float interval){
+		while(true){
+
+			Movement(chaseSpeed);
+
+			yield return new WaitForSeconds(interval);
+		}
+	}
+
+	IEnumerator Attacking(float interval){
+		while(true){
+
+			animator.SetTrigger("Attack");
+
+			yield return new WaitForSeconds(interval);
+		}
+	}
+	
+	void Dead(){
+		Destroy (gameObject);
+	}
 }

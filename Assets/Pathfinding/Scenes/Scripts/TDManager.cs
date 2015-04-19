@@ -12,6 +12,7 @@ public class TDManager : MonoBehaviour
     public GameObject enemy;
 	public LayerMask buildLayer;
 	public float spawnDelay = 5f;
+	private bool place;
 
     private List<GameObject> towers = new List<GameObject>();
 
@@ -25,6 +26,7 @@ public class TDManager : MonoBehaviour
 	
 	void Update ()
     {
+		place = Input.GetMouseButtonDown (1);
 		targetPos = target.transform.position;
         StartCoroutine(PlaceTowers());
 	}
@@ -70,7 +72,7 @@ public class TDManager : MonoBehaviour
             canPlace = (hit.transform.tag == "Ground") ? true : false;
         }
 
-        if (Input.GetButtonDown("Fire1") && canPlace)
+        if (place && canPlace)
         {
             GameObject newTower = Instantiate(tower, new Vector3(Mathf.RoundToInt(hit.point.x) - 0.5F, 0.3F, Mathf.RoundToInt(hit.point.z) + 0.5F), Quaternion.identity) as GameObject;
             towers.Add(newTower);
@@ -84,6 +86,7 @@ public class TDManager : MonoBehaviour
         //If we get a list that is empty there is no path, and we blocked the road
         if (list.Count < 1 || list == null)
         {
+			/*
 			GameObject[] Enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
 			foreach(GameObject enemy in Enemies)
@@ -91,8 +94,8 @@ public class TDManager : MonoBehaviour
 				print("Attack Blocks");
 				enemy.GetComponent<TDEnemy>().AttackClosest();
 			}
+			*/
 
-			/*
 			//delete blocking terrain
             if (towers.Count > 0)
             {
@@ -100,7 +103,6 @@ public class TDManager : MonoBehaviour
                 towers.RemoveAt(towers.Count - 1);
                 Destroy(g);
             }
-            */
         }
     }
 
@@ -109,7 +111,7 @@ public class TDManager : MonoBehaviour
         yield return new WaitForSeconds(spawnDelay);
         GameObject e = Instantiate(enemy, spawn.transform.position, Quaternion.identity) as GameObject;
         e.GetComponent<TDEnemy>().spawn = spawn.transform.position;
-		e.GetComponent<TDEnemy> ().target = targetPos;//end.transform.position;
+		e.GetComponent<TDEnemy> ().target = target.transform;
         StartCoroutine(SpawnEnemy());
     }
 }

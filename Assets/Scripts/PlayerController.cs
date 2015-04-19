@@ -3,114 +3,100 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 
-	public KeyCode leftKey = KeyCode.A;
-	public KeyCode rightKey = KeyCode.D;
-	public KeyCode upKey = KeyCode.W;
-	public KeyCode downKey = KeyCode.S;
-	public KeyCode Attack1Key = KeyCode.Space;
+	public float speed = 6.0F;
+	public float jumpSpeed = 8.0F;
+	public float gravity = 20.0F;
+	private Vector3 moveDirection = Vector3.zero;
+	private bool moving;
+	private Rigidbody rigidBody;
+	private Transform sprite;
+	private Animator anim;
+	private Camera cam;
+	private Building building;
+	private CharacterController controller;
+	private LevelManager manager;
+	private bool
+		action;
+	private RaycastHit hit;
+	private Ray ray;
 
-	public float xspeed = 6f;
-	public float zspeed = 4f;
-	
-	bool standing, walking, walking2,attack1;
-	float xDirection;
-
-	Animator animator;
-	PlayerController playerControl;
-
-	void Start(){
-		animator = GetComponent<Animator> ();
-		playerControl = GetComponent<PlayerController>();
-	}
-	void Update(){
-		float absVeloX = Mathf.Abs (GetComponent<Rigidbody>().velocity.x);
-
-
-		//Animation
-
-		if (walking) {
-			animator.Play (Animator.StringToHash("Walk"));
-		}
-		else{
-			// *** move animation ... 
-			animator.Play (Animator.StringToHash("Stop"));
-		}
-
-		if (Input.GetKey (rightKey)) {
-			walking = true;
-			xDirection = 1;
-		} else if (Input.GetKey (leftKey))  {
-			walking = true;
-			xDirection = -1;
-		} else if (Input.GetKey (upKey)) {
-			walking = true;
-		}
-		else if (Input.GetKey (downKey)) {
-			walking = true;
-		}
-		else{
-			walking = false;
-			xDirection = 0;
-		}
+	void Awake()
+	{
+		//import
+		manager = GameObject.Find ("LevelManager").GetComponent<LevelManager>();
+		sprite = transform.Find ("Sprite");
+		rigidBody = GetComponent<Rigidbody>();
+		anim = GetComponentInChildren<Animator>();
+		controller = GetComponent<CharacterController>();
+		cam = GameObject.Find ("MainCamera").GetComponent<Camera>();
+		building = GameObject.Find ("LevelManager").GetComponent<Building> ();
 	}
 
-	void FixedUpdate () {
-		// Stop movement when there is no input
-		Vector3 velocity = new Vector3(0,0,0);
-		Vector3 localScale = transform.localScale;
+	void Update() {
 
-		if(walking){
-			if(xDirection > 0){
-				localScale.x = 1f; // Flip the player to face right
+		//input----------------------------------------------
+		action = Input.GetMouseButtonDown (0);
+
+		if (controller.isGrounded) {
+			moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+			moveDirection = transform.TransformDirection(moveDirection);
+			moveDirection *= speed;
+
+			if (Input.GetButton("Jump"))
+				moveDirection.y = jumpSpeed;
+		}
+
+		//Action----------------------------------------------
+		if(action)
+		{
+			anim.SetTrigger("Attack");
+		}
+
+		//if moving-------------------------------------------
+		if (Mathf.Abs(Input.GetAxis("Horizontal")) > 0)
+			moving = true;
+		else
+			moving = false;
+
+		//flipping--------------------------------------------
+		Vector3 localScale = sprite.transform.localScale;
+
+		//get relative distance between mouse position and player
+		//Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+		//print (mousePos);
+
+		if(moving)
+		{
+			anim.SetInteger("AnimState", 1);
+
+			if(moveDirection.x > 0)
+				localScale.x = 1f;
+			else if(moveDirection.x < 0)
+				localScale.x = -1f;
+		}
+
+		//attack on the side the cursor is on realtive to player
+		else if(action)
+		{
+			ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+
+			if (Physics.Raycast (ray, out hit)) {
+
+			//flip if hit
+			if(hit.point.x > transform.position.x)
+				localScale.x = 1f;
+			else if(hit.point.x < transform.position.x)
+				localScale.x = -1f;
 			}
-			else if (xDirection < 0){
-				localScale.x = -1f; // // Flip the player to face left
-			}
 		}
+		else
+			anim.SetInteger("AnimState", 0);
 
-		velocity.x = xspeed * xDirection; // Move
-		transform.localScale = localScale;
-
-		// x movement with velocity
-		if(Input.GetKey(leftKey)){
-			velocity.x = -xspeed;
-			walking = true;
-		}
-		else if(Input.GetKey(rightKey)){
-			velocity.x = xspeed;
-			walking = true;
-		}
-
-		// y movement with velocity
-		if(Input.GetKey(upKey)){
-			velocity.z = zspeed;
-			walking2 = true;
-		}
-		else if(Input.GetKey(downKey)){
-			velocity.z = -zspeed;
-			walking2 = true;
-		}
-
-		GetComponent<Rigidbody>().velocity = velocity;
-
-		//if(standing){
-		if (Input.GetKeyDown(Attack1Key)) {
-			attack1 = true;
-			standing = false;
-		}
-
-		//}
-		if(attack1){
-			playerControl.enabled = false;
-			standing = false;
-			animator.Play (Animator.StringToHash("Warrior1Attack1"));
-			attack1 = false;
-		}
-	}
-	void Attack1(){
-		animator.Play (Animator.StringToHash("Stop"));
-		playerControl.enabled = true;
-		standing = true;
-		attack1 = false;
+		sprite.localScale = localScale;
+		
+		//----------------------------------------------------
+		
+		moveDirection.y -= gravity * Time.deltaTime;
+		controller.Move(moveDirection * Time.deltaTime);
 	}
 }
