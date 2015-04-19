@@ -7,17 +7,34 @@ public class TDManager : MonoBehaviour
     public GameObject spawn;
     public GameObject target;
 	private Vector3 targetPos;
-    public GameObject tower;
-    public GameObject ghostTower;
+    private GameObject block;
+    public GameObject ghostBlock;
     public GameObject enemy;
 	public LayerMask buildLayer;
 	public float spawnDelay = 5f;
-	private bool place;
+	private bool place, canBuild;
+	private LevelManager manager;
 
-    private List<GameObject> towers = new List<GameObject>();
+	public int
+		dirtCost,
+		stoneCost,
+		spikeTrapCost,
+		arrowTrapCost,
+		acidTrapCost;
+
+	//blocks
+	public GameObject
+		dirtPrefab,
+		stonePrefab,
+		spikePrefab,
+		arrowPrefab,
+		acidPrefab;
+
+    private List<GameObject> blocks = new List<GameObject>();
 
     void Awake()
     {
+		manager = GameObject.Find ("LevelManager").GetComponent<LevelManager> ();
 		spawn = GameObject.Find ("Spawn");
 		target = GameObject.Find ("Player");
 
@@ -28,7 +45,34 @@ public class TDManager : MonoBehaviour
     {
 		place = Input.GetMouseButtonDown (1);
 		targetPos = target.transform.position;
-        StartCoroutine(PlaceTowers());
+
+		//if the player has souls, allow building
+		if(canBuild && block != null)
+		{
+			ghostBlock.SetActive(true);
+        	StartCoroutine(PlaceBlocks());
+		}
+		else
+			ghostBlock.SetActive(false);
+
+		if (manager.souls > 0)
+			canBuild = true;
+		else
+			canBuild = false;
+	}
+
+	private void SubtractSoul()
+	{
+		if(block == dirtPrefab)
+			manager.SubtractSoul (dirtCost);
+		else if(block == stonePrefab)
+			manager.SubtractSoul (stoneCost);
+		else if(block == spikePrefab)
+			manager.SubtractSoul (spikeTrapCost);
+		else if(block == acidPrefab)
+			manager.SubtractSoul (acidTrapCost);
+		else if(block == arrowPrefab)
+			manager.SubtractSoul (arrowTrapCost);
 	}
 
     private RaycastHit CheckPosition()
@@ -38,31 +82,31 @@ public class TDManager : MonoBehaviour
 
 		if (Physics.Raycast(ray, out hit, Mathf.Infinity, buildLayer))
         {
-            //Make sure to set towers in a grid, by rounding position to an int
+            //Make sure to set blocks in a grid, by rounding position to an int
             Vector3 newPos = hit.point;
             newPos.Set(Mathf.RoundToInt(newPos.x) - 0.5F, 0.4F, Mathf.RoundToInt(newPos.z) + 0.5F);
-            ghostTower.transform.position = newPos;
+            ghostBlock.transform.position = newPos;
 
             //Set color of "show" tower based on the spot being available
             if (hit.transform.tag == "Ground")
             {
-                ghostTower.GetComponent<Renderer>().material.color = Color.green;
+				ghostBlock.GetComponent<Renderer>().sharedMaterial.color = Color.green;
             }
             else
             {
-                ghostTower.GetComponent<Renderer>().material.color = Color.red;
+				ghostBlock.GetComponent<Renderer>().sharedMaterial.color = Color.red;
             }
         }
         else
         {
-            ghostTower.GetComponent<Renderer>().material.color = Color.red;
+			ghostBlock.GetComponent<Renderer>().sharedMaterial.color = Color.red;
         }
 
         //Return all hit information which we use later
         return hit;
     }
 
-    private IEnumerator PlaceTowers()
+    private IEnumerator PlaceBlocks()
     {
         RaycastHit hit = CheckPosition();
         bool canPlace = false;
@@ -74,11 +118,12 @@ public class TDManager : MonoBehaviour
 
         if (place && canPlace)
         {
-            GameObject newTower = Instantiate(tower, new Vector3(Mathf.RoundToInt(hit.point.x) - 0.5F, 0.3F, Mathf.RoundToInt(hit.point.z) + 0.5F), Quaternion.identity) as GameObject;
-            towers.Add(newTower);
+            GameObject newBlock = Instantiate(block, new Vector3(Mathf.RoundToInt(hit.point.x) - 0.5F, 0.3F, Mathf.RoundToInt(hit.point.z) + 0.5F), Quaternion.identity) as GameObject;
+            blocks.Add(newBlock);
+			SubtractSoul();
             yield return new WaitForEndOfFrame();
             Pathfinder.Instance.InsertInQueue(spawn.transform.position, targetPos, CheckRoute);
-        }      
+        }
     }
 
     private void CheckRoute(List<Vector3> list)
@@ -86,21 +131,14 @@ public class TDManager : MonoBehaviour
         //If we get a list that is empty there is no path, and we blocked the road
         if (list.Count < 1 || list == null)
         {
-			/*
-			GameObject[] Enemies = GameObject.FindGameObjectsWithTag("Enemy");
-
-			foreach(GameObject enemy in Enemies)
-			{
-				print("Attack Blocks");
-				enemy.GetComponent<TDEnemy>().AttackClosest();
-			}
-			*/
-
 			//delete blocking terrain
-            if (towers.Count > 0)
+            if (blocks.Count > 0)
             {
-                GameObject g = towers[towers.Count - 1];
-                towers.RemoveAt(towers.Count - 1);
+				//get the last block in the list
+                GameObject g = blocks[blocks.Count - 1];
+				//remove it from the list
+                blocks.RemoveAt(blocks.Count - 1);
+				//destroy it
                 Destroy(g);
             }
         }
@@ -114,4 +152,25 @@ public class TDManager : MonoBehaviour
 		e.GetComponent<TDEnemy> ().target = target.transform;
         StartCoroutine(SpawnEnemy());
     }
+	
+	public void Dirt()
+	{
+		block = dirtPrefab;
+	}
+	public void Stone()
+	{
+		block = stonePrefab;
+	}
+	public void Spike()
+	{
+		block = spikePrefab;
+	}
+	public void Arrow()
+	{
+		block = arrowPrefab;
+	}
+	public void Acid()
+	{
+		block = acidPrefab;
+	}
 }

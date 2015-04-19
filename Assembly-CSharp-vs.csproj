@@ -86,6 +86,7 @@
      <Compile Include="Assets\Scripts\KeyboardRigidbody.cs" />
      <Compile Include="Assets\Scripts\LevelManager.cs" />
      <Compile Include="Assets\Scripts\MovingObject.cs" />
+     <Compile Include="Assets\Scripts\PlayerAttack.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
      <Compile Include="Assets\Scripts\RepCollision.cs" />
      <Compile Include="Assets\Scripts\SmasherController.cs" />

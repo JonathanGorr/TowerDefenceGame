@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour {
 		action;
 	private RaycastHit hit;
 	private Ray ray;
+	public int damage;
 
 	void Awake()
 	{
@@ -53,7 +54,7 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		//if moving-------------------------------------------
-		if (Mathf.Abs(Input.GetAxis("Horizontal")) > 0)
+		if (Mathf.Abs(Input.GetAxis("Horizontal")) > 0 || Mathf.Abs(Input.GetAxis("Vertical")) > 0)
 			moving = true;
 		else
 			moving = false;

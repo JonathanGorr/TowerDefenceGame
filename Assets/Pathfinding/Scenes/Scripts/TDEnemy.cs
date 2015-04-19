@@ -45,9 +45,6 @@ public class TDEnemy : Pathfinding
 		player = GameObject.FindGameObjectWithTag ("Player").transform;
 		animator = GetComponentInChildren<Animator> ();
 		tdManager = GameObject.Find ("LevelManager").GetComponent<TDManager>();
-
-		//flipping
-		localScale = transform.localScale;
 	}
 
 	private void Update()
@@ -87,14 +84,12 @@ public class TDEnemy : Pathfinding
 		Vector3 distanceToPlayer = player.transform.position - transform.position;
 		targetDistance = target.position - transform.position;
 
-		Vector3 left = new Vector3 (-transform.localScale.x, transform.localScale.y, transform.localScale.z);
-		Vector3 right = new Vector3 (transform.localScale.x, transform.localScale.y, transform.localScale.z);
+		Vector3 localScale = transform.localScale;
 
-		//based on movement
-		if (targetDistance.x > 0)
-			localScale = right;
-		else if (targetDistance.x < 0)
-			localScale = left;
+		if(targetDistance.x > 0)
+			localScale.x = 1f;
+		else if(targetDistance.x < 0)
+			localScale.x = -1f;
 
        	transform.localScale = localScale;
 	}
