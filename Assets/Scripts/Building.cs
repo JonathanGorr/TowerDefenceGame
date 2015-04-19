@@ -9,7 +9,9 @@ public class Building : MonoBehaviour {
 	public GameObject
 		dirtPrefab,
 		stonePrefab,
-		woodPrefab,
+		spikePrefab,
+		arrowPrefab,
+		acidPrefab,
 		representation;
 
 	private GameObject selected;
@@ -29,7 +31,9 @@ public class Building : MonoBehaviour {
 	private Button
 		dirt,
 		stone,
-		wood;
+		spike,
+		arrow,
+		acid;
 
 	//snaps
 	private Vector3 prevPosition;
@@ -131,9 +135,17 @@ public class Building : MonoBehaviour {
 	{
 		selected = stonePrefab;
 	}
-	public void Wood()
+	public void Spike()
 	{
-		selected = woodPrefab;
+		selected = spikePrefab;
+	}
+	public void Arrow()
+	{
+		selected = arrowPrefab;
+	}
+	public void Acid()
+	{
+		selected = acidPrefab;
 	}
 
 	private void InstantiateObject()
@@ -144,10 +156,14 @@ public class Building : MonoBehaviour {
 
 		if(selected == dirtPrefab)
 			manager.SubtractSoul (1);
-		else if(selected == woodPrefab)
-			manager.SubtractSoul (2);
-		else
+		else if(selected == stonePrefab)
 			manager.SubtractSoul (3);
+		else if(selected == spikePrefab)
+			manager.SubtractSoul (4);
+		else if(selected == acidPrefab)
+			manager.SubtractSoul (5);
+		else if(selected == arrowPrefab)
+			manager.SubtractSoul (6);
 	}
 
 	private Vector3 Snap()

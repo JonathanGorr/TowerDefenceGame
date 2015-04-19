@@ -8,25 +8,48 @@ public class BlockHealthSteve : MonoBehaviour {
 
 	private void OnTriggerEnter (Collider col)
 	{
-		if(col.tag == "Creeper")
+		if(col.tag == "Creeper" || col.tag == "Enemy")
+		{
+			LoseHealth(1);
+			StartCoroutine (WaitDamageCreeper());
+		}
+		if(col.tag == "Crusher")
+		{
+			LoseHealth(2);
+			StartCoroutine (WaitDamageCrusher());
+		}
+		if(col.tag == "Acid")
 		{
 			LoseHealth(1);
 		}
 	}
 
-	void OnTriggerStay (Collider col2)
+	private void OnTriggerExit (Collider col)
 	{
-		if (col2.gameObject.tag == "Creeper")
-		{	
-			StartCoroutine (WaitDamage());
+		if(col.tag == "Creeper" || col.tag == "Enemy")
+		{
+			StopCoroutine (WaitDamageCreeper());
 		}
+		if(col.tag == "Crusher")
+		{
+			StopCoroutine (WaitDamageCrusher());
+		}
+
 	}
 
 
-	IEnumerator WaitDamage ()
+	IEnumerator WaitDamageCreeper ()
 	{
 		yield return new WaitForSeconds (2);
 		LoseHealth(1);
+		StartCoroutine (WaitDamageCreeper());
+	}
+
+	IEnumerator WaitDamageCrusher ()
+	{
+		yield return new WaitForSeconds (1);
+		LoseHealth(1);
+		StartCoroutine (WaitDamageCrusher());
 	}
 
 	void Update () {

@@ -12,11 +12,11 @@ public class SmasherController : MonoBehaviour {
 
 	private Rigidbody rigidbody;
 	//public AudioClip creeperdmg1;
-	//public AudioClip creeperdmg2;
 
 	void Start () {
 		rigidbody = GetComponent<Rigidbody>();
 		xspeed = randomX[Random.Range(0, randomX.Length)];
+		//StartCoroutine(StutterStep());
 	}
 
 	void Update () {

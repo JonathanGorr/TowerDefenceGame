@@ -13,13 +13,7 @@ public class Arrow : MonoBehaviour {
 	
 	void OnTriggerEnter (Collider col) 
 	{
-		if(col.tag == "Enemy")
-		{
-			//col.gameObject.GetComponent<EnemyHealth>().TakeDamage();
-			Destroy(gameObject);
-		}
-
-		if(col.tag == "Ground")
+		if(col.tag == "Creeper" || col.tag == "Crawler" || col.tag == "EnemyHitbox" || col.tag == "Enemy" || col.tag == "Ground")
 		{
 			Destroy(gameObject);
 		}

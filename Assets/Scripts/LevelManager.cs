@@ -4,20 +4,40 @@ using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour {
 
-	[HideInInspector]
-	public int souls = 10;
+	//[HideInInspector]
 
 	private GameObject UI, pauseMenu;
+	private Text dayText;
+	private GameObject moonParent;
 
 	private Text soulText;
+	public int souls = 10;
 
-	[HideInInspector]
+	public float dayCycleInMinutes = .5f;
+	public const float SECOND = 1;
+	public const float MINUTE = 60 * SECOND;
+	public const float HOUR = 60 * MINUTE;
+	public const float DAY = 24 * HOUR;
+	private const float DEGREES_PER_SECOND = 360 / DAY;
+
+	private float degreeRotation;
+
+	public float daylength = 4f;
+	public float nightlength = 6f;
+	private float spinRate;
+	public int day = 0;
+
+	//[HideInInspector]
 	public bool inMenu, paused;
 	
 	void Awake () {
 		UI = GameObject.Find ("UI");
 		pauseMenu = GameObject.Find ("PauseMenu");
 		soulText = GameObject.Find("Souls").GetComponent<Text>();
+		dayText = GameObject.Find("DayText").GetComponent<Text>();
+		moonParent = GameObject.Find("MoonParent");
+
+
 		Application.targetFrameRate = 60;
 		inMenu = (Application.loadedLevelName == "Title" || Application.loadedLevelName == "ControlScreen") ? true : false;
 
@@ -25,8 +45,16 @@ public class LevelManager : MonoBehaviour {
 		UI.SetActive((inMenu) ? false : true);
 
 		souls = 10;
+
+        spinRate = daylength + nightlength;
+        //dayCycleInMinutes = .1f;
+		degreeRotation = DEGREES_PER_SECOND * DAY / (dayCycleInMinutes * MINUTE);
+
 		UpdateSoul();
+		StartCoroutine (DayCycle ());
 	}
+
+
 
 	void Update()
 	{
@@ -51,6 +79,8 @@ public class LevelManager : MonoBehaviour {
 			if(Input.GetKeyDown(KeyCode.R))
 				Restart();
 		}
+
+		moonParent.transform.Rotate(new Vector3(0, 0, -degreeRotation) * Time.deltaTime);
 	}
 	
 	public void AddSoul (int value)
@@ -71,6 +101,29 @@ public class LevelManager : MonoBehaviour {
 		else
 			print ("Soul text cannot be found");
 	}
+
+	public void UpdateDay(int newDayValue)
+	{
+		day += newDayValue;
+
+		if (dayText)
+			dayText.text = "DAY " + day;
+		else
+			print ("Day text cannot be found");
+	}
+
+	
+	IEnumerator DayCycle ()
+    {
+        while (true)
+        {
+        	UpdateDay(1);
+            yield return new WaitForSeconds (daylength);
+            //day stuff here
+            yield return new WaitForSeconds (nightlength);
+            //night stuff here
+        }
+    }
 
 	public void Pause()
 	{
