@@ -21,10 +21,6 @@ public class SoulToPlayer : MonoBehaviour {
 		playerPos = player.transform.position;
 	}
 
-	/*public void Activate() {
-		active = true;
-	}*/
-
 	private void OnTriggerEnter (Collider col)
 	{
 		if(col.tag == "Attractor")

@@ -12,7 +12,7 @@ public class DayNightColors : MonoBehaviour {
 	
 	void Awake()
 	{
-		sunMoon = GameObject.Find ("Sun").GetComponent<Light>();
+		//sunMoon = GameObject.Find ("Sun").GetComponent<Light>();
 
 		Camera.main.backgroundColor = currentColor;
 		
