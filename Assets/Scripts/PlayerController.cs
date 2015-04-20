@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour {
 	private LevelManager manager;
 	private bool
 		action;
+
 	private RaycastHit hit;
 	private Ray ray;
 	public int damage;

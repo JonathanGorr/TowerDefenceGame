@@ -4,7 +4,14 @@ using System.Collections.Generic;
 
 public class TDManager : MonoBehaviour 
 {
-    public GameObject spawn;
+	public int
+		dirtCost,
+		stoneCost,
+		spikeTrapCost,
+		arrowTrapCost,
+		acidTrapCost;
+
+	public GameObject spawn;
     public GameObject target;
 	private Vector3 targetPos;
     private GameObject block;
@@ -14,13 +21,6 @@ public class TDManager : MonoBehaviour
 	public float spawnDelay = 5f;
 	private bool place, canBuild;
 	private LevelManager manager;
-
-	public int
-		dirtCost,
-		stoneCost,
-		spikeTrapCost,
-		arrowTrapCost,
-		acidTrapCost;
 
 	//blocks
 	public GameObject
@@ -84,11 +84,11 @@ public class TDManager : MonoBehaviour
         {
             //Make sure to set blocks in a grid, by rounding position to an int
             Vector3 newPos = hit.point;
-            newPos.Set(Mathf.RoundToInt(newPos.x) - 0.5F, 0.4F, Mathf.RoundToInt(newPos.z) + 0.5F);
+			newPos.Set(Mathf.RoundToInt(newPos.x) - 0.5F, Mathf.RoundToInt(newPos.y) + 0.5F, Mathf.RoundToInt(newPos.z) + 0.5F);
             ghostBlock.transform.position = newPos;
 
             //Set color of "show" tower based on the spot being available
-            if (hit.transform.tag == "Ground")
+			if (hit.transform.tag == "Ground" || hit.transform.tag == "Cube")
             {
 				ghostBlock.GetComponent<Renderer>().sharedMaterial.color = Color.green;
             }
@@ -113,12 +113,12 @@ public class TDManager : MonoBehaviour
         //Make sure that we did hit something
         if (hit.transform != null)
         {
-            canPlace = (hit.transform.tag == "Ground") ? true : false;
+			canPlace = (hit.transform.tag == "Ground" || hit.transform.tag == "Cube") ? true : false;
         }
 
         if (place && canPlace)
         {
-            GameObject newBlock = Instantiate(block, new Vector3(Mathf.RoundToInt(hit.point.x) - 0.5F, 0.3F, Mathf.RoundToInt(hit.point.z) + 0.5F), Quaternion.identity) as GameObject;
+			GameObject newBlock = Instantiate(block, new Vector3(Mathf.RoundToInt(hit.point.x) - 0.5F, Mathf.RoundToInt(hit.point.y) + 0.5F, Mathf.RoundToInt(hit.point.z) + 0.5F), Quaternion.identity) as GameObject;
             blocks.Add(newBlock);
 			SubtractSoul();
             yield return new WaitForEndOfFrame();
