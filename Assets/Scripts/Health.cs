@@ -15,13 +15,20 @@ public class Health : MonoBehaviour {
 		aggro,
 		invincible;
 
+	private Slider healthBar;
+
 	// Use this for initialization
 	void Awake () {
+		healthBar = GameObject.Find ("Health").GetComponent<Slider>();
 		health = maxHealth;
+
+		healthBar.maxValue = maxHealth;
+		healthBar.value = health;
 	}
 
 	void FixedUpdate()
 	{
+		healthBar.value = health;
 		//clamp health
 		Mathf.Clamp (health, 0, maxHealth);
 	}

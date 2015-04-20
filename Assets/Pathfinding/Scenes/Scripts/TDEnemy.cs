@@ -11,6 +11,9 @@ public class TDEnemy : Pathfinding
 	private Transform sprite;
 	private Vector3 targetDistance;
 	private Vector3 localScale;
+	public int damage;
+	private Rigidbody rigidBody;
+	private bool moving;
 
 	private Vector3 
 		chaseRange = new Vector3 (2, 2, 2),
@@ -40,6 +43,7 @@ public class TDEnemy : Pathfinding
 
 	void Awake()
 	{
+		rigidBody = GetComponent<Rigidbody> ();
 		sprite = transform.Find ("Sprite").transform;
 		heart = GameObject.FindGameObjectWithTag ("Heart").transform;
 		player = GameObject.FindGameObjectWithTag ("Player").transform;
@@ -49,6 +53,18 @@ public class TDEnemy : Pathfinding
 
 	private void Update()
 	{
+		//if not sleeping, is moving; walking
+		if(!rigidBody.IsSleeping())
+		{
+			animator.SetInteger("AnimState", 1);
+			moving = true;
+		}
+		else
+		{
+			animator.SetInteger("AnimState", 0);
+			moving = false;
+		}
+
 		// This if() makes sure that each state only runs when it is entered. Since this example is using IEnumerator functions and Animator triggers, running the code only once is critical
 		// switch case conditional which uses currentState's value
 		switch(currentState){
@@ -84,6 +100,15 @@ public class TDEnemy : Pathfinding
 		Vector3 distanceToPlayer = player.transform.position - transform.position;
 		targetDistance = target.position - transform.position;
 
+		//if the target is within distance, attack
+		if(targetDistance.x < attackRange.x && targetDistance.z < attackRange.z)
+		{
+			currentState = States.Attacking;
+		}
+		else
+			currentState = States.Seeking;
+
+		//Flipping-------------------------------------------------------------
 		Vector3 localScale = transform.localScale;
 
 		if(targetDistance.x > 0)
@@ -128,11 +153,6 @@ public class TDEnemy : Pathfinding
             }
         }
     }
-
-	public void AttackClosest()
-	{
-		target = FindClosest().transform;
-	}
 
 	public GameObject FindClosest() {
 
