@@ -9,6 +9,9 @@ public class Attack : MonoBehaviour {
 	private bool attacking;
 	public int damage;
 
+	public AudioClip attack1;
+	public AudioClip attack2;
+
 	void Awake()
 	{
 		player = GameObject.Find ("Player");
@@ -16,6 +19,7 @@ public class Attack : MonoBehaviour {
 
 	public void Attacking()
 	{
+		SoundManager.instance.RandomizeSfx (attack1, attack1);
 		attacking = true;
 	}
 
@@ -39,17 +43,21 @@ public class Attack : MonoBehaviour {
 				}
 			}
 
-			/*
 			//if the gameobject is an enemy, and is colliding with the player, attack
 			else if (transform.parent.tag == "Enemy")
 			{
 				if (other.transform.parent.tag == "Player")
 				{
-					other.GetComponent<Health>().TakeDamage(playerController.damage);
+					other.GetComponent<PlayerHealth>().TakeDamage(damage);
+					print("Player hurt");
+				}
+
+				else if (other.transform.parent.tag == "Heart")
+				{
+					other.GetComponent<ObjectiveHealth>().TakeDamage(damage);
 					print("Player hurt");
 				}
 			}
-			*/
 		}
 	}
 }

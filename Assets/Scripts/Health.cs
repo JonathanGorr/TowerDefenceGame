@@ -14,9 +14,7 @@ public class Health : MonoBehaviour {
 		dead,
 		aggro,
 		invincible;
-
-	private Slider healthBar;
-	public GameObject soul;
+	
 	private Rigidbody rigidBody;
 	public int force;
 
@@ -29,20 +27,14 @@ public class Health : MonoBehaviour {
 
 		rigidBody = GetComponent<Rigidbody> ();
 
-		healthBar = GameObject.Find ("Health").GetComponent<Slider> ();
-		healthBar.maxValue = maxHealth;
-		healthBar.value = health;
-
 		//set this to max on start
 		health = maxHealth;
 	}
 
 	public virtual void FixedUpdate()
 	{
-		healthBar.value = health;
-
 		//clamp health
-		Mathf.Clamp (health, 0, maxHealth);
+		//Mathf.Clamp (health, 0, maxHealth);
 	}
 
 	public virtual void TakeDamage(int value)
@@ -91,6 +83,6 @@ public class Health : MonoBehaviour {
 	
 	public virtual void OnKill()
 	{
-	Destroy (gameObject);
+		Destroy (gameObject);
 	}
 }

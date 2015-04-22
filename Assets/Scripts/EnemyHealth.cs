@@ -3,6 +3,8 @@ using System.Collections;
 
 public class EnemyHealth : Health {
 
+	public GameObject soul;
+
 	public int droppedSouls = 1;
 
 	public override void OnKill()

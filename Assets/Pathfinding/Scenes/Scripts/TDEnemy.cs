@@ -16,8 +16,8 @@ public class TDEnemy : Pathfinding
 	private bool moving;
 
 	private Vector3 
-		chaseRange = new Vector3 (2, 2, 2),
-		attackRange = new Vector3 (1,1,1);
+		chaseRange = new Vector3 (3, 3, 3),
+		attackRange = new Vector3 (2,2,2);
 
 	[HideInInspector]
 	public GameObject closest;
@@ -141,14 +141,18 @@ public class TDEnemy : Pathfinding
             }
 
             if (Path.Count > 0)
-            {             
+            {
                 Vector3 direction = (new Vector3(Path[0].x, transform.position.y, Path[0].z) - transform.position).normalized;
                 
 				if (direction == Vector3.zero)
                 {
                    // direction = (end - transform.position).normalized;
                 }
-                transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, Time.deltaTime * speed);
+				//keep moving unless attacking
+				if(currentState != States.Attacking)
+				{
+                	transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, Time.deltaTime * speed);
+				}
             }
         }
     }
@@ -177,18 +181,21 @@ public class TDEnemy : Pathfinding
     IEnumerator PathRemoval(float speed)
     {
         pathMover = false;
-        yield return new WaitForSeconds((1 * Pathfinder.Instance.Tilesize) / speed);
-        if (Path.Count > 0)
+       
+		yield return new WaitForSeconds((1 * Pathfinder.Instance.Tilesize) / speed);
+       
+		if (Path.Count > 0)
         {
             Path.RemoveAt(0);
         }
-        pathMover= true;
+        pathMover = true;
     }
 
 	IEnumerator Seeking(float interval)
 	{
 		spawn = tdManager.spawn.transform.position;
-		//target = tdManager.target.transform;
+
+		animator.SetInteger ("AnimState", 1);
 
 		//TODO:
 		//set this to absolute distance greater than attackdistance
@@ -198,7 +205,7 @@ public class TDEnemy : Pathfinding
 			{
 				StartCoroutine(PathTimer());
 			}
-			
+
 			Movement(seekSpeed);
 		}
 		else

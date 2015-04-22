@@ -50,7 +50,9 @@ public class TDManager : MonoBehaviour
     {
 		souls = manager.souls;
 		place = Input.GetMouseButtonDown (1);
-		targetPos = target.transform.position;
+
+		if(target)
+			targetPos = target.transform.position;
 
 		//if the player has souls, allow building
 		if(canBuild && block != null)

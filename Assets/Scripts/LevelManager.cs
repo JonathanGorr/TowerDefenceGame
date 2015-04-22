@@ -4,12 +4,10 @@ using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour {
 
-	//[HideInInspector]
-
 	private GameObject UI, pauseMenu;
 	private Text dayText;
 	private GameObject moonParent;
-	private CanvasGroup dayCanvas;
+	private CanvasGroup canvas;
 
 	private Text soulText;
 	public int souls = 10;
@@ -28,6 +26,7 @@ public class LevelManager : MonoBehaviour {
 	private float spinRate;
 	private int day = 0;
 
+	private GameObject dayCanvas;
 	public Color nightColor;
 	public Color dayColor;
 	private Color currentColor;
@@ -35,25 +34,35 @@ public class LevelManager : MonoBehaviour {
 	public float skyTransitionSpeed = 0.06f;
 	public float dayCanvasTransitionSpeed = 0.1f;
 
-	//[HideInInspector]
+	[HideInInspector]
 	public bool inMenu, paused;
 
 	public AudioClip newDay;
 
-	//public AudioSource dayTrack;
 	public AudioSource nightTrack1;
-	//public AudioSource nightTrack2;
 	
 	void Awake () {
+
 		UI = GameObject.Find ("UI");
+
+		//day/night
+		dayCanvas = GameObject.Find ("DayCanvas");
+
+		if (dayCanvas) {
+			canvas = dayCanvas.GetComponent<CanvasGroup> ();
+			dayText = dayCanvas.transform.Find ("DayText").GetComponent<Text> ();
+			moonParent = GameObject.Find("MoonParent");
+		}
+
+		//ui
 		pauseMenu = GameObject.Find ("PauseMenu");
 		soulText = GameObject.Find("Souls").GetComponent<Text>();
-		dayText = GameObject.Find("DayText").GetComponent<Text>();
-		moonParent = GameObject.Find("MoonParent");
-		dayCanvas = GameObject.Find ("DayCanvas").GetComponent<CanvasGroup>();
 
 		Application.targetFrameRate = 60;
-		inMenu = (Application.loadedLevelName == "Title" || Application.loadedLevelName == "ControlScreen") ? true : false;
+
+		inMenu = (Application.loadedLevelName == "Title" || 
+		          Application.loadedLevelName == "ControlScreen" || 
+		          Application.loadedLevelName == "KillScreen") ? true : false;
 
 		pauseMenu.SetActive (false);
 		UI.SetActive((inMenu) ? false : true);
@@ -72,11 +81,10 @@ public class LevelManager : MonoBehaviour {
 		Camera.main.backgroundColor = currentColor;
 		RenderSettings.ambientLight = currentColor;
 
-		dayCanvas.alpha = 0.0f;
+		if(dayCanvas)
+			canvas.alpha = 0.0f;
 	}
-
-
-
+	
 	void Update()
 	{
 		if(!inMenu)
@@ -101,7 +109,8 @@ public class LevelManager : MonoBehaviour {
 				Restart();
 		}
 
-		moonParent.transform.Rotate(new Vector3(0, 0, -degreeRotation) * Time.deltaTime);
+		if(moonParent)
+			moonParent.transform.Rotate(new Vector3(0, 0, -degreeRotation) * Time.deltaTime);
 
 		currentColor = Color.Lerp(currentColor, nextColor, skyTransitionSpeed);
 		Camera.main.backgroundColor = currentColor;
@@ -147,16 +156,15 @@ public class LevelManager : MonoBehaviour {
             yield return new WaitForSeconds (daylength);
             //day stuff here
            		nextColor = dayColor;
-				dayCanvas.alpha = 1f;
+				canvas.alpha = 1f;
 				SoundManager.instance.PlaySingle (newDay);
 				nightTrack1.Stop();
 				yield return new WaitForSeconds (3);
-				dayCanvas.alpha = 0f;
+				canvas.alpha = 0f;
             yield return new WaitForSeconds (nightlength);
             //night stuff here
             	nightTrack1.Play();
             	nextColor = nightColor;
-            	
         }
     }
 

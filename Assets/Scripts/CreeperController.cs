@@ -15,7 +15,7 @@ public class CreeperController : MonoBehaviour {
 
 	void Start () {
 		rigidbody = GetComponent<Rigidbody>();
-		zspeed = 0f;
+		//zspeed = 0f;
 		SoundManager.instance.PlaySingle(creeperspawn1);
 	}
 
@@ -23,9 +23,10 @@ public class CreeperController : MonoBehaviour {
 	}
 	
 	void FixedUpdate () {
-		rigidbody.velocity = new Vector3(xspeed, 0f, zspeed);
+		//rigidbody.velocity = new Vector3(xspeed, 0f, zspeed);
 	}
 
+	/*
 	void OnTriggerEnter (Collider col)
 	{
 		if (col.gameObject.tag == "FrontWall")
@@ -69,16 +70,4 @@ public class CreeperController : MonoBehaviour {
 		zspeed = randomZ[Random.Range(0, randomZ.Length)];
 		xspeed = 3f;
 	}*/
-
-
-	public void TakeDamage ()
-	{
-		//SoundManager.instance.RandomizeSfx (creeperdmg1, creeperdmg2);
-	}
-
-	private void Death ()
-	{
-		//SoundManager.instance.RandomizeSfx (creeperdeath1, creeperdeath2);
-	}
-
 }
