@@ -9,6 +9,8 @@ public class ArrowTrap : MonoBehaviour {
 	public float speed = 14f;				
 	public float fireRate = 2.4f;
 
+	public AudioClip fire;
+
 	void Start()
 	{
 		StartCoroutine(Fire());
@@ -32,6 +34,7 @@ public class ArrowTrap : MonoBehaviour {
 		Rigidbody arrowInstanceR = Instantiate(Arrow, transform.position, Quaternion.Euler(new Vector3(0,0,0) ) ) as Rigidbody;
 			arrowInstanceR.velocity = new Vector3(speed, 0, 0);
 
+		SoundManager.instance.PlaySingle (fire);
 	    StartCoroutine(Fire());
 	}
 }

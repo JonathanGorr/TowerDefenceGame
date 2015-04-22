@@ -11,6 +11,8 @@ public class SoulToPlayer : MonoBehaviour {
 	public float accel = 10f;
 	private bool active = false;
 
+	public AudioClip collect;
+
 	void Start () {
 		player = GameObject.Find("Player");
 		manager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
@@ -34,6 +36,7 @@ public class SoulToPlayer : MonoBehaviour {
 
 		if(col.tag == "Player")
 		{
+			SoundManager.instance.PlaySingle (collect);
 			manager.AddSoul(1);
 			Destroy(gameObject);
 		}

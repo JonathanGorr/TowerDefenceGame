@@ -4,16 +4,16 @@ using System.Collections;
 public class SmasherController : MonoBehaviour {
 
 	public float xspeed;
-	public float waitRate = 3f;
-	public float waitDuration = 1f;
+	//public float waitRate = 3f;
+	//public float waitDuration = 1f;
 
 	private float[] randomX = new float[] {.7f, 1f};
 	private int[] randomZ = new int[] {-2, 2};
 
 	private Rigidbody rigidBody;
 
-	public AudioClip crusherdeath1;
-	public AudioClip crusherdeath2;
+	public AudioClip spawn1;
+	public AudioClip spawn2;
 
 	private Animator animator;
 
@@ -25,7 +25,7 @@ public class SmasherController : MonoBehaviour {
 		xspeed = randomX[Random.Range(0, randomX.Length)];
 
 		if(SoundManager.instance)
-			SoundManager.instance.RandomizeSfx (crusherdeath1, crusherdeath2);
+			SoundManager.instance.RandomizeSfx (spawn1, spawn2);
 	}
 	
 	void FixedUpdate () {

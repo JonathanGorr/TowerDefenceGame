@@ -10,5 +10,4 @@ public class CrawlerController : MonoBehaviour {
 		SoundManager.instance.PlaySingle(crawlerspawn);
 	}
 
-
 }

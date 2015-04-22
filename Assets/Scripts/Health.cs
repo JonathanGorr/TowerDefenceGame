@@ -20,6 +20,10 @@ public class Health : MonoBehaviour {
 	private Rigidbody rigidBody;
 	public int force;
 
+	public AudioClip hit;
+	public AudioClip hit2;
+	public AudioClip hit3;
+
 	// Use this for initialization
 	public virtual void Awake () {
 
@@ -50,7 +54,9 @@ public class Health : MonoBehaviour {
 			hurt = true;
 
 			//when a weapon collides, subtract health by the passes int(damage)
+
 			health -= value;
+			SoundManager.instance.PlaySingle (hit);
 		}
 
 		//if an enemy has no health left, drop blood and destroy object

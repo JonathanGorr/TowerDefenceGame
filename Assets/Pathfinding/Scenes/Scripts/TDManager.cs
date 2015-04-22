@@ -24,6 +24,9 @@ public class TDManager : MonoBehaviour
 	private int souls;
 	private bool subtracted;
 
+	public AudioClip placeSound;
+	public AudioClip cantplaceSound;
+
 	//blocks
 	public GameObject
 		dirtPrefab,
@@ -159,6 +162,7 @@ public class TDManager : MonoBehaviour
 	            blocks.Add(newBlock);
 	            yield return new WaitForEndOfFrame();
 	            Pathfinder.Instance.InsertInQueue(spawn.transform.position, targetPos, CheckRoute);
+	            SoundManager.instance.PlaySingle (placeSound);
 				subtracted = false;
 			}
         }

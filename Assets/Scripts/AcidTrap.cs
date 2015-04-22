@@ -9,6 +9,10 @@ public class AcidTrap : MonoBehaviour {
 	public float speed = 6f;				
 	public float fireRate = 3f;
 
+	public AudioClip drip1;
+	public AudioClip drip2;
+	public AudioClip drip3;
+
 	void Start()
 	{
 		
@@ -22,6 +26,7 @@ public class AcidTrap : MonoBehaviour {
 	    Rigidbody acidInstance = Instantiate(Acid, transform.position, Quaternion.Euler(new Vector3(0,0,0) ) ) as Rigidbody;
 			acidInstance.velocity = new Vector3(0, -speed, 0);
 
+		SoundManager.instance.RandomizeSfx (drip1, drip2, drip3);
 	    StartCoroutine(Fire());
 	}
 }

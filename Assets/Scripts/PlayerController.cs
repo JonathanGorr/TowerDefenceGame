@@ -21,6 +21,9 @@ public class PlayerController : MonoBehaviour {
 	public int damage;
 
 	public AudioSource footstep;
+	public AudioClip attack1;
+	public AudioClip attack2;
+	public AudioClip landhard;
 
 	void Awake()
 	{
@@ -56,6 +59,7 @@ public class PlayerController : MonoBehaviour {
 		if(action)
 		{
 			anim.SetTrigger("Attack");
+			SoundManager.instance.RandomizeSfx (attack1, attack1);
 		}
 
 		//if moving-------------------------------------------
