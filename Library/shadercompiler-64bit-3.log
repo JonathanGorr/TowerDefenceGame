@@ -1,6 +1,52 @@
 Base path: E:/Unity/Editor/Data
-Pipe name: \\.\pipe\UnityShaderCompiler-64bit-3-59196
+Pipe name: \\.\pipe\UnityShaderCompiler-64bit-3-17092
 Cmd: getPlatforms
+Cmd: compileSnippet
+  api=1 type=0 insize=982 outsize=1336 kw=DIRECTIONAL SHADOWS_OFF LIGHTMAP_OFF DIRLIGHTMAP_OFF DYNAMICLIGHTMAP_OFF VERTEXLIGHT_ON _ALPHAPREMULTIPLY_ON ok=1
+Cmd: compileSnippet
+  api=0 type=0 insize=938 outsize=6335 kw=SPOT SHADOWS_OFF _ALPHAPREMULTIPLY_ON ok=1
+Cmd: compileSnippet
+  api=0 type=0 insize=938 outsize=6962 kw=POINT SHADOWS_CUBE _ALPHAPREMULTIPLY_ON ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=938 outsize=6 kw=DIRECTIONAL SHADOWS_OFF _ALPHAPREMULTIPLY_ON ok=1
+Cmd: compileSnippet
+  api=1 type=1 insize=938 outsize=2144 kw=POINT_COOKIE SHADOWS_OFF _ALPHAPREMULTIPLY_ON ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=938 outsize=6 kw=DIRECTIONAL_COOKIE SHADOWS_SCREEN _ALPHAPREMULTIPLY_ON ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=938 outsize=6165 kw=DIRECTIONAL_COOKIE SHADOWS_SCREEN _ALPHAPREMULTIPLY_ON ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=938 outsize=6986 kw=POINT_COOKIE SHADOWS_CUBE _ALPHAPREMULTIPLY_ON ok=1
+Cmd: compileSnippet
+  api=0 type=0 insize=751 outsize=2369 kw=SHADOWS_DEPTH _ALPHAPREMULTIPLY_ON ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=751 outsize=6 kw=SHADOWS_CUBE _ALPHAPREMULTIPLY_ON ok=1
+Cmd: compileSnippet
+  api=0 type=0 insize=1152 outsize=8396 kw=LIGHTMAP_OFF DIRLIGHTMAP_OFF DYNAMICLIGHTMAP_OFF _ALPHAPREMULTIPLY_ON ok=1
+Cmd: compileSnippet
+  api=0 type=0 insize=886 outsize=5640 kw=DIRECTIONAL SHADOWS_SCREEN LIGHTMAP_OFF DIRLIGHTMAP_OFF DYNAMICLIGHTMAP_OFF _ALPHAPREMULTIPLY_ON ok=1
+Cmd: compileSnippet
+  api=8 type=1 insize=886 outsize=5915 kw=DIRECTIONAL SHADOWS_OFF LIGHTMAP_OFF DIRLIGHTMAP_OFF DYNAMICLIGHTMAP_OFF _ALPHAPREMULTIPLY_ON ok=1
+Cmd: compileSnippet
+  api=0 type=0 insize=816 outsize=4609 kw=DIRECTIONAL SHADOWS_OFF _ALPHAPREMULTIPLY_ON ok=1
+Cmd: compileSnippet
+  api=0 type=0 insize=816 outsize=5040 kw=DIRECTIONAL SHADOWS_SCREEN _ALPHAPREMULTIPLY_ON ok=1
+Cmd: compileSnippet
+  api=1 type=1 insize=816 outsize=851 kw=POINT SHADOWS_OFF _ALPHAPREMULTIPLY_ON ok=1
+Cmd: compileSnippet
+  api=8 type=1 insize=816 outsize=5168 kw=SPOT SHADOWS_OFF _ALPHAPREMULTIPLY_ON ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=816 outsize=6 kw=DIRECTIONAL SHADOWS_SCREEN _ALPHAPREMULTIPLY_ON ok=1
+Cmd: compileSnippet
+  api=1 type=1 insize=816 outsize=824 kw=DIRECTIONAL SHADOWS_SCREEN _ALPHAPREMULTIPLY_ON ok=1
+Cmd: compileSnippet
+  api=0 type=1 insize=816 outsize=6 kw=POINT_COOKIE SHADOWS_CUBE _ALPHAPREMULTIPLY_ON ok=1
+Cmd: compileSnippet
+  api=1 type=1 insize=816 outsize=1080 kw=POINT_COOKIE SHADOWS_CUBE _ALPHAPREMULTIPLY_ON ok=1
+Cmd: compileSnippet
+  api=8 type=0 insize=600 outsize=2348 kw=SHADOWS_CUBE _ALPHAPREMULTIPLY_ON ok=1
+Cmd: compileSnippet
+  api=1 type=1 insize=600 outsize=159 kw=SHADOWS_DEPTH _ALPHAPREMULTIPLY_ON ok=1
 Unhandled exception: Readfile from pipe failed. GLE=The pipe has been ended.
 
 

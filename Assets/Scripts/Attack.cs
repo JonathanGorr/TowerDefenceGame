@@ -28,7 +28,7 @@ public class Attack : MonoBehaviour {
 		attacking = false;
 	}
 
-	void OnTriggerEnter(Collider other)
+	public void OnTriggerEnter(Collider other)
 	{
 		if(attacking)
 		{
@@ -39,7 +39,10 @@ public class Attack : MonoBehaviour {
 				{
 					//the object intersecting with the players hitbox should take damage
 					other.GetComponentInParent<EnemyHealth>().TakeDamage(damage);
-					//print("Enemy Hurt");
+				}
+				else if (other.tag == "Heart")
+				{
+					other.GetComponentInParent<ObjectiveHealth>().TakeDamage(damage);
 				}
 			}
 			else if(transform.parent.tag == "Arrow")
@@ -48,7 +51,6 @@ public class Attack : MonoBehaviour {
 				{
 					//the object intersecting with the players hitbox should take damage
 					other.GetComponentInParent<EnemyHealth>().TakeDamage(damage);
-					print("Enemy Hurt");
 				}
 			}
 			else if(transform.parent.tag == "Acid")
@@ -57,23 +59,18 @@ public class Attack : MonoBehaviour {
 				{
 					//the object intersecting with the players hitbox should take damage
 					other.GetComponentInParent<EnemyHealth>().TakeDamage(damage);
-					//print("Enemy Hurt");
 				}
 			}
-
 			//if the gameobject is an enemy, and is colliding with the player, attack
 			else if (transform.parent.tag == "Enemy")
 			{
-				if (other.transform.parent.tag == "Player")
+				if (other.tag == "Player")
 				{
 					other.GetComponent<PlayerHealth>().TakeDamage(damage);
-					print("Player hurt");
 				}
-
-				else if (other.transform.parent.tag == "Heart")
+				else if (other.tag == "Heart")
 				{
 					other.GetComponent<ObjectiveHealth>().TakeDamage(damage);
-					print("Player hurt");
 				}
 			}
 		}

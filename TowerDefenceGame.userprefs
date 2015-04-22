@@ -2,11 +2,9 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Health.cs">
     <Files>
-      <File FileName="Assets\Scripts\CreeperController.cs" Line="40" Column="16" />
-      <File FileName="Assets\Pathfinding\Scenes\Scripts\TDEnemy.cs" Line="198" Column="39" />
-      <File FileName="Assets\Scripts\ObjectiveHealth.cs" Line="12" Column="34" />
-      <File FileName="Assets\Scripts\Attack.cs" Line="47" Column="45" />
-      <File FileName="Assets\Scripts\Health.cs" Line="31" Column="22" />
+      <File FileName="Assets\Scripts\Health.cs" Line="69" Column="45" />
+      <File FileName="Assets\Scripts\Attack.cs" Line="65" Column="45" />
+      <File FileName="Assets\Scripts\ObjectiveHealth.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

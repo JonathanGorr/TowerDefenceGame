@@ -6,20 +6,30 @@ public class ObjectiveHealth : Health {
 
 	private Slider healthBar;
 
-	public override void Awake ()
+	public void Start()
 	{
-		healthBar = GameObject.Find ("Heart").GetComponentInChildren<Slider> ();
+		healthBar = GameObject.Find ("Heart").GetComponentInChildren<Slider>();
 		healthBar.maxValue = maxHealth;
 		healthBar.value = health;
-
-		print (health);
-
-		base.Awake ();
 	}
 
 	public override void FixedUpdate ()
 	{
+		if (Input.GetKeyDown (KeyCode.I))
+			TakeDamage (10);
+
 		healthBar.value = health;
 		base.FixedUpdate ();
+	}
+
+	public override void TakeDamage (int value)
+	{
+		base.TakeDamage (value);
+	}
+
+	public override void OnKill ()
+	{
+		Application.LoadLevel ("KillScreen");
+		base.OnKill ();
 	}
 }
