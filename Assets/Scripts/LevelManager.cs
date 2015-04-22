@@ -9,11 +9,12 @@ public class LevelManager : MonoBehaviour {
 	private GameObject UI, pauseMenu;
 	private Text dayText;
 	private GameObject moonParent;
+	private CanvasGroup dayCanvas;
 
 	private Text soulText;
 	public int souls = 10;
 
-	public float dayCycleInMinutes = .5f;
+	public float dayCycleInMinutes = .1f;
 	public const float SECOND = 1;
 	public const float MINUTE = 60 * SECOND;
 	public const float HOUR = 60 * MINUTE;
@@ -22,13 +23,26 @@ public class LevelManager : MonoBehaviour {
 
 	private float degreeRotation;
 
-	public float daylength = 4f;
-	public float nightlength = 6f;
+	public float daylength = 3f;
+	public float nightlength = 3f;
 	private float spinRate;
-	public int day = 0;
+	private int day = 0;
+
+	public Color nightColor;
+	public Color dayColor;
+	private Color currentColor;
+	private Color nextColor;
+	public float skyTransitionSpeed = 0.06f;
+	public float dayCanvasTransitionSpeed = 0.1f;
 
 	//[HideInInspector]
 	public bool inMenu, paused;
+
+	public AudioClip newDay;
+
+	//public AudioSource dayTrack;
+	public AudioSource nightTrack1;
+	//public AudioSource nightTrack2;
 	
 	void Awake () {
 		UI = GameObject.Find ("UI");
@@ -36,7 +50,7 @@ public class LevelManager : MonoBehaviour {
 		soulText = GameObject.Find("Souls").GetComponent<Text>();
 		dayText = GameObject.Find("DayText").GetComponent<Text>();
 		moonParent = GameObject.Find("MoonParent");
-
+		dayCanvas = GameObject.Find ("DayCanvas").GetComponent<CanvasGroup>();
 
 		Application.targetFrameRate = 60;
 		inMenu = (Application.loadedLevelName == "Title" || Application.loadedLevelName == "ControlScreen") ? true : false;
@@ -44,14 +58,21 @@ public class LevelManager : MonoBehaviour {
 		pauseMenu.SetActive (false);
 		UI.SetActive((inMenu) ? false : true);
 
+		//initialize soul system
 		souls = 10;
+		UpdateSoul();
 
+		//set constants for spinning moon/day cycle
         spinRate = daylength + nightlength;
         //dayCycleInMinutes = .1f;
 		degreeRotation = DEGREES_PER_SECOND * DAY / (dayCycleInMinutes * MINUTE);
-
-		UpdateSoul();
 		StartCoroutine (DayCycle ());
+
+		currentColor = dayColor;
+		Camera.main.backgroundColor = currentColor;
+		RenderSettings.ambientLight = currentColor;
+
+		dayCanvas.alpha = 0.0f;
 	}
 
 
@@ -81,6 +102,10 @@ public class LevelManager : MonoBehaviour {
 		}
 
 		moonParent.transform.Rotate(new Vector3(0, 0, -degreeRotation) * Time.deltaTime);
+
+		currentColor = Color.Lerp(currentColor, nextColor, skyTransitionSpeed);
+		Camera.main.backgroundColor = currentColor;
+		RenderSettings.ambientLight = currentColor;
 	}
 	
 	public void AddSoul (int value)
@@ -118,10 +143,20 @@ public class LevelManager : MonoBehaviour {
         while (true)
         {
         	UpdateDay(1);
+
             yield return new WaitForSeconds (daylength);
             //day stuff here
+           		nextColor = dayColor;
+				dayCanvas.alpha = 1f;
+				SoundManager.instance.PlaySingle (newDay);
+				nightTrack1.Stop();
+				yield return new WaitForSeconds (3);
+				dayCanvas.alpha = 0f;
             yield return new WaitForSeconds (nightlength);
             //night stuff here
+            	nightTrack1.Play();
+            	nextColor = nightColor;
+            	
         }
     }
 

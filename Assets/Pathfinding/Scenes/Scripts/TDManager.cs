@@ -68,7 +68,9 @@ public class TDManager : MonoBehaviour
 		else if(block == stonePrefab)
 			manager.SubtractSoul (stoneCost);
 		else if(block == spikePrefab)
+		{
 			manager.SubtractSoul (spikeTrapCost);
+		}
 		else if(block == acidPrefab)
 			manager.SubtractSoul (acidTrapCost);
 		else if(block == arrowPrefab)

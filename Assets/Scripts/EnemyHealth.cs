@@ -5,6 +5,8 @@ public class EnemyHealth : MonoBehaviour {
 
 	public int health;
 	public GameObject soul;
+	public AudioClip enemyhit1;
+	public AudioClip enemyhit2;	
 
 	void Start () {
 		//soul = GameObject.Find("Soul");
@@ -16,6 +18,11 @@ public class EnemyHealth : MonoBehaviour {
 
 	private void OnTriggerEnter (Collider col)
 	{
+		if(col.tag == "Player")
+		{
+			SoundManager.instance.PlaySingle(enemyhit1);
+			TakeDamage(1);
+		}
 		if(col.tag == "SpikeTrap")
 		{
 			TakeDamage(1);
@@ -23,6 +30,7 @@ public class EnemyHealth : MonoBehaviour {
 		if(col.tag == "Arrow")
 		{
 			TakeDamage(1);
+			SoundManager.instance.PlaySingle(enemyhit1);
 		}
 		if(col.tag == "Acid")
 		{

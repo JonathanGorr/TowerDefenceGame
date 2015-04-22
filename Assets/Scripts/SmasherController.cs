@@ -11,16 +11,17 @@ public class SmasherController : MonoBehaviour {
 	private int[] randomZ = new int[] {-2, 2};
 
 	private Rigidbody rigidbody;
-	//public AudioClip creeperdmg1;
+
+	public AudioClip crusherdeath1;
+	public AudioClip crusherdeath2;
 
 	void Start () {
 		rigidbody = GetComponent<Rigidbody>();
 		xspeed = randomX[Random.Range(0, randomX.Length)];
 		//StartCoroutine(StutterStep());
+		SoundManager.instance.RandomizeSfx (crusherdeath1,crusherdeath2);
 	}
 
-	void Update () {
-	}
 	
 	void FixedUpdate () {
 		rigidbody.velocity = new Vector3(xspeed, 0f, 0f);
@@ -28,17 +29,16 @@ public class SmasherController : MonoBehaviour {
 
 
 
-	IEnumerator StutterStep()
+	/*IEnumerator StutterStep()
 	{
 	    yield return new WaitForSeconds(waitRate);
 	    	xspeed = 0f;
-	    	//SoundManager.instance.RandomizeSfx (smasheryell1, smasheryell2);
 
 	     yield return new WaitForSeconds(waitDuration);
 	    	xspeed = randomX[Random.Range(0, randomX.Length)];
 
 	    StartCoroutine(StutterStep());
-	}
+	}*/
 
 
 	public void TakeDamage ()
@@ -48,7 +48,7 @@ public class SmasherController : MonoBehaviour {
 
 	private void Death ()
 	{
-		//SoundManager.instance.RandomizeSfx (smasherdeath1, smasherdeath2);
+		//SoundManager.instance.RandomizeSfx (crusherdeath1,crusherdeath2);
 	}
 
 }

@@ -11,11 +11,12 @@ public class CreeperController : MonoBehaviour {
 	//public AudioClip creeperdmg1;
 	//public AudioClip creeperdmg2;
 	//public AudioClip creeperdeath1;
-	//public AudioClip creeperdeath2;
+	public AudioClip creeperspawn1;
 
 	void Start () {
 		rigidbody = GetComponent<Rigidbody>();
 		zspeed = 0f;
+		SoundManager.instance.PlaySingle(creeperspawn1);
 	}
 
 	void Update () {

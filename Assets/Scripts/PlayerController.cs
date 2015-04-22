@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour {
 	private Ray ray;
 	public int damage;
 
+	public AudioSource footstep;
+
 	void Awake()
 	{
 		//import
@@ -52,13 +54,31 @@ public class PlayerController : MonoBehaviour {
 		if(action)
 		{
 			anim.SetTrigger("Attack");
+			
 		}
 
 		//if moving-------------------------------------------
 		if (Mathf.Abs(Input.GetAxis("Horizontal")) > 0 || Mathf.Abs(Input.GetAxis("Vertical")) > 0)
+		{
 			moving = true;
+			
+		}
 		else
+		{
 			moving = false;
+			
+		}
+			
+		if (controller.isGrounded == true)
+		{
+			if (Input.GetButtonDown("Horizontal"))
+			{
+				footstep.Play();
+			}
+			else
+			footstep.Pause();
+		}
+
 
 		//flipping--------------------------------------------
 		Vector3 localScale = sprite.transform.localScale;
@@ -70,11 +90,14 @@ public class PlayerController : MonoBehaviour {
 		if(moving)
 		{
 			anim.SetInteger("AnimState", 1);
+			
 
 			if(moveDirection.x > 0)
 				localScale.x = 1f;
 			else if(moveDirection.x < 0)
 				localScale.x = -1f;
+
+
 		}
 
 		//attack on the side the cursor is on realtive to player
@@ -92,7 +115,10 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 		else
+		{
 			anim.SetInteger("AnimState", 0);
+			
+		}
 
 		sprite.localScale = localScale;
 		
