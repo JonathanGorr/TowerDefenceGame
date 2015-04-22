@@ -21,6 +21,8 @@ public class TDManager : MonoBehaviour
 	public float spawnDelay = 5f;
 	private bool place, canBuild;
 	private LevelManager manager;
+	private int souls;
+	private bool subtracted;
 
 	//blocks
 	public GameObject
@@ -43,6 +45,7 @@ public class TDManager : MonoBehaviour
 	
 	void Update ()
     {
+		souls = manager.souls;
 		place = Input.GetMouseButtonDown (1);
 		targetPos = target.transform.position;
 
@@ -64,17 +67,45 @@ public class TDManager : MonoBehaviour
 	private void SubtractSoul()
 	{
 		if(block == dirtPrefab)
-			manager.SubtractSoul (dirtCost);
+		{
+			if(souls > dirtCost)
+			{
+				manager.SubtractSoul (dirtCost);
+				subtracted = true;
+			}
+		}
 		else if(block == stonePrefab)
-			manager.SubtractSoul (stoneCost);
+		{
+			if(souls > stoneCost)
+			{
+				manager.SubtractSoul (stoneCost);
+				subtracted = true;
+			}
+		}
 		else if(block == spikePrefab)
 		{
-			manager.SubtractSoul (spikeTrapCost);
+			if(souls > spikeTrapCost)
+			{
+				manager.SubtractSoul (spikeTrapCost);
+				subtracted = true;
+			}
 		}
 		else if(block == acidPrefab)
-			manager.SubtractSoul (acidTrapCost);
+		{
+			if(souls > acidTrapCost)
+			{
+				manager.SubtractSoul (acidTrapCost);
+				subtracted = true;
+			}
+		}
 		else if(block == arrowPrefab)
-			manager.SubtractSoul (arrowTrapCost);
+		{
+			if(souls > arrowTrapCost)
+			{
+				manager.SubtractSoul (arrowTrapCost);
+				subtracted = true;
+			}
+		}
 	}
 
     private RaycastHit CheckPosition()
@@ -120,12 +151,19 @@ public class TDManager : MonoBehaviour
 
         if (place && canPlace)
         {
-			GameObject newBlock = Instantiate(block, new Vector3(Mathf.RoundToInt(hit.point.x) - 0.5F, Mathf.RoundToInt(hit.point.y) + 0.5F, Mathf.RoundToInt(hit.point.z) + 0.5F), Quaternion.identity) as GameObject;
-            blocks.Add(newBlock);
 			SubtractSoul();
-            yield return new WaitForEndOfFrame();
-            Pathfinder.Instance.InsertInQueue(spawn.transform.position, targetPos, CheckRoute);
+
+			if(subtracted)
+			{
+				GameObject newBlock = Instantiate(block, new Vector3(Mathf.RoundToInt(hit.point.x) - 0.5F, Mathf.RoundToInt(hit.point.y) + 0.5F, Mathf.RoundToInt(hit.point.z) + 0.5F), Quaternion.identity) as GameObject;
+	            blocks.Add(newBlock);
+	            yield return new WaitForEndOfFrame();
+	            Pathfinder.Instance.InsertInQueue(spawn.transform.position, targetPos, CheckRoute);
+				subtracted = false;
+			}
         }
+
+		print (subtracted);
     }
 
     private void CheckRoute(List<Vector3> list)

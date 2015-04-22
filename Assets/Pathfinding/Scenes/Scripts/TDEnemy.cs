@@ -49,6 +49,12 @@ public class TDEnemy : Pathfinding
 		player = GameObject.FindGameObjectWithTag ("Player").transform;
 		animator = GetComponentInChildren<Animator> ();
 		tdManager = GameObject.Find ("LevelManager").GetComponent<TDManager>();
+
+		//if the target is unnassigned, heart is target by default
+		if(!target)
+		{
+			target = heart;
+		}
 	}
 
 	private void Update()
@@ -89,13 +95,6 @@ public class TDEnemy : Pathfinding
 			Dead ();
 			break;
 		}
-
-		//currentState = States.Attacking;
-
-		print(currentState);
-
-		// Update lastState to whatever currentState was set to
-		//lastState = currentState;
 
 		Vector3 distanceToPlayer = player.transform.position - transform.position;
 		targetDistance = target.position - transform.position;

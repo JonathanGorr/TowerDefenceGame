@@ -12,9 +12,7 @@ public class PlayerController : MonoBehaviour {
 	private Transform sprite;
 	private Animator anim;
 	private Camera cam;
-	private Building building;
 	private CharacterController controller;
-	private LevelManager manager;
 	private bool
 		action;
 
@@ -26,14 +24,11 @@ public class PlayerController : MonoBehaviour {
 
 	void Awake()
 	{
-		//import
-		manager = GameObject.Find ("LevelManager").GetComponent<LevelManager>();
 		sprite = transform.Find ("Sprite");
 		rigidBody = GetComponent<Rigidbody>();
 		anim = GetComponentInChildren<Animator>();
 		controller = GetComponent<CharacterController>();
 		cam = GameObject.Find ("MainCamera").GetComponent<Camera>();
-		building = GameObject.Find ("LevelManager").GetComponent<Building> ();
 	}
 
 	void Update() {
@@ -45,59 +40,45 @@ public class PlayerController : MonoBehaviour {
 			moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 			moveDirection = transform.TransformDirection(moveDirection);
 			moveDirection *= speed;
+			footstep.Play();
+			//print("walking");
 
 			if (Input.GetButton("Jump"))
 				moveDirection.y = jumpSpeed;
+		}
+		else
+		{
+			footstep.Pause();
+			print("paused");
 		}
 
 		//Action----------------------------------------------
 		if(action)
 		{
 			anim.SetTrigger("Attack");
-			
 		}
 
 		//if moving-------------------------------------------
 		if (Mathf.Abs(Input.GetAxis("Horizontal")) > 0 || Mathf.Abs(Input.GetAxis("Vertical")) > 0)
 		{
 			moving = true;
-			
 		}
 		else
 		{
 			moving = false;
-			
 		}
-			
-		if (controller.isGrounded == true)
-		{
-			if (Input.GetButtonDown("Horizontal"))
-			{
-				footstep.Play();
-			}
-			else
-			footstep.Pause();
-		}
-
-
+		
 		//flipping--------------------------------------------
 		Vector3 localScale = sprite.transform.localScale;
-
-		//get relative distance between mouse position and player
-		//Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-		//print (mousePos);
 
 		if(moving)
 		{
 			anim.SetInteger("AnimState", 1);
-			
 
 			if(moveDirection.x > 0)
 				localScale.x = 1f;
 			else if(moveDirection.x < 0)
 				localScale.x = -1f;
-
-
 		}
 
 		//attack on the side the cursor is on realtive to player
@@ -117,12 +98,12 @@ public class PlayerController : MonoBehaviour {
 		else
 		{
 			anim.SetInteger("AnimState", 0);
-			
 		}
 
+		//apply scale
 		sprite.localScale = localScale;
 		
-		//----------------------------------------------------
+		//Apply changes---------------------------------------
 		
 		moveDirection.y -= gravity * Time.deltaTime;
 		controller.Move(moveDirection * Time.deltaTime);

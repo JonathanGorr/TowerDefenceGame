@@ -1,59 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EnemyHealth : MonoBehaviour {
+public class EnemyHealth : Health {
 
-	public int health;
-	public GameObject soul;
-	public AudioClip enemyhit1;
-	public AudioClip enemyhit2;	
+	public int droppedSouls = 1;
 
-	void Start () {
-		//soul = GameObject.Find("Soul");
-	}
-
-	void Update () {
-		CheckDeath ();
-	}
-
-	private void OnTriggerEnter (Collider col)
+	public override void OnKill()
 	{
-		if(col.tag == "Player")
-		{
-			SoundManager.instance.PlaySingle(enemyhit1);
-			TakeDamage(1);
-		}
-		if(col.tag == "SpikeTrap")
-		{
-			TakeDamage(1);
-		}
-		if(col.tag == "Arrow")
-		{
-			TakeDamage(1);
-			SoundManager.instance.PlaySingle(enemyhit1);
-		}
-		if(col.tag == "Acid")
-		{
-			TakeDamage(1);
-		}
-	}
-
-	public void TakeDamage (int dmg)
-	{
-		//lose health based on dmg taken
-		health -= dmg;
-
-		CheckDeath ();
-	}
-
-	private void CheckDeath ()
-	{
-		//Check if health total is less than or equal to zero.
-		if (health <= 0) 
+		//spawns a number of souls
+		for(int i = 0; i < droppedSouls; i++)
 		{
 			GameObject obj = Instantiate(soul, transform.position, Quaternion.identity) as GameObject;
-
-			Destroy(gameObject);
 		}
+
+		//this calls the method from the parent into this overriding method
+		base.OnKill ();
 	}
 }

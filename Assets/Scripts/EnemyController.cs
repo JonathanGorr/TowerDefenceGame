@@ -102,7 +102,6 @@ public class EnemyController : MonoBehaviour {
 		return closestObj;
 	}
 
-	/*
 	private void MoveEnemy()
 	{
 		//if the target's z position is greater than the x position away, move in that direction, else vice versa
@@ -120,7 +119,6 @@ public class EnemyController : MonoBehaviour {
 		moveDirection.x = xDir;
 		moveDirection.z = zDir;
 	}
-	*/
 
 	private void OnDrawGizmos()
 	{

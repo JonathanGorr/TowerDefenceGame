@@ -7,16 +7,11 @@ public class Attack : MonoBehaviour {
 	private TDEnemy enemyController;
 	private GameObject player;
 	private bool attacking;
+	public int damage;
 
 	void Awake()
 	{
 		player = GameObject.Find ("Player");
-
-		if(transform.parent.tag == "Enemy")
-			enemyController = GetComponentInParent<TDEnemy> ();
-
-		if(transform.parent.tag == "Player")
-			playerController = GetComponentInParent<PlayerController> ();
 	}
 
 	public void Attacking()
@@ -33,23 +28,28 @@ public class Attack : MonoBehaviour {
 	{
 		if(attacking)
 		{
-			//if this script belongs to the player
+			//if this script is on the player, and is inside the enemy
 			if(transform.parent.tag == "Player")
 			{
 				if (other.tag == "Enemy")
 				{
-					other.GetComponent<Health> ().TakeDamage(playerController.damage);
+					//the object intersecting with the players hitbox should take damage
+					other.GetComponentInParent<EnemyHealth>().TakeDamage(damage);
 					//print("Enemy Hurt");
 				}
 			}
+
+			/*
+			//if the gameobject is an enemy, and is colliding with the player, attack
 			else if (transform.parent.tag == "Enemy")
 			{
-				if (other.tag == "Player")
+				if (other.transform.parent.tag == "Player")
 				{
-					other.GetComponent<Health>().TakeDamage(enemyController.damage);
-					//print("Player hurt");
+					other.GetComponent<Health>().TakeDamage(playerController.damage);
+					print("Player hurt");
 				}
 			}
+			*/
 		}
 	}
 }

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class Health : MonoBehaviour {
 
-	public int 
+	public int
 		health,
 		maxHealth;
 
@@ -16,24 +16,32 @@ public class Health : MonoBehaviour {
 		invincible;
 
 	private Slider healthBar;
+	public GameObject soul;
+	private Rigidbody rigidBody;
+	public int force;
 
 	// Use this for initialization
-	void Awake () {
-		healthBar = GameObject.Find ("Health").GetComponent<Slider>();
-		health = maxHealth;
+	public virtual void Awake () {
 
+		rigidBody = GetComponent<Rigidbody> ();
+
+		healthBar = GameObject.Find ("Health").GetComponent<Slider> ();
 		healthBar.maxValue = maxHealth;
 		healthBar.value = health;
+
+		//set this to max on start
+		health = maxHealth;
 	}
 
-	void FixedUpdate()
+	public virtual void FixedUpdate()
 	{
 		healthBar.value = health;
+
 		//clamp health
 		Mathf.Clamp (health, 0, maxHealth);
 	}
 
-	public void TakeDamage(int value)
+	public virtual void TakeDamage(int value)
 	{
 		//if not invincible
 		if(!invincible)
@@ -51,21 +59,32 @@ public class Health : MonoBehaviour {
 			dead = true;
 			OnKill();
 		}
+
+		//apply a force on hit
+		KnockBack ();
+
+		print ("hit for " + value + " damage");
 	}
 
-	public void Heal(int heal)
+	public virtual void KnockBack()
+	{
+		rigidBody.AddForce (Vector3.left * force);
+		rigidBody.AddForce (Vector3.up * force);
+	}
+
+	public virtual void Heal(int heal)
 	{
 		health += heal;
 		healing = true;
 	}
 
-	public void Invincible()
+	public virtual void Invincible()
 	{
 		invincible = !invincible;
 	}
 	
-	public void OnKill()
+	public virtual void OnKill()
 	{
-		Destroy (gameObject);
+	Destroy (gameObject);
 	}
 }

@@ -9,9 +9,6 @@ public class CrawlerController : MonoBehaviour {
 	void Start () {
 		SoundManager.instance.PlaySingle(crawlerspawn);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
+
 }

@@ -1,17 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class fliercontroller : MonoBehaviour {
+public class FlierController : SmasherController {
 
-	public AudioClip flierspawn;
+	public AudioClip flierSpawn;
 
 	// Use this for initialization
-	void Start () {
-		SoundManager.instance.PlaySingle(flierspawn);
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+	public override void Awake () {
+
+		if(SoundManager.instance)
+			SoundManager.instance.PlaySingle(flierSpawn);
+
+		base.Awake ();
 	}
 }
