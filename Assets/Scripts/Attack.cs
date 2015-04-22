@@ -6,7 +6,7 @@ public class Attack : MonoBehaviour {
 	private PlayerController playerController;
 	private TDEnemy enemyController;
 	private GameObject player;
-	private bool attacking;
+	public bool attacking;
 	public int damage;
 
 	public AudioClip attack1;
@@ -34,6 +34,24 @@ public class Attack : MonoBehaviour {
 		{
 			//if this script is on the player, and is inside the enemy
 			if(transform.parent.tag == "Player")
+			{
+				if (other.tag == "Enemy")
+				{
+					//the object intersecting with the players hitbox should take damage
+					other.GetComponentInParent<EnemyHealth>().TakeDamage(damage);
+					//print("Enemy Hurt");
+				}
+			}
+			else if(transform.parent.tag == "Arrow")
+			{
+				if (other.tag == "Enemy")
+				{
+					//the object intersecting with the players hitbox should take damage
+					other.GetComponentInParent<EnemyHealth>().TakeDamage(damage);
+					print("Enemy Hurt");
+				}
+			}
+			else if(transform.parent.tag == "Acid")
 			{
 				if (other.tag == "Enemy")
 				{
