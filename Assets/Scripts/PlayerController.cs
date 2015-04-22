@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour {
 		else
 		{
 			footstep.Pause();
-			print("paused");
+			//print("paused");
 		}
 
 		//Action----------------------------------------------

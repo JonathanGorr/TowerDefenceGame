@@ -168,8 +168,6 @@ public class TDManager : MonoBehaviour
 				subtracted = false;
 			}
         }
-
-		print (subtracted);
     }
 
     private void CheckRoute(List<Vector3> list)

@@ -17,6 +17,7 @@ public class Health : MonoBehaviour {
 	
 	private Rigidbody rigidBody;
 	public int force;
+	public LevelManager manager;
 
 	public AudioClip hit;
 	public AudioClip hit2;
@@ -24,7 +25,7 @@ public class Health : MonoBehaviour {
 
 	// Use this for initialization
 	public virtual void Awake () {
-
+		manager = GameObject.Find ("LevelManager").GetComponent<LevelManager> ();
 		rigidBody = GetComponent<Rigidbody> ();
 
 		//set this to max on start
@@ -58,8 +59,10 @@ public class Health : MonoBehaviour {
 			OnKill();
 		}
 
-		//apply a force on hit
-		KnockBack ();
+		if (rigidBody) {
+			//apply a force on hit
+			KnockBack ();
+		}
 
 		print ("hit for " + value + " damage");
 	}

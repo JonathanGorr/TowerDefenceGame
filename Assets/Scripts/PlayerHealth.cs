@@ -5,10 +5,13 @@ using UnityEngine.UI;
 public class PlayerHealth : Health {
 	
 	private Slider healthBar;
+	//private LevelManager manager;
 
 	public override void Awake ()
 	{
 		base.Awake ();
+
+		//manager = GameObject.Find ("LevelManager").GetComponent<LevelManager> ();
 
 		health = 20;
 		maxHealth = 20;
@@ -22,5 +25,12 @@ public class PlayerHealth : Health {
 	{
 		healthBar.value = health;
 		base.FixedUpdate ();
+	}
+
+	public override void OnKill()
+	{
+		base.manager.GoToMenu();
+		Destroy (gameObject);
+		//base.OnKill();
 	}
 }

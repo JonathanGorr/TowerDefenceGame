@@ -60,16 +60,17 @@ public class TDEnemy : Pathfinding
 	private void Update()
 	{
 		//if not sleeping, is moving; walking
-		if(!rigidBody.IsSleeping())
-		{
-			animator.SetInteger("AnimState", 1);
-			moving = true;
+		if (rigidBody) {
+			if (!rigidBody.IsSleeping ()) {
+				animator.SetInteger ("AnimState", 1);
+				moving = true;
+			} else {
+				animator.SetInteger ("AnimState", 0);
+				moving = false;
+			}
 		}
 		else
-		{
-			animator.SetInteger("AnimState", 0);
-			moving = false;
-		}
+			print ("there is no rigidBody");
 
 		// This if() makes sure that each state only runs when it is entered. Since this example is using IEnumerator functions and Animator triggers, running the code only once is critical
 		// switch case conditional which uses currentState's value
@@ -96,8 +97,17 @@ public class TDEnemy : Pathfinding
 			break;
 		}
 
-		Vector3 distanceToPlayer = player.transform.position - transform.position;
-		targetDistance = target.position - transform.position;
+		if(player)
+		{
+			Vector3 distanceToPlayer = player.transform.position - transform.position;
+		}
+		else
+			print ("there is no player");
+
+		if (target) {
+			targetDistance = target.position - transform.position;
+		} else
+			print ("there is no target");
 
 		//if the target is within distance, attack
 		if(targetDistance.x < attackRange.x && targetDistance.z < attackRange.z)

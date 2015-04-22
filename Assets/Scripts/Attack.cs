@@ -64,9 +64,10 @@ public class Attack : MonoBehaviour {
 			//if the gameobject is an enemy, and is colliding with the player, attack
 			else if (transform.parent.tag == "Enemy")
 			{
-				if (other.tag == "Player")
+				if (other.transform.parent.tag == "Player")
 				{
-					other.GetComponent<PlayerHealth>().TakeDamage(damage);
+					print("Attacking player");
+					other.GetComponentInParent<PlayerHealth>().TakeDamage(damage);
 				}
 				else if (other.tag == "Heart")
 				{
