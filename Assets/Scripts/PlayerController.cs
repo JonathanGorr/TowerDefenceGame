@@ -3,30 +3,40 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 
-	public float speed = 6.0F;
-	public float jumpSpeed = 8.0F;
-	public float gravity = 20.0F;
+	//values
+	public int damage;
+	public float 
+		speed = 6.0F,
+		jumpSpeed = 8.0F,
+		gravity = 20.0F;
+
+	//vectors
 	private Vector3 moveDirection = Vector3.zero;
-	private bool moving;
-	private Rigidbody rigidBody;
+
+	//transforms
 	private Transform sprite;
+
+	//components
 	private Animator anim;
 	private Camera cam;
 	private CharacterController controller;
-	private bool
-		action;
 
+	//bools
+	private bool
+		action,
+		moving;
+
+	//raycasting
 	private RaycastHit hit;
 	private Ray ray;
-	public int damage;
 
+	//audio
 	public AudioSource footstep;
 	public AudioClip landhard;
 
 	void Awake()
 	{
 		sprite = transform.Find ("Sprite");
-		rigidBody = GetComponent<Rigidbody>();
 		anim = GetComponentInChildren<Animator>();
 		controller = GetComponent<CharacterController>();
 		cam = GameObject.Find ("MainCamera").GetComponent<Camera>();

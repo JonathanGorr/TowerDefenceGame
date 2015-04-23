@@ -7,19 +7,25 @@ public class Attack : MonoBehaviour {
 	private TDEnemy enemyController;
 	private GameObject player;
 	public bool attacking;
+
+	[HideInInspector]
+	public bool damageDealt;
+
 	public int damage;
+	public float delay = .05f;
 
 	public AudioClip attack1;
 	public AudioClip attack2;
 
-	void Awake()
+	public virtual void Awake()
 	{
 		player = GameObject.Find ("Player");
 	}
 
-	public void Attacking()
+	public virtual void Attacking()
 	{
 		SoundManager.instance.RandomizeSfx (attack1, attack1);
+
 		attacking = true;
 	}
 
@@ -28,52 +34,13 @@ public class Attack : MonoBehaviour {
 		attacking = false;
 	}
 
-	public void OnTriggerEnter(Collider other)
+	public IEnumerator Delay()
 	{
-		if(attacking)
-		{
-			//if this script is on the player, and is inside the enemy
-			if(transform.parent.tag == "Player")
-			{
-				if (other.tag == "Enemy")
-				{
-					//the object intersecting with the players hitbox should take damage
-					other.GetComponentInParent<EnemyHealth>().TakeDamage(damage);
-				}
-				else if (other.tag == "Heart")
-				{
-					other.GetComponentInParent<ObjectiveHealth>().TakeDamage(damage);
-				}
-			}
-			else if(transform.parent.tag == "Arrow")
-			{
-				if (other.tag == "Enemy")
-				{
-					//the object intersecting with the players hitbox should take damage
-					other.GetComponentInParent<EnemyHealth>().TakeDamage(damage);
-				}
-			}
-			else if(transform.parent.tag == "Acid")
-			{
-				if (other.tag == "Enemy")
-				{
-					//the object intersecting with the players hitbox should take damage
-					other.GetComponentInParent<EnemyHealth>().TakeDamage(damage);
-				}
-			}
-			//if the gameobject is an enemy, and is colliding with the player, attack
-			else if (transform.parent.tag == "Enemy")
-			{
-				if (other.transform.parent.tag == "Player")
-				{
-					print("Attacking player");
-					other.GetComponentInParent<PlayerHealth>().TakeDamage(damage);
-				}
-				else if (other.tag == "Heart")
-				{
-					other.GetComponent<ObjectiveHealth>().TakeDamage(damage);
-				}
-			}
-		}
+		yield return new WaitForSeconds(delay);
+		damageDealt = false;
+	}
+
+	public virtual void OnTriggerEnter(Collider other)
+	{
 	}
 }

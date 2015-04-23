@@ -3,37 +3,48 @@ using System.Collections;
 
 public class TDEnemy : Pathfinding
 {
+	//components
 	private TDManager tdManager;
-	public Vector3 spawn;
+	private Rigidbody rigidBody;
+	private EnemyAttack enemyAttack;
+	private Animator animator;
+
+	//transforms
 	public Transform target;
 	private Transform player;
 	private Transform heart;
 	private Transform sprite;
-	private Vector3 targetDistance;
-	private Vector3 localScale;
-	public int damage;
-	private Rigidbody rigidBody;
-	private bool moving;
 
-	private Vector3 
+	//vectors
+	public Vector3 spawn;
+	private Vector3
 		chaseRange = new Vector3 (3, 3, 3),
-		attackRange = new Vector3 (2,2,2);
+		attackRange = new Vector3 (2, 2, 2),
+		localScale,
+		targetDistance;
+
+	//bools
+	private bool 
+		canAttack = true,
+		moving,
+		pathMover = true,
+		newPath = true;
+
+	//values
+	public int damage;
+	public float 
+		seekSpeed = 1f,
+		chaseSpeed = 2f,
+		delay = 1f;
 
 	[HideInInspector]
 	public GameObject closest;
 
-    private bool pathMover = true;
-    private bool newPath = true;
-
-	public float 
-		seekSpeed = 1f,
-		chaseSpeed = 2f;
-
 	//state machine
 	private States currentState = States.Seeking;
 	private States lastState = States.Dead;
-	private Animator animator;
 
+	//states
 	private enum States{
 		Seeking,
 		Chasing,
@@ -43,6 +54,7 @@ public class TDEnemy : Pathfinding
 
 	void Awake()
 	{
+		enemyAttack = GetComponentInChildren<EnemyAttack> ();
 		rigidBody = GetComponent<Rigidbody> ();
 		sprite = transform.Find ("Sprite").transform;
 		heart = GameObject.FindGameObjectWithTag ("Heart").transform;
@@ -74,29 +86,30 @@ public class TDEnemy : Pathfinding
 
 		// This if() makes sure that each state only runs when it is entered. Since this example is using IEnumerator functions and Animator triggers, running the code only once is critical
 		// switch case conditional which uses currentState's value
-		switch(currentState){
+		switch (currentState) {
 
-			// If the switch condition matches this case then do this...
+		// If the switch condition matches this case then do this...
 		case States.Seeking:
 			animator.SetTrigger ("Seeking");
-			StartCoroutine(Seeking(.5f)); // Run the IEnumerator function with StartCoroutine
+			StartCoroutine (Seeking (.5f)); // Run the IEnumerator function with StartCoroutine
 			break; // don't forget to add break for each case or the next case will also execute!
 
 		case States.Chasing:
-			animator.SetTrigger ("Attacking");
-			StartCoroutine(Attacking(.05f));
+			animator.SetTrigger ("Chasing");
+			StartCoroutine (Attacking (.05f));
 			break;
-			
+		
 		case States.Attacking:
 			animator.SetTrigger ("Attacking");
-			StartCoroutine(Attacking(.05f));
+			StartCoroutine (Attacking (.05f));
 			break;
-			
+		
 		case States.Dead:
 			Dead ();
 			break;
 		}
 
+		//Distances----------------------------------------------------
 		if(player)
 		{
 			Vector3 distanceToPlayer = player.transform.position - transform.position;
@@ -104,18 +117,27 @@ public class TDEnemy : Pathfinding
 		else
 			print ("there is no player");
 
-		if (target) {
+		//if there is a target, get target distance
+		if (target) 
+		{
 			targetDistance = target.position - transform.position;
-		} else
+		} 
+		else
 			print ("there is no target");
 
-		//if the target is within distance, attack
+		//AI based on distances----------------------------------------
 		if(targetDistance.x < attackRange.x && targetDistance.z < attackRange.z)
 		{
 			currentState = States.Attacking;
 		}
+		//else if the target is too far away, resume seeking state
 		else
 			currentState = States.Seeking;
+
+		//TODO:
+		//if the target is the player, and has aggroed the enemy, currentState = chaseState, increase speed?
+		//if the gameobject is dead, currentState = dead state
+		//
 
 		//Flipping-------------------------------------------------------------
 		Vector3 localScale = transform.localScale;
@@ -235,10 +257,23 @@ public class TDEnemy : Pathfinding
 		}
 	}
 
+	//this delays the attack- cannot attack as fast as the animation can loop
+	IEnumerator Delay()
+	{
+		canAttack = false;
+		yield return new WaitForSeconds (delay);
+		canAttack = true;
+	}
+
 	IEnumerator Attacking(float interval){
+
 		while(true){
 
-			animator.SetTrigger("Attack");
+			//if can attack, attack
+			if(canAttack)
+			{
+				animator.SetTrigger("Attack");
+			}
 
 			yield return new WaitForSeconds(interval);
 		}

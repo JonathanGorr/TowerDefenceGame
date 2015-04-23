@@ -79,6 +79,7 @@
      <Compile Include="Assets\Scripts\CreeperController.cs" />
      <Compile Include="Assets\Scripts\CreeperSpawner.cs" />
      <Compile Include="Assets\Scripts\DayNightColors.cs" />
+     <Compile Include="Assets\Scripts\EnemyAttack.cs" />
      <Compile Include="Assets\Scripts\EnemyController.cs" />
      <Compile Include="Assets\Scripts\EnemyHealth.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
@@ -90,6 +91,7 @@
      <Compile Include="Assets\Scripts\MovingObject.cs" />
      <Compile Include="Assets\Scripts\ObjectiveHealth.cs" />
      <Compile Include="Assets\Scripts\PickupScript.cs" />
+     <Compile Include="Assets\Scripts\PlayerAttack.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
      <Compile Include="Assets\Scripts\PlayerHealth.cs" />
      <Compile Include="Assets\Scripts\RepCollision.cs" />
@@ -97,6 +99,7 @@
      <Compile Include="Assets\Scripts\SmasherController.cs" />
      <Compile Include="Assets\Scripts\SoulToPlayer.cs" />
      <Compile Include="Assets\Scripts\SoundManager.cs" />
+     <Compile Include="Assets\Scripts\TrapAttack.cs" />
      <Compile Include="Assets\Scripts\Wall.cs" />
      <Compile Include="Assets\Scripts\fliercontroller.cs" />
  <Reference Include="UnityEngine.UI">
