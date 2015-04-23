@@ -99,6 +99,7 @@
      <Compile Include="Assets\Scripts\SmasherController.cs" />
      <Compile Include="Assets\Scripts\SoulToPlayer.cs" />
      <Compile Include="Assets\Scripts\SoundManager.cs" />
+     <Compile Include="Assets\Scripts\StateMachine.cs" />
      <Compile Include="Assets\Scripts\TrapAttack.cs" />
      <Compile Include="Assets\Scripts\Wall.cs" />
      <Compile Include="Assets\Scripts\fliercontroller.cs" />

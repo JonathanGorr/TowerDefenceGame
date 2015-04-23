@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CrawlerController : MonoBehaviour {
+public class CrawlerController : StateMachine {
 
-	public AudioClip crawlerspawn;
+	public AudioClip crawlerSpawn;
 
 	// Use this for initialization
 	void Start () {
-		SoundManager.instance.PlaySingle(crawlerspawn);
+		SoundManager.instance.PlaySingle(crawlerSpawn);
 	}
-
 }

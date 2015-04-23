@@ -3,151 +3,30 @@ using System.Collections;
 
 public class TDEnemy : Pathfinding
 {
-	//components
-	private TDManager tdManager;
-	private Rigidbody rigidBody;
-	private EnemyAttack enemyAttack;
-	private Animator animator;
+	//vectors
+	public Vector3 spawn;
 
 	//transforms
 	public Transform target;
-	private Transform player;
-	private Transform heart;
-	private Transform sprite;
 
-	//vectors
-	public Vector3 spawn;
-	private Vector3
-		chaseRange = new Vector3 (3, 3, 3),
-		attackRange = new Vector3 (2, 2, 2),
-		localScale,
-		targetDistance;
-
-	//bools
-	private bool 
-		canAttack = true,
-		moving,
-		pathMover = true,
-		newPath = true;
-
-	//values
-	public int damage;
-	public float 
-		seekSpeed = 1f,
-		chaseSpeed = 2f,
-		delay = 1f;
+	//components
+	private StateMachine stateMachine;
 
 	[HideInInspector]
 	public GameObject closest;
 
-	//state machine
-	private States currentState = States.Seeking;
-	private States lastState = States.Dead;
+	//bools
+	[HideInInspector]
+	public bool pathMover = true, newPath = true;
 
-	//states
-	private enum States{
-		Seeking,
-		Chasing,
-		Attacking,
-		Dead
+	private void Awake()
+	{
+		stateMachine = GetComponent<StateMachine> ();
 	}
 
-	void Awake()
+	public void StartTimer()
 	{
-		enemyAttack = GetComponentInChildren<EnemyAttack> ();
-		rigidBody = GetComponent<Rigidbody> ();
-		sprite = transform.Find ("Sprite").transform;
-		heart = GameObject.FindGameObjectWithTag ("Heart").transform;
-		player = GameObject.FindGameObjectWithTag ("Player").transform;
-		animator = GetComponentInChildren<Animator> ();
-		tdManager = GameObject.Find ("LevelManager").GetComponent<TDManager>();
-
-		//if the target is unnassigned, heart is target by default
-		if(!target)
-		{
-			target = heart;
-		}
-	}
-
-	private void Update()
-	{
-		//if not sleeping, is moving; walking
-		if (rigidBody) {
-			if (!rigidBody.IsSleeping ()) {
-				animator.SetInteger ("AnimState", 1);
-				moving = true;
-			} else {
-				animator.SetInteger ("AnimState", 0);
-				moving = false;
-			}
-		}
-		else
-			print ("there is no rigidBody");
-
-		// This if() makes sure that each state only runs when it is entered. Since this example is using IEnumerator functions and Animator triggers, running the code only once is critical
-		// switch case conditional which uses currentState's value
-		switch (currentState) {
-
-		// If the switch condition matches this case then do this...
-		case States.Seeking:
-			animator.SetTrigger ("Seeking");
-			StartCoroutine (Seeking (.5f)); // Run the IEnumerator function with StartCoroutine
-			break; // don't forget to add break for each case or the next case will also execute!
-
-		case States.Chasing:
-			animator.SetTrigger ("Chasing");
-			StartCoroutine (Attacking (.05f));
-			break;
-		
-		case States.Attacking:
-			animator.SetTrigger ("Attacking");
-			StartCoroutine (Attacking (.05f));
-			break;
-		
-		case States.Dead:
-			Dead ();
-			break;
-		}
-
-		//Distances----------------------------------------------------
-		if(player)
-		{
-			Vector3 distanceToPlayer = player.transform.position - transform.position;
-		}
-		else
-			print ("there is no player");
-
-		//if there is a target, get target distance
-		if (target) 
-		{
-			targetDistance = target.position - transform.position;
-		} 
-		else
-			print ("there is no target");
-
-		//AI based on distances----------------------------------------
-		if(targetDistance.x < attackRange.x && targetDistance.z < attackRange.z)
-		{
-			currentState = States.Attacking;
-		}
-		//else if the target is too far away, resume seeking state
-		else
-			currentState = States.Seeking;
-
-		//TODO:
-		//if the target is the player, and has aggroed the enemy, currentState = chaseState, increase speed?
-		//if the gameobject is dead, currentState = dead state
-		//
-
-		//Flipping-------------------------------------------------------------
-		Vector3 localScale = transform.localScale;
-
-		if(targetDistance.x > 0)
-			localScale.x = 1f;
-		else if(targetDistance.x < 0)
-			localScale.x = -1f;
-
-       	transform.localScale = localScale;
+		StartCoroutine("PathTimer");
 	}
 
     IEnumerator PathTimer()
@@ -158,7 +37,7 @@ public class TDEnemy : Pathfinding
         newPath = true;
     }
 
-    private void Movement(float speed)
+    public void Movement(float speed)
     {
         if (Path.Count > 0)
         {
@@ -180,16 +59,15 @@ public class TDEnemy : Pathfinding
                 {
                    // direction = (end - transform.position).normalized;
                 }
-				//keep moving unless attacking
-				if(currentState != States.Attacking)
+				if(!stateMachine.attacking)
 				{
-                	transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, Time.deltaTime * speed);
+					transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, Time.deltaTime * speed);
 				}
             }
         }
     }
 
-	public GameObject FindClosest() {
+	public virtual GameObject FindClosest() {
 
 		GameObject[] gos = GameObject.FindGameObjectsWithTag("Player");
 		float distance = Mathf.Infinity;
@@ -210,7 +88,7 @@ public class TDEnemy : Pathfinding
 		return closest;
 	}
 
-    IEnumerator PathRemoval(float speed)
+    public IEnumerator PathRemoval(float speed)
     {
         pathMover = false;
        
@@ -222,64 +100,4 @@ public class TDEnemy : Pathfinding
         }
         pathMover = true;
     }
-
-	IEnumerator Seeking(float interval)
-	{
-		spawn = tdManager.spawn.transform.position;
-
-		animator.SetInteger ("AnimState", 1);
-
-		//TODO:
-		//set this to absolute distance greater than attackdistance
-		if (transform.position.x < 10.2F)
-		{
-			if (newPath)
-			{
-				StartCoroutine(PathTimer());
-			}
-
-			Movement(seekSpeed);
-		}
-		else
-		{
-			DestroyImmediate(gameObject);
-		}
-
-		yield return new WaitForSeconds(interval);
-	}
-	
-	IEnumerator Chasing(float interval){
-		while(true){
-
-			Movement(chaseSpeed);
-
-			yield return new WaitForSeconds(interval);
-		}
-	}
-
-	//this delays the attack- cannot attack as fast as the animation can loop
-	IEnumerator Delay()
-	{
-		canAttack = false;
-		yield return new WaitForSeconds (delay);
-		canAttack = true;
-	}
-
-	IEnumerator Attacking(float interval){
-
-		while(true){
-
-			//if can attack, attack
-			if(canAttack)
-			{
-				animator.SetTrigger("Attack");
-			}
-
-			yield return new WaitForSeconds(interval);
-		}
-	}
-	
-	void Dead(){
-		Destroy (gameObject);
-	}
 }
