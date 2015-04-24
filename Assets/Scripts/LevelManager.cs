@@ -89,6 +89,9 @@ public class LevelManager : Singleton<LevelManager> {
 	{
 		if(!inMenu)
 		{
+			//clamp souls between 0 and 999
+			Mathf.Clamp(souls, 0, 999);
+
 			//pause
 			if(Input.GetKeyDown(KeyCode.Escape))
 			{

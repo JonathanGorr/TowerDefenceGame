@@ -12,6 +12,7 @@ public class EnemyAttack : Attack {
 			{
 				// if the collider is the player, deal damage
 				if (other.transform.parent.tag == "Player") {
+
 					other.GetComponentInParent<PlayerHealth> ().TakeDamage (damage);
 
 					//damage has been dealt
@@ -19,7 +20,7 @@ public class EnemyAttack : Attack {
 				} 
 
 				// if the collider is the objective, deal damage
-				else if (other.tag == "Heart") 
+				else if (other.transform.parent.tag == "Heart") 
 				{
 					other.GetComponent<ObjectiveHealth> ().TakeDamage (damage);
 

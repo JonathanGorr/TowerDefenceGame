@@ -37,33 +37,22 @@ public class TDEnemy : Pathfinding
         newPath = true;
     }
 
-    public void Movement(float speed)
+    public void Movement()
     {
         if (Path.Count > 0)
         {
-            if (pathMover)
-            {
-                //StartCoroutine(PathRemoval(4F + 2F));
-            }
-
+			//if the distance between the enemy, and the end point of the path is less than .2f
             if (Vector3.Distance(transform.position, new Vector3(Path[0].x, transform.position.y, Path[0].z)) < 0.2F)
             {
                 Path.RemoveAt(0);
             }
-
+            
             if (Path.Count > 0)
             {
-                Vector3 direction = (new Vector3(Path[0].x, transform.position.y, Path[0].z) - transform.position).normalized;
+				Vector3 direction = (new Vector3(Path[0].x, transform.position.y, Path[0].z)).normalized;
                 
-				if (direction == Vector3.zero)
-                {
-                   // direction = (end - transform.position).normalized;
-                }
-				if(!stateMachine.attacking)
-				{
-					transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, Time.deltaTime * speed);
-				}
-            }
+				transform.position = Vector3.MoveTowards(transform.position, direction, Time.deltaTime);
+			}
         }
     }
 

@@ -434,6 +434,8 @@ public class Pathfinder : MonoBehaviour
                     {
                         nodes.Add(Map[j, i]);
                     }
+					else
+						print("A pathfinding object is out of range");
                 }
             }
         }

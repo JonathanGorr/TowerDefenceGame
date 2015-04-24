@@ -18,7 +18,7 @@ public class StateMachine : MonoBehaviour {
 	//vectors
 	public Vector3 spawn;
 	private Vector3
-		chaseRange = new Vector3 (3, 3, 3),
+		chaseRange = new Vector3 (4, 4, 4),
 		attackRange = new Vector3 (2, 2, 2),
 		localScale,
 		targetDistance;
@@ -58,7 +58,8 @@ public class StateMachine : MonoBehaviour {
 		animator = GetComponentInChildren<Animator> ();
 		tdManager = GameObject.Find ("LevelManager").GetComponent<TDManager>();
 		tdEnemy = GetComponent<TDEnemy> ();
-		
+		spawn = tdManager.spawn.transform.position;
+
 		//if the target is unnassigned, heart is target by default
 		if(!tdEnemy.target)
 		{
@@ -78,21 +79,57 @@ public class StateMachine : MonoBehaviour {
 			attacking = false;
 
 		//if not sleeping, is moving; walking
-		if (rigidBody) {
-			if (!rigidBody.IsSleeping ()) {
+		if (rigidBody) 
+		{
+			if (!rigidBody.IsSleeping()) 
+			{
 				animator.SetInteger ("AnimState", 1);
 				moving = true;
-			} else {
+			} 
+			else
+			{
 				animator.SetInteger ("AnimState", 0);
 				moving = false;
 			}
-		} else
+		} 
+		else
 			print ("there is no rigidBody");
+
+		//TODO:BEHAVIOR:
+		//The enemy seeks the heart by default
+		//if the player is within chase range, set player as target
+		//if player is then out of chase range, heart is target
+		//if any vulnerable object is within attack range, attack
 
 		//Distances----------------------------------------------------
 		if(player)
 		{
+			//get the distance between the player and this enemy
 			Vector3 distanceToPlayer = player.transform.position - transform.position;
+
+			//if the player is close enough, chase
+			if(Mathf.Abs(distanceToPlayer.x) < chaseRange.x && Mathf.Abs(distanceToPlayer.z) < chaseRange.z)
+			{
+				print("chasing");
+				tdEnemy.target = player;
+				currentState = States.Chasing;
+			}
+
+			//else if the player is within attack range, attack
+			else if(Mathf.Abs(distanceToPlayer.x) < attackRange.x && Mathf.Abs(distanceToPlayer.z) < attackRange.z)
+			{
+				print("attacking");
+				tdEnemy.target = player;
+				currentState = States.Attacking;
+			}
+
+			//else the player is too far away, seek the objective
+			else
+			{
+				print("seeking objective");
+				tdEnemy.target = heart;
+				currentState = States.Seeking;
+			}
 		}
 		else
 			print ("there is no player");
@@ -104,7 +141,7 @@ public class StateMachine : MonoBehaviour {
 		} 
 		else
 			print ("there is no target");
-		
+
 		//AI based on distances----------------------------------------
 		if(targetDistance.x < attackRange.x && targetDistance.z < attackRange.z)
 		{
@@ -117,7 +154,6 @@ public class StateMachine : MonoBehaviour {
 		//TODO:
 		//if the target is the player, and has aggroed the enemy, currentState = chaseState, increase speed?
 		//if the gameobject is dead, currentState = dead state
-		//
 		
 		//Flipping-------------------------------------------------------------
 		Vector3 localScale = transform.localScale;
@@ -136,16 +172,14 @@ public class StateMachine : MonoBehaviour {
 		// This if() makes sure that each state only runs when it is entered. Since this example is using IEnumerator functions and Animator triggers, running the code only once is critical
 		// switch case conditional which uses currentState's value
 		switch (currentState) {
-			
-			// If the switch condition matches this case then do this...
 		case States.Seeking:
 			animator.SetTrigger ("Seeking");
-			StartCoroutine (Seeking (.5f)); // Run the IEnumerator function with StartCoroutine
-			break; // don't forget to add break for each case or the next case will also execute!
+			StartCoroutine (Seeking (.5f));
+			break;
 			
 		case States.Chasing:
 			animator.SetTrigger ("Chasing");
-			StartCoroutine (Attacking (.05f));
+			StartCoroutine (Chasing (.05f));
 			break;
 			
 		case States.Attacking:
@@ -161,44 +195,26 @@ public class StateMachine : MonoBehaviour {
 
 	IEnumerator Seeking(float interval)
 	{
-		spawn = tdManager.spawn.transform.position;
-		
-		animator.SetInteger ("AnimState", 1);
-		
-		//TODO:
-		//set this to absolute distance greater than attackdistance
-		if (transform.position.x < 10.2F)
+		if (tdEnemy.newPath)
 		{
-			if (tdEnemy.newPath)
-			{
-				tdEnemy.StartTimer();
-			}
+			tdEnemy.StartTimer();
+		}
 
-			tdEnemy.Movement(seekSpeed);
-		}
-		else
-		{
-			DestroyImmediate(gameObject);
-		}
+		tdEnemy.Movement();
 		
 		yield return new WaitForSeconds(interval);
 	}
 	
-	IEnumerator Chasing(float interval){
-		while(true){
-			
-			tdEnemy.Movement(chaseSpeed);
-			
-			yield return new WaitForSeconds(interval);
-		}
-	}
-	
-	//this delays the attack- cannot attack as fast as the animation can loop
-	IEnumerator Delay()
+	IEnumerator Chasing(float interval)
 	{
-		canAttack = false;
-		yield return new WaitForSeconds (delay);
-		canAttack = true;
+		if (tdEnemy.newPath)
+		{
+			tdEnemy.StartTimer();
+		}
+		
+		tdEnemy.Movement();
+		
+		yield return new WaitForSeconds(interval);
 	}
 	
 	IEnumerator Attacking(float interval){
@@ -215,7 +231,19 @@ public class StateMachine : MonoBehaviour {
 		}
 	}
 
-	public virtual void Dead(){
+	//this delays the attack- cannot attack as fast as the animation can loop
+	IEnumerator Delay()
+	{
+		canAttack = false;
+		yield return new WaitForSeconds (delay);
+		canAttack = true;
+	}
+
+	IEnumerator Dead()
+	{
+		animator.SetTrigger("Die");
 		Destroy (gameObject);
+
+		yield return new WaitForEndOfFrame();
 	}
 }

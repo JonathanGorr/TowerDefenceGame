@@ -25,6 +25,7 @@ public class ObjectiveHealth : Health {
 	public override void TakeDamage (int value)
 	{
 		base.TakeDamage (value);
+		print ("Objective took " + value + " damage.");
 	}
 
 	public override void OnKill ()
