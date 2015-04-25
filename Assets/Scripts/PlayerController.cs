@@ -31,11 +31,12 @@ public class PlayerController : MonoBehaviour {
 	private Ray ray;
 
 	//audio
-	public AudioSource footstep;
+	private AudioSource source;
 	public AudioClip landhard;
 
 	void Awake()
 	{
+		source = GetComponent<AudioSource> ();
 		sprite = transform.Find ("Sprite");
 		anim = GetComponentInChildren<Animator>();
 		controller = GetComponent<CharacterController>();
@@ -51,7 +52,7 @@ public class PlayerController : MonoBehaviour {
 			moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 			moveDirection = transform.TransformDirection(moveDirection);
 			moveDirection *= speed;
-			footstep.Play();
+			source.Play();
 			//print("walking");
 
 			if (Input.GetButton("Jump"))
@@ -59,7 +60,7 @@ public class PlayerController : MonoBehaviour {
 		}
 		else
 		{
-			footstep.Pause();
+			source.Pause();
 			//print("paused");
 		}
 

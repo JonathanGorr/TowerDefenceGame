@@ -18,7 +18,6 @@ public class EnemyAttack : Attack {
 					//damage has been dealt
 					damageDealt = true;
 				} 
-
 				// if the collider is the objective, deal damage
 				else if (other.transform.parent.tag == "Heart") 
 				{

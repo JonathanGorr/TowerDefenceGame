@@ -16,7 +16,6 @@ public class StateMachine : MonoBehaviour {
 	private Transform sprite;
 	
 	//vectors
-	public Vector3 spawn;
 	private Vector3
 		chaseRange = new Vector3 (4, 4, 4),
 		attackRange = new Vector3 (2, 2, 2),
@@ -24,7 +23,7 @@ public class StateMachine : MonoBehaviour {
 		targetDistance;
 	
 	//bools
-	private bool 
+	private bool
 		canAttack = true,
 		moving,
 		pathMover = true,
@@ -46,7 +45,7 @@ public class StateMachine : MonoBehaviour {
 	
 	//states
 	[HideInInspector]
-	public enum States{Seeking, Chasing, Attacking, Dead}
+	public enum States{ Seeking, Chasing, Attacking, Dead }
 
 	void Awake()
 	{
@@ -58,7 +57,6 @@ public class StateMachine : MonoBehaviour {
 		animator = GetComponentInChildren<Animator> ();
 		tdManager = GameObject.Find ("LevelManager").GetComponent<TDManager>();
 		tdEnemy = GetComponent<TDEnemy> ();
-		spawn = tdManager.spawn.transform.position;
 
 		//if the target is unnassigned, heart is target by default
 		if(!tdEnemy.target)
@@ -81,7 +79,7 @@ public class StateMachine : MonoBehaviour {
 		//if not sleeping, is moving; walking
 		if (rigidBody) 
 		{
-			if (!rigidBody.IsSleeping()) 
+			if (!rigidBody.IsSleeping())
 			{
 				animator.SetInteger ("AnimState", 1);
 				moving = true;
@@ -95,7 +93,7 @@ public class StateMachine : MonoBehaviour {
 		else
 			print ("there is no rigidBody");
 
-		//TODO:BEHAVIOR:
+		//BEHAVIOR:
 		//The enemy seeks the heart by default
 		//if the player is within chase range, set player as target
 		//if player is then out of chase range, heart is target
@@ -173,17 +171,14 @@ public class StateMachine : MonoBehaviour {
 		// switch case conditional which uses currentState's value
 		switch (currentState) {
 		case States.Seeking:
-			animator.SetTrigger ("Seeking");
 			StartCoroutine (Seeking (.5f));
 			break;
 			
 		case States.Chasing:
-			animator.SetTrigger ("Chasing");
 			StartCoroutine (Chasing (.05f));
 			break;
 			
 		case States.Attacking:
-			animator.SetTrigger ("Attacking");
 			StartCoroutine (Attacking (.05f));
 			break;
 			
@@ -195,6 +190,9 @@ public class StateMachine : MonoBehaviour {
 
 	IEnumerator Seeking(float interval)
 	{
+		//walking
+		animator.SetInteger ("AnimState", 1);
+
 		if (tdEnemy.newPath)
 		{
 			tdEnemy.StartTimer();
@@ -207,6 +205,9 @@ public class StateMachine : MonoBehaviour {
 	
 	IEnumerator Chasing(float interval)
 	{
+		//walking
+		animator.SetInteger ("AnimState", 1);
+
 		if (tdEnemy.newPath)
 		{
 			tdEnemy.StartTimer();
@@ -218,17 +219,20 @@ public class StateMachine : MonoBehaviour {
 	}
 	
 	IEnumerator Attacking(float interval){
-		
-		while(true){
 
-			//if can attack, attack
-			if(canAttack)
+		//walking
+		animator.SetInteger ("AnimState", 0);
+
+		//if can attack, attack
+		if(canAttack)
+		{
+			if(currentState != States.Seeking)
 			{
 				animator.SetTrigger("Attack");
 			}
-			
-			yield return new WaitForSeconds(interval);
 		}
+		
+		yield return new WaitForSeconds(interval);
 	}
 
 	//this delays the attack- cannot attack as fast as the animation can loop

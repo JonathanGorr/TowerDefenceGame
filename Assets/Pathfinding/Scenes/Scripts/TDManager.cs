@@ -192,7 +192,7 @@ public class TDManager : MonoBehaviour
     {
         yield return new WaitForSeconds(spawnDelay);
         GameObject e = Instantiate(enemy, spawn.transform.position, Quaternion.identity) as GameObject;
-        e.GetComponent<TDEnemy>().spawn = spawn.transform.position;
+        e.GetComponent<TDEnemy>().spawn = spawn.transform;
 		e.GetComponent<TDEnemy> ().target = target.transform;
         StartCoroutine(SpawnEnemy());
     }
