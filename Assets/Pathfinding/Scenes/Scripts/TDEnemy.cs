@@ -3,7 +3,9 @@ using System.Collections;
 
 public class TDEnemy : Pathfinding
 {
+	[HideInInspector]
     public Transform spawn, target;
+
 	public float speed = 1f;
 
 	[HideInInspector]

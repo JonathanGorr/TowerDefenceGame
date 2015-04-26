@@ -16,9 +16,8 @@ public class StateMachine : MonoBehaviour {
 	private Transform sprite;
 	
 	//vectors
-	private Vector3
-		chaseRange = new Vector3 (4, 4, 4),
-		attackRange = new Vector3 (2, 2, 2),
+	public Vector3 chaseRange = new Vector3 (4, 4, 4), attackRange = new Vector3 (2, 2, 2);
+	private Vector3	
 		localScale,
 		targetDistance;
 	
@@ -28,6 +27,8 @@ public class StateMachine : MonoBehaviour {
 		moving,
 		pathMover = true,
 		newPath = true;
+
+	[HideInInspector]
 	public bool attacking;
 	
 	//values

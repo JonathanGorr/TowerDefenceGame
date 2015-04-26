@@ -8,16 +8,13 @@ public class ObjectiveHealth : Health {
 
 	public void Start()
 	{
-		healthBar = GameObject.Find ("Heart").GetComponentInChildren<Slider>();
+		healthBar = GetComponentInChildren<Slider>();
 		healthBar.maxValue = maxHealth;
 		healthBar.value = health;
 	}
 
 	public override void FixedUpdate ()
 	{
-		if (Input.GetKeyDown (KeyCode.I))
-			TakeDamage (10);
-
 		healthBar.value = health;
 		base.FixedUpdate ();
 	}
