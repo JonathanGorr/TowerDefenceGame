@@ -6,9 +6,11 @@ public class StateMachine : MonoBehaviour {
 	//components
 	private TDManager tdManager;
 	private TDEnemy tdEnemy;
-	private Rigidbody rigidBody;
+	[HideInInspector]
+	public Rigidbody rigidBody;
 	private EnemyAttack enemyAttack;
-	private Animator animator;
+	[HideInInspector]
+	public Animator animator;
 	
 	//transforms
 	private Transform player;
@@ -24,12 +26,11 @@ public class StateMachine : MonoBehaviour {
 	//bools
 	private bool
 		canAttack = true,
-		moving,
 		pathMover = true,
 		newPath = true;
 
 	[HideInInspector]
-	public bool attacking;
+	public bool attacking, moving;
 	
 	//values
 	public float 
@@ -48,7 +49,7 @@ public class StateMachine : MonoBehaviour {
 	[HideInInspector]
 	public enum States{ Seeking, Chasing, Attacking, Dead }
 
-	void Awake()
+	public virtual void Awake()
 	{
 		enemyAttack = GetComponentInChildren<EnemyAttack> ();
 		rigidBody = GetComponent<Rigidbody> ();
@@ -59,14 +60,16 @@ public class StateMachine : MonoBehaviour {
 		tdManager = GameObject.Find ("LevelManager").GetComponent<TDManager>();
 		tdEnemy = GetComponent<TDEnemy> ();
 
-		//if the target is unnassigned, heart is target by default
-		if(!tdEnemy.target)
-		{
-			tdEnemy.target = heart;
-		}
+		if (tdEnemy) {
+			//if the target is unnassigned, heart is target by default
+			if (!tdEnemy.target) {
+				tdEnemy.target = heart;
+			}
+		} else
+			print ("there is no tdEnemy Script");
 	}
 
-	private void Update()
+	public virtual void Update()
 	{
 		//run the state machine each frame
 		State ();
@@ -166,7 +169,7 @@ public class StateMachine : MonoBehaviour {
 		transform.localScale = localScale;
 	}
 
-	private void State()
+	public virtual void State()
 	{
 		// This if() makes sure that each state only runs when it is entered. Since this example is using IEnumerator functions and Animator triggers, running the code only once is critical
 		// switch case conditional which uses currentState's value

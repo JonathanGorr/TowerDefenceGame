@@ -1,16 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class FlierController : SmasherController {
+public class FlierController : StateMachine {
 
 	public AudioClip flierSpawn;
 
 	// Use this for initialization
-	public override void Awake () {
+	public void Awake () {
 
 		if(SoundManager.instance)
 			SoundManager.instance.PlaySingle(flierSpawn);
-
-		base.Awake ();
 	}
 }

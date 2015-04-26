@@ -11,20 +11,23 @@ public class PlayerController : MonoBehaviour {
 		gravity = 20.0F;
 
 	//vectors
-	private Vector3 moveDirection = Vector3.zero;
+	private Vector3 moveDirection = Vector3.zero , axis;
 
 	//transforms
 	private Transform sprite;
 
 	//components
-	private Animator anim;
+	[HideInInspector]
+	public Animator animator;
+	[HideInInspector]
+	public Rigidbody rigidBody;
 	private Camera cam;
 	private CharacterController controller;
+	private PlayerInput input;
 
 	//bools
-	private bool
-		action,
-		moving;
+	[HideInInspector]
+	public bool action, moving, jump;
 
 	//raycasting
 	private RaycastHit hit;
@@ -34,50 +37,50 @@ public class PlayerController : MonoBehaviour {
 	private AudioSource source;
 	public AudioClip landhard;
 
-	void Awake()
+	public virtual void Awake()
 	{
+		rigidBody = GetComponent<Rigidbody> ();
+		input = GetComponent<PlayerInput> ();
 		source = GetComponent<AudioSource> ();
 		sprite = transform.Find ("Sprite");
-		anim = GetComponentInChildren<Animator>();
+		animator = GetComponentInChildren<Animator>();
 		controller = GetComponent<CharacterController>();
 		cam = GameObject.Find ("MainCamera").GetComponent<Camera>();
 	}
 
-	void Update() {
+	public virtual void Update() {
 
 		//input----------------------------------------------
-		action = Input.GetMouseButtonDown (0);
+
+		//if this is the player
+		if (gameObject.tag == "Player") {
+			//if the input script is attached
+			if (input) {
+				action = input.action;
+				moving = input.moving;
+				jump = input.jump;
+				axis = input.axis;
+			}
+		}
 
 		if (controller.isGrounded) {
-			moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+			moveDirection = axis;
 			moveDirection = transform.TransformDirection(moveDirection);
 			moveDirection *= speed;
 			source.Play();
-			//print("walking");
 
-			if (Input.GetButton("Jump"))
+			if (jump)
 				moveDirection.y = jumpSpeed;
 		}
 		else
 		{
 			source.Pause();
-			//print("paused");
 		}
 
 		//Action----------------------------------------------
 		if(action)
 		{
-			anim.SetTrigger("Attack");
-		}
-
-		//if moving-------------------------------------------
-		if (Mathf.Abs(Input.GetAxis("Horizontal")) > 0 || Mathf.Abs(Input.GetAxis("Vertical")) > 0)
-		{
-			moving = true;
-		}
-		else
-		{
-			moving = false;
+			animator.SetTrigger("Attack");
 		}
 		
 		//flipping--------------------------------------------
@@ -85,14 +88,14 @@ public class PlayerController : MonoBehaviour {
 
 		if(moving)
 		{
-			anim.SetInteger("AnimState", 1);
+			animator.SetInteger("AnimState", 1);
 
 			if(moveDirection.x > 0)
 				localScale.x = 1f;
 			else if(moveDirection.x < 0)
 				localScale.x = -1f;
 		}
-
+		
 		//attack on the side the cursor is on realtive to player
 		else if(action)
 		{
@@ -107,9 +110,10 @@ public class PlayerController : MonoBehaviour {
 				localScale.x = -1f;
 			}
 		}
+		//else not moving
 		else
 		{
-			anim.SetInteger("AnimState", 0);
+			animator.SetInteger("AnimState", 0);
 		}
 
 		//apply scale

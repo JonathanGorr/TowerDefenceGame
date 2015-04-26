@@ -11,6 +11,7 @@ public class TDManager : MonoBehaviour
 		arrowTrapCost,
 		acidTrapCost;
 
+	private ParticleSystem particles;
 	public GameObject spawn;
     public GameObject target;
 	private Vector3 targetPos;
@@ -39,6 +40,7 @@ public class TDManager : MonoBehaviour
 
     void Awake()
     {
+		particles = ghostBlock.GetComponentInChildren<ParticleSystem> ();
 		manager = GameObject.Find ("LevelManager").GetComponent<LevelManager> ();
 		spawn = GameObject.Find ("Spawn");
 		target = GameObject.Find ("Player");
@@ -128,16 +130,19 @@ public class TDManager : MonoBehaviour
             //Set color of "show" tower based on the spot being available
 			if (hit.transform.tag == "Ground" || hit.transform.tag == "Cube")
             {
-				ghostBlock.GetComponent<Renderer>().sharedMaterial.color = Color.green;
+				//ghostBlock.GetComponent<Renderer>().sharedMaterial.color = Color.green;
+				particles.startColor = Color.green;
             }
             else
             {
-				ghostBlock.GetComponent<Renderer>().sharedMaterial.color = Color.red;
+				//ghostBlock.GetComponent<Renderer>().sharedMaterial.color = Color.red;
+				particles.startColor = Color.red;
             }
         }
         else
         {
-			ghostBlock.GetComponent<Renderer>().sharedMaterial.color = Color.red;
+			//ghostBlock.GetComponent<Renderer>().sharedMaterial.color = Color.red;
+			particles.startColor = Color.red;
         }
 
         //Return all hit information which we use later
