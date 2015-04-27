@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class LevelManager : Singleton<LevelManager> {
 
-	private GameObject UI, pauseMenu;
+	private GameObject UI, pauseMenu, blocksInstructions, blockPanel, instructionsPanel, deathMenu;
 	private Text dayText;
 	private GameObject moonParent;
 	private CanvasGroup canvas;
@@ -24,7 +24,11 @@ public class LevelManager : Singleton<LevelManager> {
 	public float daylength = 3f;
 	public float nightlength = 3f;
 	private float spinRate;
-	private int day = 0;
+	private int day, mostDays, nextUnlock;
+	private int unlockday3 = 3;
+	private int unlockday6 = 6;
+	private int unlockday9 = 9;
+	private Text current, most, next;
 
 	private GameObject dayCanvas;
 	public Color nightColor;
@@ -42,10 +46,8 @@ public class LevelManager : Singleton<LevelManager> {
 	public AudioSource nightTrack1;
 	
 	void Awake () {
-
-		UI = GameObject.Find ("UI");
-
 		//day/night
+		//day = 0;
 		dayCanvas = GameObject.Find ("DayCanvas");
 
 		if (dayCanvas) {
@@ -55,8 +57,22 @@ public class LevelManager : Singleton<LevelManager> {
 		}
 
 		//ui
+		UI = GameObject.Find ("UI");
 		pauseMenu = GameObject.Find ("PauseMenu");
+		blocksInstructions = GameObject.Find ("BlocksInstructions");
+		blockPanel = GameObject.Find ("blockPanel");
+		instructionsPanel = GameObject.Find ("instructionsPanel");
+		deathMenu = GameObject.Find ("DeathMenu");
 		soulText = GameObject.Find("Souls").GetComponent<Text>();
+
+		current = GameObject.Find ("CurrentDay").GetComponent<Text>();
+		most = GameObject.Find ("MostDay").GetComponent<Text>();
+		next = GameObject.Find ("NextUnlock").GetComponent<Text>();
+		mostDays = PlayerPrefs.GetInt("MostDays");
+		nextUnlock = PlayerPrefs.GetInt("NextUnlock");
+
+		most.text = "Most Days Survived: " + mostDays.ToString("00");
+		next.text = "Next Unlock: " + nextUnlock.ToString("00");
 
 		Application.targetFrameRate = 60;
 
@@ -64,7 +80,12 @@ public class LevelManager : Singleton<LevelManager> {
 		          Application.loadedLevelName == "ControlScreen" || 
 		          Application.loadedLevelName == "KillScreen") ? true : false;
 
+
 		pauseMenu.SetActive (false);
+		blocksInstructions.SetActive (false);
+		blockPanel.SetActive (false);
+		instructionsPanel.SetActive (false);
+		deathMenu.SetActive (false);
 		UI.SetActive((inMenu) ? false : true);
 
 		//initialize soul system
@@ -147,9 +168,33 @@ public class LevelManager : Singleton<LevelManager> {
 			dayText.text = "DAY " + day;
 		else
 			print ("Day text cannot be found");
+
+		if(day > mostDays){
+			UpdateMostDays(day); // Replace the old most days if the current score is higher
+		}
 	}
 
-	
+	public void UpdateMostDays(int newMost){
+		most.text = "Most Days Survived: " + newMost.ToString("00");
+
+		if(newMost > nextUnlock){
+			UpdateNextUnlock(newMost); 
+		}
+	}
+
+
+	private void UpdateNextUnlock(int newUnlock){
+		if (nextUnlock <= unlockday3)
+			nextUnlock = unlockday3;
+		else if (nextUnlock <= unlockday6)
+			nextUnlock = unlockday6;
+		else if (nextUnlock <= unlockday9)
+			nextUnlock = unlockday9;
+
+		next.text = "Next Unlock: " + newUnlock.ToString("00");
+	}
+
+
 	IEnumerator DayCycle ()
     {
         while (true)
@@ -174,12 +219,14 @@ public class LevelManager : Singleton<LevelManager> {
 	public void Pause()
 	{
 		pauseMenu.SetActive(true);
+		blocksInstructions.SetActive(true);
 		Time.timeScale = 0;
 	}
 	
 	public void UnPause()
 	{
 		pauseMenu.SetActive(false);
+		blocksInstructions.SetActive(false);
 		Time.timeScale = 1;
 	}
 	
@@ -193,9 +240,17 @@ public class LevelManager : Singleton<LevelManager> {
 		UnPause();
 		Application.LoadLevel("Title");
 	}
+
+	public void DeathScreen()
+	{
+		deathMenu.SetActive(true);
+		Time.timeScale = 0;
+	}
 	
 	public void Restart()
 	{
+		PlayerPrefs.SetInt("MostDays", mostDays); // Save mostdays to PlayerPrefs
+		deathMenu.SetActive(false);
 		UnPause();
 		Application.LoadLevel(Application.loadedLevel);
 	}
