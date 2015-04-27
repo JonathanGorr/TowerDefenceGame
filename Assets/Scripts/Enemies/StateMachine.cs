@@ -93,9 +93,7 @@ public class StateMachine : MonoBehaviour {
 				animator.SetInteger ("AnimState", 0);
 				moving = false;
 			}
-		} 
-		else
-			print ("there is no rigidBody");
+		}
 
 		//BEHAVIOR:
 		//The enemy seeks the heart by default
@@ -112,7 +110,7 @@ public class StateMachine : MonoBehaviour {
 			//if the player is close enough, chase
 			if(Mathf.Abs(distanceToPlayer.x) < chaseRange.x && Mathf.Abs(distanceToPlayer.z) < chaseRange.z)
 			{
-				print("chasing");
+				//print("chasing");
 				tdEnemy.target = player;
 				currentState = States.Chasing;
 			}
@@ -120,7 +118,7 @@ public class StateMachine : MonoBehaviour {
 			//else if the player is within attack range, attack
 			else if(Mathf.Abs(distanceToPlayer.x) < attackRange.x && Mathf.Abs(distanceToPlayer.z) < attackRange.z)
 			{
-				print("attacking");
+				//print("attacking");
 				tdEnemy.target = player;
 				currentState = States.Attacking;
 			}
@@ -128,21 +126,21 @@ public class StateMachine : MonoBehaviour {
 			//else the player is too far away, seek the objective
 			else
 			{
-				print("seeking objective");
-				tdEnemy.target = heart;
+				//print("seeking objective");
+				if(tdEnemy)
+					tdEnemy.target = heart;
+
 				currentState = States.Seeking;
 			}
 		}
-		else
-			print ("there is no player");
 		
 		//if there is a target, get target distance
-		if (tdEnemy.target) 
+		if (tdEnemy) 
 		{
-			targetDistance = tdEnemy.target.position - transform.position;
-		} 
-		else
-			print ("there is no target");
+			if (tdEnemy.target) {
+				targetDistance = tdEnemy.target.position - transform.position;
+			}
+		}
 
 		//AI based on distances----------------------------------------
 		if(targetDistance.x < attackRange.x && targetDistance.z < attackRange.z)
@@ -197,12 +195,14 @@ public class StateMachine : MonoBehaviour {
 		//walking
 		animator.SetInteger ("AnimState", 1);
 
-		if (tdEnemy.newPath)
+		if (tdEnemy) 
 		{
-			tdEnemy.StartTimer();
-		}
+			if (tdEnemy.newPath) {
+				tdEnemy.StartTimer ();
+			}
 
-		tdEnemy.Movement();
+			tdEnemy.Movement();
+		}
 		
 		yield return new WaitForSeconds(interval);
 	}

@@ -15,7 +15,6 @@ public class PickupScript : MonoBehaviour {
 		{
 			manager.AddSoul(1);
 			//col.gameObject.GetComponent<SoulToPlayer>().active = true;
-			print("Attract");
 		}
 	}
 }

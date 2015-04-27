@@ -45,9 +45,9 @@ public class Health : MonoBehaviour {
 		{
 			//entity is hurt(player), trigger a knockkback animation
 			hurt = true;
+			//KnockBack();
 
 			//when a weapon collides, subtract health by the passes int(damage)
-
 			health -= value;
 			SoundManager.instance.PlaySingle (hit);
 		}
@@ -63,8 +63,9 @@ public class Health : MonoBehaviour {
 			//apply a force on hit
 			KnockBack ();
 		}
+		hurt = false;
 
-		print ("hit for " + value + " damage");
+		//print ("hit for " + value + " damage");
 	}
 
 	public virtual void KnockBack()

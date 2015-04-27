@@ -4,7 +4,6 @@ using System.Collections;
 public class PlayerController : MonoBehaviour {
 
 	//values
-	public int damage;
 	public float 
 		speed = 6.0F,
 		jumpSpeed = 8.0F,
@@ -63,6 +62,7 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 
+		//if grounded...
 		if (controller.isGrounded) {
 			moveDirection = axis;
 			moveDirection = transform.TransformDirection(moveDirection);
@@ -70,10 +70,14 @@ public class PlayerController : MonoBehaviour {
 			source.Play();
 
 			if (jump)
+			{
 				moveDirection.y = jumpSpeed;
+			}
 		}
+		//else if not grounded...
 		else
 		{
+			animator.SetInteger("AnimState", 3);
 			source.Pause();
 		}
 
@@ -86,34 +90,39 @@ public class PlayerController : MonoBehaviour {
 		//flipping--------------------------------------------
 		Vector3 localScale = sprite.transform.localScale;
 
-		if(moving)
+		//grounded
+		if (controller.isGrounded)
 		{
-			animator.SetInteger("AnimState", 1);
+			//moving
+			if (moving)
+			{
+				animator.SetInteger ("AnimState", 1);
 
-			if(moveDirection.x > 0)
-				localScale.x = 1f;
-			else if(moveDirection.x < 0)
-				localScale.x = -1f;
-		}
-		
-		//attack on the side the cursor is on realtive to player
-		else if(action)
-		{
-			ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-
-			if (Physics.Raycast (ray, out hit)) {
-
-			//flip if hit
-			if(hit.point.x > transform.position.x)
-				localScale.x = 1f;
-			else if(hit.point.x < transform.position.x)
-				localScale.x = -1f;
+				//flipping...
+				if (moveDirection.x > 0)
+					localScale.x = 1f;
+				else if (moveDirection.x < 0)
+					localScale.x = -1f;
 			}
-		}
-		//else not moving
-		else
-		{
-			animator.SetInteger("AnimState", 0);
+			//attack on the side the cursor is on relative to player
+			else if (action) 
+			{
+					ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+
+					if (Physics.Raycast (ray, out hit)) {
+
+						//flip if hit
+						if (hit.point.x > transform.position.x)
+							localScale.x = 1f;
+						else if (hit.point.x < transform.position.x)
+							localScale.x = -1f;
+					}
+				}
+			//else not moving
+			else 
+			{
+				animator.SetInteger ("AnimState", 0);
+			}
 		}
 
 		//apply scale

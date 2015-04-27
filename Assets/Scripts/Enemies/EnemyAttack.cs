@@ -26,6 +26,10 @@ public class EnemyAttack : Attack {
 					//damage has been dealt
 					damageDealt = true;
 				}
+				else
+				{
+					print("Nothing can be done damage to");
+				}
 
 				//delay
 				StartCoroutine("Delay");
