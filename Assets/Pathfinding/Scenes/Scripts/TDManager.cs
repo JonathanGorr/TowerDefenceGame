@@ -9,7 +9,8 @@ public class TDManager : MonoBehaviour
 		stoneCost,
 		spikeTrapCost,
 		arrowTrapCost,
-		acidTrapCost;
+		acidTrapCost,
+		lastSoulSpent;
 
 	private ParticleSystem particles;
 	public GameObject spawn;
@@ -23,7 +24,7 @@ public class TDManager : MonoBehaviour
 	private bool place, canBuild;
 	private LevelManager manager;
 	private int souls;
-	private bool subtracted;
+	private bool subtracted, blockingPath;
 
 	public AudioClip placeSound;
 	public AudioClip cantplaceSound;
@@ -78,6 +79,7 @@ public class TDManager : MonoBehaviour
 			if(souls > dirtCost)
 			{
 				manager.SubtractSoul (dirtCost);
+				lastSoulSpent = dirtCost;
 				subtracted = true;
 			}
 		}
@@ -86,6 +88,7 @@ public class TDManager : MonoBehaviour
 			if(souls > stoneCost)
 			{
 				manager.SubtractSoul (stoneCost);
+				lastSoulSpent = stoneCost;
 				subtracted = true;
 			}
 		}
@@ -94,6 +97,7 @@ public class TDManager : MonoBehaviour
 			if(souls > spikeTrapCost)
 			{
 				manager.SubtractSoul (spikeTrapCost);
+				lastSoulSpent = spikeTrapCost;
 				subtracted = true;
 			}
 		}
@@ -102,6 +106,7 @@ public class TDManager : MonoBehaviour
 			if(souls > acidTrapCost)
 			{
 				manager.SubtractSoul (acidTrapCost);
+				lastSoulSpent = acidTrapCost;
 				subtracted = true;
 			}
 		}
@@ -110,6 +115,7 @@ public class TDManager : MonoBehaviour
 			if(souls > arrowTrapCost)
 			{
 				manager.SubtractSoul (arrowTrapCost);
+				lastSoulSpent = arrowTrapCost;
 				subtracted = true;
 			}
 		}
@@ -130,18 +136,15 @@ public class TDManager : MonoBehaviour
             //Set color of "show" tower based on the spot being available
 			if (hit.transform.tag == "Ground" || hit.transform.tag == "Cube")
             {
-				//ghostBlock.GetComponent<Renderer>().sharedMaterial.color = Color.green;
 				particles.startColor = Color.green;
             }
             else
             {
-				//ghostBlock.GetComponent<Renderer>().sharedMaterial.color = Color.red;
 				particles.startColor = Color.red;
             }
         }
         else
         {
-			//ghostBlock.GetComponent<Renderer>().sharedMaterial.color = Color.red;
 			particles.startColor = Color.red;
         }
 
@@ -159,7 +162,7 @@ public class TDManager : MonoBehaviour
 			canPlace = (hit.transform.tag == "Ground" || hit.transform.tag == "Cube") ? true : false;
         }
 
-        if (place && canPlace)
+        if (place && canPlace && !blockingPath)
         {
 			SubtractSoul();
 
@@ -178,19 +181,20 @@ public class TDManager : MonoBehaviour
     private void CheckRoute(List<Vector3> list)
     {
         //If we get a list that is empty there is no path, and we blocked the road
-        if (list.Count < 1 || list == null)
-        {
+        if (list.Count < 1 || list == null) {
+
 			//delete blocking terrain
-            if (blocks.Count > 0)
-            {
+			if (blocks.Count > 0) {
+
 				//get the last block in the list
-                GameObject g = blocks[blocks.Count - 1];
+				GameObject g = blocks [blocks.Count - 1];
 				//remove it from the list
-                blocks.RemoveAt(blocks.Count - 1);
+				blocks.RemoveAt (blocks.Count - 1);
 				//destroy it
-                Destroy(g);
-            }
-        }
+				Destroy (g);
+				manager.AddSoul(lastSoulSpent);
+			}
+		}
     }
 
     IEnumerator SpawnEnemy()

@@ -14,10 +14,10 @@ public class PlayerAttack : Attack {
 				if (other.tag == "Enemy") {
 					other.GetComponentInParent<EnemyHealth> ().TakeDamage (damage);
 					damageDealt = true;
-				}
 
-				//delay
-				StartCoroutine("Delay");
+					//delay
+					StartCoroutine("Delay");
+				}
 			}
 		}
 	}

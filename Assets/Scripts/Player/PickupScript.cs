@@ -13,7 +13,6 @@ public class PickupScript : MonoBehaviour {
 	{
 		if(col.gameObject.tag == "Soul")
 		{
-			manager.AddSoul(1);
 			//col.gameObject.GetComponent<SoulToPlayer>().active = true;
 		}
 	}

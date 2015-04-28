@@ -28,6 +28,8 @@ public class PlayerController : MonoBehaviour {
 	[HideInInspector]
 	public bool action, moving, jump;
 
+	private bool step;
+
 	//raycasting
 	private RaycastHit hit;
 	private Ray ray;
@@ -35,6 +37,7 @@ public class PlayerController : MonoBehaviour {
 	//audio
 	private AudioSource source;
 	public AudioClip landhard;
+	public AudioClip[] footSteps;
 
 	public virtual void Awake()
 	{
@@ -48,8 +51,6 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public virtual void Update() {
-
-		//input----------------------------------------------
 
 		//if this is the player
 		if (gameObject.tag == "Player") {
@@ -91,11 +92,9 @@ public class PlayerController : MonoBehaviour {
 		Vector3 localScale = sprite.transform.localScale;
 
 		//grounded
-		if (controller.isGrounded)
-		{
+		if (controller.isGrounded) {
 			//moving
-			if (moving)
-			{
+			if (moving) {
 				animator.SetInteger ("AnimState", 1);
 
 				//flipping...
@@ -103,23 +102,27 @@ public class PlayerController : MonoBehaviour {
 					localScale.x = 1f;
 				else if (moveDirection.x < 0)
 					localScale.x = -1f;
+
+				if(!step)
+					StartCoroutine("FootSteps", 0.4f);
 			}
+
 			//attack on the side the cursor is on relative to player
-			else if (action) 
+			else if (action)
 			{
-					ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+				ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 
-					if (Physics.Raycast (ray, out hit)) {
+				if (Physics.Raycast (ray, out hit)) {
 
-						//flip if hit
-						if (hit.point.x > transform.position.x)
-							localScale.x = 1f;
-						else if (hit.point.x < transform.position.x)
-							localScale.x = -1f;
-					}
+					//flip if hit
+					if (hit.point.x > transform.position.x)
+						localScale.x = 1f;
+					else if (hit.point.x < transform.position.x)
+						localScale.x = -1f;
 				}
+			}
 			//else not moving
-			else 
+			else
 			{
 				animator.SetInteger ("AnimState", 0);
 			}
@@ -129,8 +132,15 @@ public class PlayerController : MonoBehaviour {
 		sprite.localScale = localScale;
 		
 		//Apply changes---------------------------------------
-		
 		moveDirection.y -= gravity * Time.deltaTime;
 		controller.Move(moveDirection * Time.deltaTime);
+	}
+
+	IEnumerator FootSteps(float interval)
+	{
+		step = true;
+		SoundManager.instance.PlaySingle(footSteps[Random.Range(0, footSteps.Length)]);
+		yield return new WaitForSeconds (interval);
+		step = false;
 	}
 }

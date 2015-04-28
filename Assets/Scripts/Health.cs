@@ -19,9 +19,7 @@ public class Health : MonoBehaviour {
 	public int force;
 	public LevelManager manager;
 
-	public AudioClip hit;
-	public AudioClip hit2;
-	public AudioClip hit3;
+	public AudioClip[] hit;
 
 	// Use this for initialization
 	public virtual void Awake () {
@@ -49,7 +47,9 @@ public class Health : MonoBehaviour {
 
 			//when a weapon collides, subtract health by the passes int(damage)
 			health -= value;
-			SoundManager.instance.PlaySingle (hit);
+
+			//play a random hit sound
+			SoundManager.instance.PlaySingle (hit[Random.Range(0, hit.Length)]);
 		}
 
 		//if an enemy has no health left, drop blood and destroy object

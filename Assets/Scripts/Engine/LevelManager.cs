@@ -74,13 +74,16 @@ public class LevelManager : Singleton<LevelManager> {
 		most.text = "Most Days Survived: " + mostDays.ToString("00");
 		next.text = "Next Unlock: " + nextUnlock.ToString("00");
 
+		//target framerate
 		Application.targetFrameRate = 60;
 
+		//if the level name is a,b or c, inMenu is true
 		inMenu = (Application.loadedLevelName == "Title" || 
 		          Application.loadedLevelName == "ControlScreen" || 
 		          Application.loadedLevelName == "KillScreen") ? true : false;
 
 
+		//set these as inactive by default
 		pauseMenu.SetActive (false);
 		blocksInstructions.SetActive (false);
 		blockPanel.SetActive (false);
@@ -178,10 +181,9 @@ public class LevelManager : Singleton<LevelManager> {
 		most.text = "Most Days Survived: " + newMost.ToString("00");
 
 		if(newMost > nextUnlock){
-			UpdateNextUnlock(newMost); 
+			UpdateNextUnlock(newMost);
 		}
 	}
-
 
 	private void UpdateNextUnlock(int newUnlock){
 		if (nextUnlock <= unlockday3)
@@ -193,8 +195,7 @@ public class LevelManager : Singleton<LevelManager> {
 
 		next.text = "Next Unlock: " + newUnlock.ToString("00");
 	}
-
-
+	
 	IEnumerator DayCycle ()
     {
         while (true)

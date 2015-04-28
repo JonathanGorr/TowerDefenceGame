@@ -17,6 +17,9 @@ public class EnemyAttack : Attack {
 
 					//damage has been dealt
 					damageDealt = true;
+
+					//delay
+					StartCoroutine("Delay");
 				} 
 				// if the collider is the objective, deal damage
 				else if (other.transform.parent.tag == "Heart") 
@@ -25,14 +28,14 @@ public class EnemyAttack : Attack {
 
 					//damage has been dealt
 					damageDealt = true;
+
+					//delay
+					StartCoroutine("Delay");
 				}
 				else
 				{
 					print("Nothing can be done damage to");
 				}
-
-				//delay
-				StartCoroutine("Delay");
 			}
 		}
 	}
