@@ -18,15 +18,15 @@ public class PlayerHealth : Health {
 		healthBar.value = health;
 	}
 
-	public override void FixedUpdate ()
+	public override void Update ()
 	{
 		healthBar.value = health;
-		base.FixedUpdate ();
+		base.Update ();
 	}
 
 	public override void OnKill()
 	{
-		base.manager.GoToMenu();
+		//base.manager.GoToMenu();
 		Destroy (gameObject);
 	}
 }

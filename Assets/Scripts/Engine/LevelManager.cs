@@ -200,6 +200,15 @@ public class LevelManager : Singleton<LevelManager> {
     {
         while (true)
         {
+			//get all the enemies alive
+			GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+			//kill them all
+			foreach(GameObject enemy in enemies)
+			{
+				enemy.GetComponent<EnemyHealth>().OnKill();
+			}
+
         	UpdateDay(1);
 
             yield return new WaitForSeconds (daylength);

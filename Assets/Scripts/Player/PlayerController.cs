@@ -28,7 +28,6 @@ public class PlayerController : MonoBehaviour {
 	//bools
 	[HideInInspector]
 	public bool action, moving, jump;
-
 	private bool step;
 
 	//raycasting
@@ -137,6 +136,7 @@ public class PlayerController : MonoBehaviour {
 		controller.Move(moveDirection * Time.deltaTime);
 	}
 
+	//plays a random footstep sound at an interval
 	IEnumerator FootSteps(float interval)
 	{
 		step = true;

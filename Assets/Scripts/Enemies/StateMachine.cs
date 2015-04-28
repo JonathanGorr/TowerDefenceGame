@@ -49,6 +49,13 @@ public class StateMachine : MonoBehaviour {
 	[HideInInspector]
 	public enum States{ Seeking, Chasing, Attacking, Dead }
 
+	//this is used to get/set a state from outside this script
+	public States CurrentState
+	{
+		get { return currentState; }
+		set { currentState = value; }
+	}
+
 	public virtual void Awake()
 	{
 		enemyAttack = GetComponentInChildren<EnemyAttack> ();
@@ -110,7 +117,6 @@ public class StateMachine : MonoBehaviour {
 			//if the player is close enough, chase
 			if(Mathf.Abs(distanceToPlayer.x) < chaseRange.x && Mathf.Abs(distanceToPlayer.z) < chaseRange.z)
 			{
-				//print("chasing");
 				tdEnemy.target = player;
 				currentState = States.Chasing;
 			}
@@ -118,7 +124,6 @@ public class StateMachine : MonoBehaviour {
 			//else if the player is within attack range, attack
 			else if(Mathf.Abs(distanceToPlayer.x) < attackRange.x && Mathf.Abs(distanceToPlayer.z) < attackRange.z)
 			{
-				//print("attacking");
 				tdEnemy.target = player;
 				currentState = States.Attacking;
 			}
@@ -126,7 +131,6 @@ public class StateMachine : MonoBehaviour {
 			//else the player is too far away, seek the objective
 			else
 			{
-				//print("seeking objective");
 				if(tdEnemy)
 					tdEnemy.target = heart;
 
@@ -185,7 +189,7 @@ public class StateMachine : MonoBehaviour {
 			break;
 			
 		case States.Dead:
-			Dead ();
+			StartCoroutine (Dead (.05f));
 			break;
 		}
 	}
@@ -239,19 +243,18 @@ public class StateMachine : MonoBehaviour {
 		yield return new WaitForSeconds(interval);
 	}
 
+	IEnumerator Dead(float interval)
+	{
+		animator.SetTrigger("Die");
+
+		yield return new WaitForSeconds(interval);
+	}
+
 	//this delays the attack- cannot attack as fast as the animation can loop
 	IEnumerator Delay()
 	{
 		canAttack = false;
 		yield return new WaitForSeconds (delay);
 		canAttack = true;
-	}
-
-	IEnumerator Dead()
-	{
-		animator.SetTrigger("Die");
-		Destroy (gameObject);
-
-		yield return new WaitForEndOfFrame();
 	}
 }

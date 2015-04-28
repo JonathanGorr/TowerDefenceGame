@@ -4,25 +4,42 @@ using UnityEngine.UI;
 
 public class Health : MonoBehaviour {
 
+	//values
 	public int
 		health,
-		maxHealth;
+		maxHealth,
+		force;
 
+	private float fadeOutTime = 2f;
+
+	//bools
 	public bool
 		hurt,
 		healing,
 		dead,
 		aggro,
 		invincible;
-	
-	private Rigidbody rigidBody;
-	public int force;
-	public LevelManager manager;
 
+	//components
+	private Rigidbody rigidBody;
+	private LevelManager manager;
+	[HideInInspector]
+	private StateMachine stateMachine;
+
+	//transforms
+	private Transform sprite;
+	private Transform shadow;
+
+	//audio
 	public AudioClip[] hit;
 
 	// Use this for initialization
 	public virtual void Awake () {
+
+		//import and find
+		sprite = transform.Find ("Sprite");
+		shadow = transform.Find ("Shadow");
+		stateMachine = GetComponent<StateMachine> ();
 		manager = GameObject.Find ("LevelManager").GetComponent<LevelManager> ();
 		rigidBody = GetComponent<Rigidbody> ();
 
@@ -30,10 +47,10 @@ public class Health : MonoBehaviour {
 		health = maxHealth;
 	}
 
-	public virtual void FixedUpdate()
+	public virtual void Update()
 	{
-		//clamp health
-		//Mathf.Clamp (health, 0, maxHealth);
+		//clamp this
+		Mathf.Clamp (health, 0, maxHealth);
 	}
 
 	public virtual void TakeDamage(int value)
@@ -43,7 +60,6 @@ public class Health : MonoBehaviour {
 		{
 			//entity is hurt(player), trigger a knockkback animation
 			hurt = true;
-			//KnockBack();
 
 			//when a weapon collides, subtract health by the passes int(damage)
 			health -= value;
@@ -56,16 +72,39 @@ public class Health : MonoBehaviour {
 		if (health <= 0)
 		{
 			dead = true;
-			OnKill();
+			stateMachine.CurrentState = StateMachine.States.Dead;
+			StartCoroutine(Fade( 0f, fadeOutTime));
 		}
 
 		if (rigidBody) {
-			//apply a force on hit
 			KnockBack ();
 		}
-		hurt = false;
 
-		//print ("hit for " + value + " damage");
+		hurt = false;
+	}
+	
+	//fades the sprite and shadow out over some time
+	public virtual IEnumerator Fade(float aValue, float aTime)
+	{
+		float spriteAlpha = sprite.GetComponent<SpriteRenderer>().material.color.a;
+		float meshAlpha = shadow.GetComponent<MeshRenderer> ().material.color.a;
+
+		for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / aTime) {
+
+			Color newSpriteColor = new Color (1, 1, 1, Mathf.Lerp (spriteAlpha, aValue, t));
+			Color newMeshColor = new Color (1, 1, 1, Mathf.Lerp (meshAlpha, aValue, t));
+
+			//assign new alpha values
+			sprite.GetComponent<SpriteRenderer> ().material.color = newSpriteColor;
+			shadow.GetComponent<MeshRenderer> ().material.color = newMeshColor;
+
+			//Destroy gameobject if invisible
+			if (t >= .99f) {
+				OnKill ();
+			}
+
+			yield return null;
+		}
 	}
 
 	public virtual void KnockBack()
