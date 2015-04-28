@@ -3,29 +3,33 @@ using System.Collections;
 
 public class Attack : MonoBehaviour {
 
+	//components
 	private PlayerController playerController;
 	private TDEnemy enemyController;
 	private GameObject player;
-	public bool attacking;
+	private AudioSource source;
 
+	//bools
+	public bool attacking;
 	[HideInInspector]
 	public bool damageDealt;
 
+	//values
 	public int damage;
 	public float delay = .05f;
 
-	public AudioClip attack1;
-	public AudioClip attack2;
+	//sounds
+	public AudioClip[] attacks;
 
 	public virtual void Awake()
 	{
+		source = GetComponent<AudioSource> ();
 		player = GameObject.Find ("Player");
 	}
 
 	public virtual void Attacking()
 	{
-		SoundManager.instance.RandomizeSfx (attack1, attack1);
-
+		source.PlayOneShot(attacks[Random.Range(0, attacks.Length)]);
 		attacking = true;
 	}
 

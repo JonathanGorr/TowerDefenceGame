@@ -66,7 +66,7 @@ public class LevelManager : Singleton<LevelManager> {
 		soulText = GameObject.Find("Souls").GetComponent<Text>();
 
 		current = GameObject.Find ("CurrentDay").GetComponent<Text>();
-		most = GameObject.Find ("MostDay").GetComponent<Text>();
+		most = GameObject.Find ("MostDays").GetComponent<Text>();
 		next = GameObject.Find ("NextUnlock").GetComponent<Text>();
 		mostDays = PlayerPrefs.GetInt("MostDays");
 		nextUnlock = PlayerPrefs.GetInt("NextUnlock");

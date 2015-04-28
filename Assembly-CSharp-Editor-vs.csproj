@@ -49,7 +49,6 @@
      <Compile Include="Assets\Editor\CrossPlatformInput\CrossPlatformInputInitialize.cs" />
      <Compile Include="Assets\Editor\SnapToGrid.cs" />
      <Compile Include="Assets\Pathfinding\Editor\WaypointEditor.cs" />
-     <None Include="Assets\Resources\Font\essays1743\OFL.txt" />
  <Reference Include="Assembly-UnityScript">
  <HintPath>E:/Github/TowerDefenceGame/Library/ScriptAssemblies/Assembly-UnityScript.dll</HintPath>
  </Reference>
@@ -86,6 +85,10 @@
  <Reference Include="UnityEditor.OSXStandalone.Extensions">
  <HintPath>E:/Unity/Editor/Data/PlaybackEngines/macstandalonesupport/UnityEditor.OSXStandalone.Extensions.dll</HintPath>
  </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-vs.csproj">
+      <Project>{42FCA8CD-5562-FA76-04F9-896EA5873D85}</Project>      <Name>Assembly-CSharp-vs</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

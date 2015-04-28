@@ -102,7 +102,6 @@
      <Compile Include="Assets\Scripts\Traps\Arrow.cs" />
      <Compile Include="Assets\Scripts\Traps\ArrowTrap.cs" />
      <Compile Include="Assets\Scripts\Traps\TrapAttack.cs" />
-     <None Include="Assets\Resources\Font\essays1743\OFL.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>E:/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

@@ -1,8 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Player\PlayerController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Player\PlayerHealth.cs">
     <Files>
-      <File FileName="Assets\Scripts\Player\PlayerController.cs" Line="107" Column="37" />
+      <File FileName="Assets\Scripts\Engine\LevelManager.cs" Line="69" Column="36" />
+      <File FileName="Assets\Scripts\Player\PlayerHealth.cs" Line="29" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

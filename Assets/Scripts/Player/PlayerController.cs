@@ -7,7 +7,8 @@ public class PlayerController : MonoBehaviour {
 	public float 
 		speed = 6.0F,
 		jumpSpeed = 8.0F,
-		gravity = 20.0F;
+		gravity = 20.0F,
+		footStepSpeed = .2f;
 
 	//vectors
 	private Vector3 moveDirection = Vector3.zero , axis;
@@ -104,7 +105,7 @@ public class PlayerController : MonoBehaviour {
 					localScale.x = -1f;
 
 				if(!step)
-					StartCoroutine("FootSteps", 0.4f);
+					StartCoroutine("FootSteps", footStepSpeed);
 			}
 
 			//attack on the side the cursor is on relative to player
