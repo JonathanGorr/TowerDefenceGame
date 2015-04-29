@@ -8,10 +8,8 @@ public class CreeperController : MonoBehaviour {
 	private int[] randomZ = new int[] {-2, 2};
 
 	private Rigidbody rigidbody;
-	//public AudioClip creeperdmg1;
-	//public AudioClip creeperdmg2;
-	//public AudioClip creeperdeath1;
 	public AudioClip creeperspawn1;
+	public AudioClip[] hits;
 
 	void Start () {
 		rigidbody = GetComponent<Rigidbody>();

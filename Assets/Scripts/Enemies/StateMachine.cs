@@ -27,7 +27,8 @@ public class StateMachine : MonoBehaviour {
 	private bool
 		canAttack = true,
 		pathMover = true,
-		newPath = true;
+		newPath = true,
+		left;
 
 	[HideInInspector]
 	public bool attacking, moving;
@@ -36,7 +37,8 @@ public class StateMachine : MonoBehaviour {
 	public float 
 		seekSpeed = 1f,
 		chaseSpeed = 2f,
-		delay = 1f;
+		delay = 1f,
+		force = 200f;
 	
 	[HideInInspector]
 	public GameObject closest;
@@ -117,14 +119,18 @@ public class StateMachine : MonoBehaviour {
 			//if the player is close enough, chase
 			if(Mathf.Abs(distanceToPlayer.x) < chaseRange.x && Mathf.Abs(distanceToPlayer.z) < chaseRange.z)
 			{
-				tdEnemy.target = player;
+				if(tdEnemy)
+					tdEnemy.target = player;
+
 				currentState = States.Chasing;
 			}
 
 			//else if the player is within attack range, attack
 			else if(Mathf.Abs(distanceToPlayer.x) < attackRange.x && Mathf.Abs(distanceToPlayer.z) < attackRange.z)
 			{
-				tdEnemy.target = player;
+				if(tdEnemy)
+					tdEnemy.target = player;
+
 				currentState = States.Attacking;
 			}
 
@@ -163,9 +169,15 @@ public class StateMachine : MonoBehaviour {
 		Vector3 localScale = transform.localScale;
 		
 		if(targetDistance.x > 0)
+		{
+			left = false;
 			localScale.x = 1f;
+		}
 		else if(targetDistance.x < 0)
+		{
+			left = true;
 			localScale.x = -1f;
+		}
 
 		//apply these changes back to the object
 		transform.localScale = localScale;
@@ -248,6 +260,25 @@ public class StateMachine : MonoBehaviour {
 		animator.SetTrigger("Die");
 
 		yield return new WaitForSeconds(interval);
+	}
+
+	public virtual void KnockBack()
+	{
+		if(rigidBody)
+		{
+			if(left)
+			{
+				rigidBody.AddForce(Vector3.right * force);
+				rigidBody.AddForce(Vector3.up * force/2);
+			}
+			else
+			{
+				rigidBody.AddForce(Vector3.left * force);
+				rigidBody.AddForce(Vector3.up * force/2);
+			}
+		}
+		else
+			print("There is no rigidBody");
 	}
 
 	//this delays the attack- cannot attack as fast as the animation can loop

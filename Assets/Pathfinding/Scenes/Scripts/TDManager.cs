@@ -9,8 +9,9 @@ public class TDManager : MonoBehaviour
 		stoneCost,
 		spikeTrapCost,
 		arrowTrapCost,
-		acidTrapCost,
-		lastSoulSpent;
+		acidTrapCost;
+	
+	private int lastSoulSpent;
 
 	private ParticleSystem particles;
 	public GameObject spawn;

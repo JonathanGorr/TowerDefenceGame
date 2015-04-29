@@ -46,8 +46,7 @@ public class LevelManager : Singleton<LevelManager> {
 	public AudioSource nightTrack1;
 	
 	void Awake () {
-		//day/night
-		//day = 0;
+
 		dayCanvas = GameObject.Find ("DayCanvas");
 
 		if (dayCanvas) {
@@ -65,14 +64,16 @@ public class LevelManager : Singleton<LevelManager> {
 		deathMenu = GameObject.Find ("DeathMenu");
 		soulText = GameObject.Find("Souls").GetComponent<Text>();
 
+		//days
 		current = GameObject.Find ("CurrentDay").GetComponent<Text>();
 		most = GameObject.Find ("MostDays").GetComponent<Text>();
 		next = GameObject.Find ("NextUnlock").GetComponent<Text>();
 		mostDays = PlayerPrefs.GetInt("MostDays");
 		nextUnlock = PlayerPrefs.GetInt("NextUnlock");
 
-		most.text = "Most Days Survived: " + mostDays.ToString("00");
-		next.text = "Next Unlock: " + nextUnlock.ToString("00");
+		//text
+		most.text = "Most Days Survived: " + mostDays.ToString(" 00");
+		next.text = "Next Unlock: " + nextUnlock.ToString(" 00");
 
 		//target framerate
 		Application.targetFrameRate = 60;
@@ -198,21 +199,20 @@ public class LevelManager : Singleton<LevelManager> {
 	
 	IEnumerator DayCycle ()
     {
+		//TODO:
+		//Upon Dawn, find all enemies then kill them
+		
+		//get all the enemies alive
+		GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+		
+		//kill them all
+		foreach(GameObject enemy in enemies)
+		{
+			enemy.GetComponent<EnemyHealth>().OnKill();
+		}
+
         while (true)
         {
-			//TODO:
-			//Upon Dawn, find all enemies then kill them
-			/*
-			//get all the enemies alive
-			GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-
-			//kill them all
-			foreach(GameObject enemy in enemies)
-			{
-				enemy.GetComponent<EnemyHealth>().OnKill();
-			}
-			*/
-
         	UpdateDay(1);
 
             yield return new WaitForSeconds (daylength);

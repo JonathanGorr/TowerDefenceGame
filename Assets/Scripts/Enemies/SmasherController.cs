@@ -8,11 +8,13 @@ public class SmasherController : PlayerController {
 	private int[] randomZ = new int[] {-2, 2};
 
 	//sounds
-	public AudioClip spawn1;
-	public AudioClip spawn2;
+	public AudioClip[] spawnSounds;
 
 	//rays
 	private Transform rayStart, rayEnd;
+
+	//transforms
+	private Transform target;
 
 	//[HideInInspector]
 	public bool colliding;
@@ -26,9 +28,11 @@ public class SmasherController : PlayerController {
 		//components
 		rigidBody = GetComponent<Rigidbody> ();
 
+		target = GameObject.FindGameObjectWithTag ("Heart").transform;
+
 		//sound
 		if(SoundManager.instance)
-			SoundManager.instance.RandomizeSfx (spawn1, spawn2);
+			SoundManager.instance.PlaySingle(spawnSounds[Random.Range(0, spawnSounds.Length)]);
 	}
 
 	public override void Update () {
@@ -57,7 +61,7 @@ public class SmasherController : PlayerController {
 
 		Vector3 direction = new Vector3(1,0,0);
 		if(!colliding)
-			transform.position = Vector3.MoveTowards(transform.position, transform.position + direction, Time.deltaTime * speed);
+			transform.position = Vector3.MoveTowards(transform.position, target.position, Time.deltaTime * speed);
 	}
 
 	void Attack()

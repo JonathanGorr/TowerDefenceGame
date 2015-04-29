@@ -18,6 +18,12 @@ public class PlayerHealth : Health {
 		healthBar.value = health;
 	}
 
+	public override void TakeDamage(int value)
+	{
+
+		base.TakeDamage (value);
+	}
+
 	public override void Update ()
 	{
 		healthBar.value = health;
@@ -28,5 +34,10 @@ public class PlayerHealth : Health {
 	{
 		//base.manager.GoToMenu();
 		Destroy (gameObject);
+	}
+
+	public void KnockBack()
+	{
+
 	}
 }

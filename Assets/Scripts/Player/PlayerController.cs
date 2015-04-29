@@ -8,7 +8,9 @@ public class PlayerController : MonoBehaviour {
 		speed = 6.0F,
 		jumpSpeed = 8.0F,
 		gravity = 20.0F,
-		footStepSpeed = .2f;
+		footStepSpeed = .2f,
+		knockBackHorizontalF = 4f,
+		knockBackVerticalF = 4f;
 
 	//vectors
 	private Vector3 moveDirection = Vector3.zero , axis;
@@ -28,7 +30,7 @@ public class PlayerController : MonoBehaviour {
 	//bools
 	[HideInInspector]
 	public bool action, moving, jump;
-	private bool step;
+	private bool step, left;
 
 	//raycasting
 	private RaycastHit hit;
@@ -99,9 +101,15 @@ public class PlayerController : MonoBehaviour {
 
 				//flipping...
 				if (moveDirection.x > 0)
+				{
+					left = false;
 					localScale.x = 1f;
+				}
 				else if (moveDirection.x < 0)
+				{
+					left = true;
 					localScale.x = -1f;
+				}
 
 				if(!step)
 					StartCoroutine("FootSteps", footStepSpeed);
@@ -121,6 +129,7 @@ public class PlayerController : MonoBehaviour {
 						localScale.x = -1f;
 				}
 			}
+
 			//else not moving
 			else
 			{
@@ -134,6 +143,20 @@ public class PlayerController : MonoBehaviour {
 		//Apply changes---------------------------------------
 		moveDirection.y -= gravity * Time.deltaTime;
 		controller.Move(moveDirection * Time.deltaTime);
+	}
+
+	public virtual void KnockBack()
+	{
+		if(left)
+		{
+			moveDirection.x = knockBackHorizontalF;
+		}
+		else
+		{
+			moveDirection.x = -knockBackHorizontalF;
+		}
+		
+		moveDirection.y = knockBackVerticalF;
 	}
 
 	//plays a random footstep sound at an interval

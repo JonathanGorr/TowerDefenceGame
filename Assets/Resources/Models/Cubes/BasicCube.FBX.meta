@@ -10,6 +10,7 @@ ModelImporter:
     2300000: //RootNode
     3300000: //RootNode
     4300000: GroundBlock
+    4300002: DirtCube
     9500000: //RootNode
   materials:
     importMaterials: 1

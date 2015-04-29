@@ -7,8 +7,7 @@ public class Health : MonoBehaviour {
 	//values
 	public int
 		health,
-		maxHealth,
-		force;
+		maxHealth;
 
 	private float fadeOutTime = 2f;
 
@@ -24,7 +23,7 @@ public class Health : MonoBehaviour {
 	private Rigidbody rigidBody;
 	private LevelManager manager;
 	[HideInInspector]
-	private StateMachine stateMachine;
+	public StateMachine stateMachine;
 
 	//transforms
 	private Transform sprite;
@@ -72,12 +71,11 @@ public class Health : MonoBehaviour {
 		if (health <= 0)
 		{
 			dead = true;
-			stateMachine.CurrentState = StateMachine.States.Dead;
 			StartCoroutine(Fade( 0f, fadeOutTime));
 		}
 
-		if (rigidBody) {
-			KnockBack ();
+		if (stateMachine) {
+			stateMachine.KnockBack ();
 		}
 
 		hurt = false;
@@ -105,12 +103,6 @@ public class Health : MonoBehaviour {
 
 			yield return null;
 		}
-	}
-
-	public virtual void KnockBack()
-	{
-		rigidBody.AddForce (Vector3.left * force);
-		rigidBody.AddForce (Vector3.up * force);
 	}
 
 	public virtual void Heal(int heal)
