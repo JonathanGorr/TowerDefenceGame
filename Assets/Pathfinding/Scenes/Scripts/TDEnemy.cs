@@ -3,13 +3,23 @@ using System.Collections;
 
 public class TDEnemy : Pathfinding
 {
+	//transforms
 	[HideInInspector]
     public Transform spawn, target;
 
+	//values
 	public float speed = 1f;
 
 	[HideInInspector]
     public bool pathMover = true, newPath = true;
+
+	//components
+	private StateMachine stateMachine;
+
+	private void Awake()
+	{
+		stateMachine = GetComponent<StateMachine> ();
+	}
 
 	public void StartTimer()
 	{

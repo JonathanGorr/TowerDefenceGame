@@ -200,6 +200,9 @@ public class LevelManager : Singleton<LevelManager> {
     {
         while (true)
         {
+			//TODO:
+			//Upon Dawn, find all enemies then kill them
+			/*
 			//get all the enemies alive
 			GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
@@ -208,6 +211,7 @@ public class LevelManager : Singleton<LevelManager> {
 			{
 				enemy.GetComponent<EnemyHealth>().OnKill();
 			}
+			*/
 
         	UpdateDay(1);
 

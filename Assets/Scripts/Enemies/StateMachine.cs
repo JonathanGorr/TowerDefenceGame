@@ -67,12 +67,12 @@ public class StateMachine : MonoBehaviour {
 		tdManager = GameObject.Find ("LevelManager").GetComponent<TDManager>();
 		tdEnemy = GetComponent<TDEnemy> ();
 
-		if (tdEnemy) {
-			//if the target is unnassigned, heart is target by default
-			if (!tdEnemy.target) {
+		if (tdEnemy) 
+		{
+			if (!tdEnemy.target) 
 				tdEnemy.target = heart;
-			}
-		} else
+		}
+		else
 			print ("there is no tdEnemy Script");
 	}
 
