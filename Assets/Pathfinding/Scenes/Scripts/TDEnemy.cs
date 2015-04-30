@@ -13,14 +13,6 @@ public class TDEnemy : Pathfinding
 	[HideInInspector]
     public bool pathMover = true, newPath = true;
 
-	//components
-	private StateMachine stateMachine;
-
-	private void Awake()
-	{
-		stateMachine = GetComponent<StateMachine> ();
-	}
-
 	public void StartTimer()
 	{
 		StartCoroutine ("PathTimer");

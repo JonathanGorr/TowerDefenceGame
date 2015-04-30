@@ -23,12 +23,12 @@ public class LevelManager : Singleton<LevelManager> {
 
 	public float daylength = 3f;
 	public float nightlength = 3f;
-	private float spinRate;
+	//private float spinRate;
 	private int day, mostDays, nextUnlock;
 	private int unlockday3 = 3;
 	private int unlockday6 = 6;
 	private int unlockday9 = 9;
-	private Text current, most, next;
+	private Text most, next;
 
 	private GameObject dayCanvas;
 	public Color nightColor;
@@ -65,7 +65,7 @@ public class LevelManager : Singleton<LevelManager> {
 		soulText = GameObject.Find("Souls").GetComponent<Text>();
 
 		//days
-		current = GameObject.Find ("CurrentDay").GetComponent<Text>();
+		//current = GameObject.Find ("CurrentDay").GetComponent<Text>();
 		most = GameObject.Find ("MostDays").GetComponent<Text>();
 		next = GameObject.Find ("NextUnlock").GetComponent<Text>();
 		mostDays = PlayerPrefs.GetInt("MostDays");
@@ -97,7 +97,7 @@ public class LevelManager : Singleton<LevelManager> {
 		UpdateSoul();
 
 		//set constants for spinning moon/day cycle
-        spinRate = daylength + nightlength;
+        //spinRate = daylength + nightlength;
         //dayCycleInMinutes = .1f;
 		degreeRotation = DEGREES_PER_SECOND * DAY / (dayCycleInMinutes * MINUTE);
 		StartCoroutine (DayCycle ());
@@ -196,9 +196,12 @@ public class LevelManager : Singleton<LevelManager> {
 
 		next.text = "Next Unlock: " + newUnlock.ToString("00");
 	}
-	
+
+
 	IEnumerator DayCycle ()
     {
+		yield return null;
+		/*
 		//TODO:
 		//Upon Dawn, find all enemies then kill them
 		
@@ -228,6 +231,7 @@ public class LevelManager : Singleton<LevelManager> {
             	nightTrack1.Play();
             	nextColor = nightColor;
         }
+        */
     }
 
 	public void Pause()

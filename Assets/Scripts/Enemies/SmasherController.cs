@@ -3,10 +3,6 @@ using System.Collections;
 
 public class SmasherController : PlayerController {
 
-	//spawns and speeds
-	private float[] randomX = new float[] {.7f, 1f};
-	private int[] randomZ = new int[] {-2, 2};
-
 	//sounds
 	public AudioClip[] spawnSounds;
 
@@ -36,6 +32,7 @@ public class SmasherController : PlayerController {
 	}
 
 	public override void Update () {
+
 		base.Update ();
 
 		RayCasting ();

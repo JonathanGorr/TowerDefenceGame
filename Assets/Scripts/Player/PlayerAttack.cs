@@ -10,11 +10,21 @@ public class PlayerAttack : Attack {
 			//if the player hasnt dealt a single damage, can do damage
 			if(!damageDealt)
 			{
-				//if the collider is an enemy, deal damage
+				//if the collider is an enemy...
 				if (other.tag == "Enemy") {
 					other.GetComponentInParent<EnemyHealth> ().TakeDamage (damage);
-					damageDealt = true;
 
+					//damage is dealt
+					damageDealt = true;
+					//delay
+					StartCoroutine("Delay");
+				}
+				//if the object is the objective....
+				else if(other.tag == "Heart") {
+					other.GetComponentInParent<ObjectiveHealth> ().TakeDamage (damage);
+
+					//damage is dealt
+					damageDealt = true;
 					//delay
 					StartCoroutine("Delay");
 				}

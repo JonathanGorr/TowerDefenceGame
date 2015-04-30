@@ -70,6 +70,7 @@
      <Compile Include="Assets\Scripts\Blocks\BlockHealthSteve.cs" />
      <Compile Include="Assets\Scripts\Blocks\Building.cs" />
      <Compile Include="Assets\Scripts\Blocks\ObjectiveHealth.cs" />
+     <Compile Include="Assets\Scripts\DayNightController.cs" />
      <Compile Include="Assets\Scripts\Enemies\CrawlerController.cs" />
      <Compile Include="Assets\Scripts\Enemies\CreeperController.cs" />
      <Compile Include="Assets\Scripts\Enemies\CreeperSpawner.cs" />
@@ -97,7 +98,6 @@
      <Compile Include="Assets\Scripts\Player\PlayerInput.cs" />
      <Compile Include="Assets\Scripts\Player\SoulToPlayer.cs" />
      <Compile Include="Assets\Scripts\Spawner.cs" />
-     <Compile Include="Assets\Scripts\Sundial.cs" />
      <Compile Include="Assets\Scripts\Traps\Acid.cs" />
      <Compile Include="Assets\Scripts\Traps\AcidTrap.cs" />
      <Compile Include="Assets\Scripts\Traps\Arrow.cs" />

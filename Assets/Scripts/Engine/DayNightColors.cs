@@ -8,11 +8,11 @@ public class DayNightColors : MonoBehaviour {
 	private int colorIndex = 0;
 	public float transitionSpeed = 0.01f;
 	private Color nextColor;
-	private Light sunMoon;
+	//private Light sunMoon;
 	
 	void Awake()
 	{
-		sunMoon = GameObject.Find ("Sun").GetComponent<Light>();
+		//sunMoon = GameObject.Find ("Sun").GetComponent<Light>();
 
 		Camera.main.backgroundColor = currentColor;
 		

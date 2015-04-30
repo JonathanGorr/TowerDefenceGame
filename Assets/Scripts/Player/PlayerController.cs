@@ -4,7 +4,7 @@ using System.Collections;
 public class PlayerController : MonoBehaviour {
 
 	//values
-	public float 
+	public float
 		speed = 6.0F,
 		jumpSpeed = 8.0F,
 		gravity = 20.0F,
@@ -23,7 +23,6 @@ public class PlayerController : MonoBehaviour {
 	public Animator animator;
 	[HideInInspector]
 	public Rigidbody rigidBody;
-	private Camera cam;
 	private CharacterController controller;
 	private PlayerInput input;
 
@@ -49,13 +48,13 @@ public class PlayerController : MonoBehaviour {
 		sprite = transform.Find ("Sprite");
 		animator = GetComponentInChildren<Animator>();
 		controller = GetComponent<CharacterController>();
-		cam = GameObject.Find ("MainCamera").GetComponent<Camera>();
 	}
 
 	public virtual void Update() {
-
+		
 		//if this is the player
 		if (gameObject.tag == "Player") {
+
 			//if the input script is attached
 			if (input) {
 				action = input.action;
@@ -65,36 +64,22 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 
-		//if grounded...
-		if (controller.isGrounded) {
-			moveDirection = axis;
-			moveDirection = transform.TransformDirection(moveDirection);
-			moveDirection *= speed;
-			source.Play();
-
-			if (jump)
-			{
-				moveDirection.y = jumpSpeed;
-			}
-		}
-		//else if not grounded...
-		else
-		{
-			animator.SetInteger("AnimState", 3);
-			source.Pause();
-		}
-
-		//Action----------------------------------------------
-		if(action)
-		{
-			animator.SetTrigger("Attack");
-		}
-		
 		//flipping--------------------------------------------
 		Vector3 localScale = sprite.transform.localScale;
 
 		//grounded
 		if (controller.isGrounded) {
+
+			//assign values
+			moveDirection = axis;
+			moveDirection = transform.TransformDirection(moveDirection);
+			moveDirection *= speed;
+
+			if (jump)
+			{
+				moveDirection.y = jumpSpeed;
+			}
+
 			//moving
 			if (moving) {
 				animator.SetInteger ("AnimState", 1);
@@ -114,10 +99,18 @@ public class PlayerController : MonoBehaviour {
 				if(!step)
 					StartCoroutine("FootSteps", footStepSpeed);
 			}
+			//else not moving
+			else
+			{
+				animator.SetInteger ("AnimState", 0);
+			}
 
 			//attack on the side the cursor is on relative to player
-			else if (action)
+			if (action)
 			{
+				//play attack animation
+				animator.SetTrigger("Attack");
+
 				ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 
 				if (Physics.Raycast (ray, out hit)) {
@@ -129,19 +122,21 @@ public class PlayerController : MonoBehaviour {
 						localScale.x = -1f;
 				}
 			}
-
-			//else not moving
-			else
-			{
-				animator.SetInteger ("AnimState", 0);
-			}
+		}
+		//else the object is not grounded
+		else
+		{
+			//play jump animation
+			animator.SetInteger("AnimState", 3);
+			source.Pause();
 		}
 
 		//apply scale
 		sprite.localScale = localScale;
 		
-		//Apply changes---------------------------------------
+		//apply gravity
 		moveDirection.y -= gravity * Time.deltaTime;
+		//move
 		controller.Move(moveDirection * Time.deltaTime);
 	}
 

@@ -20,7 +20,6 @@ public class Building : MonoBehaviour {
 	private Transform parent;
 	private RepCollision repCollision;
 	private LevelManager manager;
-	private Camera camera;
 	private GameObject[] enemy;
 
 	[HideInInspector]
@@ -44,8 +43,7 @@ public class Building : MonoBehaviour {
 	void Awake()
 	{
 		enemy = GameObject.FindGameObjectsWithTag("Enemy");
-
-		camera = GameObject.Find ("MainCamera").GetComponent<Camera>();
+		
 		manager = GameObject.Find ("LevelManager").GetComponent<LevelManager> ();
 
 		//early out
@@ -81,7 +79,7 @@ public class Building : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.B))
 			building = !building;
 
-		ray = camera.ScreenPointToRay(Input.mousePosition);
+		ray = GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
 
 		if (manager.souls > 0)
 			canBuild = true;

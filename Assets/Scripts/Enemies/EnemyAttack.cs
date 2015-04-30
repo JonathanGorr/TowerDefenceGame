@@ -10,31 +10,29 @@ public class EnemyAttack : Attack {
 			//if the player hasnt dealt a single damage, can do damage
 			if(!damageDealt)
 			{
-				// if the collider is the player, deal damage
+				//if the collider is an enemy...
 				if (other.transform.parent.tag == "Player") {
 
+					print("damage done to player");
+
 					other.GetComponentInParent<PlayerHealth> ().TakeDamage (damage);
-
-					//damage has been dealt
+					
+					//damage is dealt
 					damageDealt = true;
-
-					//delay
-					StartCoroutine("Delay");
-				} 
-				// if the collider is the objective, deal damage
-				else if (other.transform.parent.tag == "Heart") 
-				{
-					other.GetComponent<ObjectiveHealth> ().TakeDamage (damage);
-
-					//damage has been dealt
-					damageDealt = true;
-
 					//delay
 					StartCoroutine("Delay");
 				}
-				else
-				{
-					print("Nothing can be done damage to");
+				//if the object is the objective....
+				else if(other.transform.parent.tag == "Heart") {
+
+					print("Objective hit by enemy");
+
+					other.GetComponentInParent<ObjectiveHealth> ().TakeDamage (damage);
+					
+					//damage is dealt
+					damageDealt = true;
+					//delay
+					StartCoroutine("Delay");
 				}
 			}
 		}

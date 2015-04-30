@@ -27,7 +27,7 @@ public class StateMachine : MonoBehaviour {
 	private bool
 		canAttack = true,
 		pathMover = true,
-		newPath = true,
+		//newPath = true,
 		left;
 
 	[HideInInspector]

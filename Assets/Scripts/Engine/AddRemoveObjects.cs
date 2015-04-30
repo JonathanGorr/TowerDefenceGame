@@ -20,11 +20,6 @@ public class AddRemoveObjects : MonoBehaviour {
 
 	public LayerMask blockLayer;
 
-	private Button
-		dirt,
-		stone,
-		wood;
-
 	//snaps
 	private Vector3 prevPosition;
 	public float snapValue = 0.5f;
@@ -33,7 +28,6 @@ public class AddRemoveObjects : MonoBehaviour {
 	
 	void Awake()
 	{
-		dirt = GameObject.Find("Dirt").GetComponent<Button>();
 		parent = GameObject.Find("Cubes").transform;
 
 		rep = Instantiate(representation, Input.mousePosition, Quaternion.identity) as GameObject;

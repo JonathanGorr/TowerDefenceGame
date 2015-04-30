@@ -7,12 +7,12 @@ public class CreeperController : MonoBehaviour {
 	public float zspeed;
 	private int[] randomZ = new int[] {-2, 2};
 
-	private Rigidbody rigidbody;
+	//private Rigidbody rigidbody;
 	public AudioClip creeperspawn1;
 	public AudioClip[] hits;
 
 	void Start () {
-		rigidbody = GetComponent<Rigidbody>();
+		//rigidbody = GetComponent<Rigidbody>();
 		//zspeed = 0f;
 		SoundManager.instance.PlaySingle(creeperspawn1);
 	}
