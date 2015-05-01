@@ -4,47 +4,36 @@ using UnityEngine.UI;
 
 public class LevelManager : Singleton<LevelManager> {
 
-	private GameObject UI, pauseMenu, blocksInstructions, blockPanel, instructionsPanel, deathMenu;
-	private Text dayText;
-	private GameObject moonParent;
-	private CanvasGroup canvas;
+	//gameobjects
+	private GameObject 
+		UI, 
+		pauseMenu, 
+		blocksInstructions, 
+		blockPanel, 
+		instructionsPanel, 
+		deathMenu, 
+		dayCanvas;
 
+	//UI
+	private Text dayText;
+	[HideInInspector] public CanvasGroup canvas;
+
+	//souls
 	private Text soulText;
 	public int souls = 10;
 
-	public float dayCycleInMinutes = .1f;
-	public const float SECOND = 1;
-	public const float MINUTE = 60 * SECOND;
-	public const float HOUR = 60 * MINUTE;
-	public const float DAY = 24 * HOUR;
-	private const float DEGREES_PER_SECOND = 360 / DAY;
-
-	private float degreeRotation;
-
-	public float daylength = 3f;
-	public float nightlength = 3f;
-	//private float spinRate;
+	//values
 	private int day, mostDays, nextUnlock;
 	private int unlockday3 = 3;
 	private int unlockday6 = 6;
 	private int unlockday9 = 9;
 	private Text most, next;
-
-	private GameObject dayCanvas;
-	public Color nightColor;
-	public Color dayColor;
-	private Color currentColor;
-	private Color nextColor;
-	public float skyTransitionSpeed = 0.06f;
+	
 	public float dayCanvasTransitionSpeed = 0.1f;
 
 	[HideInInspector]
 	public bool inMenu, paused;
 
-	public AudioClip newDay;
-
-	public AudioSource nightTrack1;
-	
 	void Awake () {
 
 		dayCanvas = GameObject.Find ("DayCanvas");
@@ -52,7 +41,6 @@ public class LevelManager : Singleton<LevelManager> {
 		if (dayCanvas) {
 			canvas = dayCanvas.GetComponent<CanvasGroup> ();
 			dayText = dayCanvas.transform.Find ("DayText").GetComponent<Text> ();
-			moonParent = GameObject.Find("MoonParent");
 		}
 
 		//ui
@@ -96,16 +84,6 @@ public class LevelManager : Singleton<LevelManager> {
 		souls = 10;
 		UpdateSoul();
 
-		//set constants for spinning moon/day cycle
-        //spinRate = daylength + nightlength;
-        //dayCycleInMinutes = .1f;
-		degreeRotation = DEGREES_PER_SECOND * DAY / (dayCycleInMinutes * MINUTE);
-		StartCoroutine (DayCycle ());
-
-		currentColor = dayColor;
-		Camera.main.backgroundColor = currentColor;
-		RenderSettings.ambientLight = currentColor;
-
 		if(dayCanvas)
 			canvas.alpha = 0.0f;
 	}
@@ -136,13 +114,6 @@ public class LevelManager : Singleton<LevelManager> {
 			if(Input.GetKeyDown(KeyCode.R))
 				Restart();
 		}
-
-		if(moonParent)
-			moonParent.transform.Rotate(new Vector3(0, 0, -degreeRotation) * Time.deltaTime);
-
-		currentColor = Color.Lerp(currentColor, nextColor, skyTransitionSpeed);
-		Camera.main.backgroundColor = currentColor;
-		RenderSettings.ambientLight = currentColor;
 	}
 	
 	public void AddSoul (int value)
@@ -179,7 +150,10 @@ public class LevelManager : Singleton<LevelManager> {
 	}
 
 	public void UpdateMostDays(int newMost){
-		most.text = "Most Days Survived: " + newMost.ToString("00");
+		if (most)
+			most.text = "Most Days Survived: " + newMost.ToString (" 00");
+		else
+			print ("There is no most");
 
 		if(newMost > nextUnlock){
 			UpdateNextUnlock(newMost);
@@ -194,45 +168,11 @@ public class LevelManager : Singleton<LevelManager> {
 		else if (nextUnlock <= unlockday9)
 			nextUnlock = unlockday9;
 
-		next.text = "Next Unlock: " + newUnlock.ToString("00");
+		if (next)
+			next.text = "Next Unlock: " + newUnlock.ToString ("00");
+		else
+			print ("There is no next");
 	}
-
-
-	IEnumerator DayCycle ()
-    {
-		yield return null;
-		/*
-		//TODO:
-		//Upon Dawn, find all enemies then kill them
-		
-		//get all the enemies alive
-		GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-		
-		//kill them all
-		foreach(GameObject enemy in enemies)
-		{
-			enemy.GetComponent<EnemyHealth>().OnKill();
-		}
-
-        while (true)
-        {
-        	UpdateDay(1);
-
-            yield return new WaitForSeconds (daylength);
-            //day stuff here
-           		nextColor = dayColor;
-				canvas.alpha = 1f;
-				SoundManager.instance.PlaySingle (newDay);
-				nightTrack1.Stop();
-				yield return new WaitForSeconds (3);
-				canvas.alpha = 0f;
-            yield return new WaitForSeconds (nightlength);
-            //night stuff here
-            	nightTrack1.Play();
-            	nextColor = nightColor;
-        }
-        */
-    }
 
 	public void Pause()
 	{

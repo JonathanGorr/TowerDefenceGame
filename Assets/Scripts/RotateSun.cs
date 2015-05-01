@@ -5,9 +5,10 @@ public class RotateSun : MonoBehaviour {
 
 	public Transform player;
 	
-	public GameObject sun;
-	public GameObject moon;
-	
+	private GameObject sun, moon;
+
+	public float planetSize = 1f;
+	public float zOffset = -100f;
 	public float radius = 6;
 	public float timeRT = 0;
 	
@@ -30,7 +31,8 @@ public class RotateSun : MonoBehaviour {
 	void Start()
 	{
 		// Creating everything needed to demonstrate this from a single cube
-		player = this.transform;
+		//player = this.transform;
+		player = GameObject.FindGameObjectWithTag ("Player").transform;
 		//GameObject floor = GameObject.CreatePrimitive(PrimitiveType.Plane);
 		//floor.transform.position = player.position + 0.5f*Vector3.down;
 		sun = GameObject.CreatePrimitive (PrimitiveType.Sphere);
@@ -61,10 +63,13 @@ public class RotateSun : MonoBehaviour {
 		Camera.main.backgroundColor = CalculateSkyColor();
 		float sunangle = TimeOfDay * 360;
 		float moonangle = TimeOfDay * 360 + 180;
-		Vector3 midpoint = player.position; midpoint.y -= 0.5f; //midpoint = playerposition at floor height
+		Vector3 midpoint = player.position; midpoint.y -= 0.5f; midpoint.z = zOffset; //midpoint = playerposition at floor height
+		Vector3 size = new Vector3 (planetSize, planetSize, planetSize);
 		sun.transform.position = midpoint + Quaternion.Euler(0,0,sunangle)*(radius*Vector3.right);
+		sun.transform.localScale = size;
 		sun.transform.LookAt(midpoint);
 		moon.transform.position = midpoint + Quaternion.Euler(0,0,moonangle)*(radius*Vector3.right);
+		moon.transform.localScale = size;
 		moon.transform.LookAt(midpoint);
 	}
 	
