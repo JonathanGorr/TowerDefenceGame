@@ -15,7 +15,10 @@ public class EnemyAttack : Attack {
 
 					print("damage done to player");
 
-					other.GetComponentInParent<PlayerHealth> ().TakeDamage (damage);
+					PlayerHealth health = other.GetComponentInParent<PlayerHealth>();
+					
+					health.TakeDamage (damage);
+					health.KnockBackPlayer();
 					
 					//damage is dealt
 					damageDealt = true;

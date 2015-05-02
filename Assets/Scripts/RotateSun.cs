@@ -33,7 +33,7 @@ public class RotateSun : MonoBehaviour {
 	public float transitionDelay = 3f;
 	
 	//values
-	private int currentDay, mostDays, nextUnlock;
+	private int currentDay, lastDay, mostDays, nextUnlock;
 	private int unlockday3 = 3;
 	private int unlockday6 = 6;
 	private int unlockday9 = 9;
@@ -109,7 +109,6 @@ public class RotateSun : MonoBehaviour {
 		dayText.GetComponent<Animator>().SetTrigger("DisplayDay");
 		yield return new WaitForSeconds (delay);
 		dayText.GetComponent<Animator>().SetTrigger("HideDay");
-		displayed = false;
 	}
 
 	private void UpdateNextUnlock(int newUnlock){
@@ -149,15 +148,13 @@ public class RotateSun : MonoBehaviour {
 		else if (TimeOfDay > 0.75f && TimeOfDay > 0.76f)
 			currentState = States.Night;
 
-		//case/switch
-		if(!displayed)
-		{
-			switch (currentState) {
+		switch (currentState) {
 
 			case States.Morning:
 				lantern.intensity = 0;
-				StartCoroutine("DisplayDay", transitionDelay);
-				displayed = true;
+				//case/switch
+				if(!displayed)
+					StartCoroutine("DisplayDay", transitionDelay); displayed = true;
 				break;
 				
 			case States.Evening:
@@ -168,9 +165,9 @@ public class RotateSun : MonoBehaviour {
 				break;
 				
 			case States.Night:
+				displayed = false;
 				lantern.intensity = 1;
 				break;
-			}
 		}
 
 		TimeOfDay += timeScale/1000;

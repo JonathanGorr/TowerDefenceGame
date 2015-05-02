@@ -1,8 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\RotateSun.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Player\PlayerController.cs">
     <Files>
-      <File FileName="Assets\Scripts\RotateSun.cs" Line="153" Column="17" />
+      <File FileName="Assets\Scripts\Player\PlayerHealth.cs" Line="27" Column="3" />
+      <File FileName="Assets\Scripts\Player\PlayerController.cs" Line="114" Column="4" />
+      <File FileName="Assets\Scripts\Enemies\EnemyAttack.cs" Line="21" Column="6" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

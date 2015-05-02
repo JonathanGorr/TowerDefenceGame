@@ -105,6 +105,13 @@ public class PlayerController : MonoBehaviour {
 				animator.SetInteger ("AnimState", 0);
 			}
 
+			/*
+			if(hit)
+			{
+				KnockBack();
+			}
+			*/
+
 			//attack on the side the cursor is on relative to player
 			if (action)
 			{

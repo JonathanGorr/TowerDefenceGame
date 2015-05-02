@@ -5,10 +5,13 @@ using UnityEngine.UI;
 public class PlayerHealth : Health {
 
 	private Slider healthBar;
+	private PlayerController controller;
 
 	public override void Awake ()
 	{
 		base.Awake ();
+
+		controller = GetComponent<PlayerController> ();
 
 		health = 20;
 		maxHealth = 20;
@@ -16,6 +19,11 @@ public class PlayerHealth : Health {
 		healthBar = GameObject.Find ("Health").GetComponent<Slider> ();
 		healthBar.maxValue = maxHealth;
 		healthBar.value = health;
+	}
+
+	public void KnockBackPlayer()
+	{
+		controller.KnockBack();
 	}
 
 	public override void TakeDamage(int value)
