@@ -16,6 +16,8 @@ public class RotateSun : MonoBehaviour {
 
 	//components
 	private LevelManager manager;
+	//the players lantern
+	private Light lantern;
 
 	//audio
 	public AudioClip newDay, nightTime;
@@ -28,9 +30,10 @@ public class RotateSun : MonoBehaviour {
 	public float radius = 6;
 	public float timeRT = 0;
 	public float prevDayValue = 0;
+	public float transitionDelay = 3f;
 	
 	//values
-	private int currentDay = 1, mostDays, nextUnlock;
+	private int currentDay, mostDays, nextUnlock;
 	private int unlockday3 = 3;
 	private int unlockday6 = 6;
 	private int unlockday9 = 9;
@@ -53,6 +56,10 @@ public class RotateSun : MonoBehaviour {
 	public const float sunsetRLSeconds    =  1.5f * 60;
 	public const float gameDayRLSeconds = daytimeRLSeconds + duskRLSeconds + nighttimeRLSeconds + sunsetRLSeconds;
 
+	//states
+	[HideInInspector] public enum States{ Morning, Evening, Dusk, Night }
+	[HideInInspector] public States currentState;
+
 	//starts of times of day
 	public const float startOfDaytime = 0;
 	public const float startOfDusk = daytimeRLSeconds / gameDayRLSeconds;
@@ -61,6 +68,7 @@ public class RotateSun : MonoBehaviour {
 
 	void Awake()
 	{
+		lantern = GameObject.Find ("Player").GetComponentInChildren<Light> ();
 		manager = GameObject.Find ("LevelManager").GetComponent<LevelManager> ();
 		dayText = GameObject.Find ("DayCanvas").GetComponentInChildren<Text>();
 	}
@@ -131,11 +139,38 @@ public class RotateSun : MonoBehaviour {
 	
 	void Update () {
 
-		//if morning
-		if(TimeOfDay > 0.01f && TimeOfDay < 0.02f && !displayed)
+		//state machine
+		if (TimeOfDay > 0.01f && TimeOfDay < 0.02f)
+			currentState = States.Morning;
+		else if (TimeOfDay > 0.25f && TimeOfDay < 0.26f)
+			currentState = States.Evening;
+		else if (TimeOfDay > 0.5f && TimeOfDay < 0.51f)
+			currentState = States.Dusk;
+		else if (TimeOfDay > 0.75f && TimeOfDay > 0.76f)
+			currentState = States.Night;
+
+		//case/switch
+		if(!displayed)
 		{
-			StartCoroutine("DisplayDay", 3f);
-			displayed = true;
+			switch (currentState) {
+
+			case States.Morning:
+				lantern.intensity = 0;
+				StartCoroutine("DisplayDay", transitionDelay);
+				displayed = true;
+				break;
+				
+			case States.Evening:
+				break;
+				
+			case States.Dusk:
+				lantern.intensity = .5f;
+				break;
+				
+			case States.Night:
+				lantern.intensity = 1;
+				break;
+			}
 		}
 
 		TimeOfDay += timeScale/1000;
