@@ -20,7 +20,6 @@ public class PlayerHealth : Health {
 
 	public override void TakeDamage(int value)
 	{
-
 		base.TakeDamage (value);
 	}
 
@@ -32,12 +31,11 @@ public class PlayerHealth : Health {
 
 	public override void OnKill()
 	{
-		//base.manager.GoToMenu();
+		base.manager.GoToMenu();
 		Destroy (gameObject);
 	}
 
 	public void KnockBack()
 	{
-
 	}
 }

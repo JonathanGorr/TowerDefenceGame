@@ -6,12 +6,12 @@ public class LevelManager : Singleton<LevelManager> {
 
 	//gameobjects
 	private GameObject 
-		UI, 
+		UI,
 		pauseMenu, 
 		blocksInstructions, 
 		blockPanel, 
 		instructionsPanel, 
-		deathMenu, 
+		deathMenu,
 		dayCanvas;
 
 	//UI
@@ -70,7 +70,6 @@ public class LevelManager : Singleton<LevelManager> {
 		inMenu = (Application.loadedLevelName == "Title" || 
 		          Application.loadedLevelName == "ControlScreen" || 
 		          Application.loadedLevelName == "KillScreen") ? true : false;
-
 
 		//set these as inactive by default
 		pauseMenu.SetActive (false);

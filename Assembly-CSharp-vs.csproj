@@ -46,7 +46,6 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\DayNightSystem.cs" />
      <Compile Include="Assets\Pathfinding\Scenes\Scripts\AI.cs" />
      <Compile Include="Assets\Pathfinding\Scenes\Scripts\GridPlayer.cs" />
      <Compile Include="Assets\Pathfinding\Scenes\Scripts\Lines.cs" />
@@ -72,6 +71,7 @@
      <Compile Include="Assets\Scripts\Blocks\Building.cs" />
      <Compile Include="Assets\Scripts\Blocks\ObjectiveHealth.cs" />
      <Compile Include="Assets\Scripts\DayNightController.cs" />
+     <Compile Include="Assets\Scripts\DayNightSystem.cs" />
      <Compile Include="Assets\Scripts\Enemies\CrawlerController.cs" />
      <Compile Include="Assets\Scripts\Enemies\CreeperController.cs" />
      <Compile Include="Assets\Scripts\Enemies\CreeperSpawner.cs" />
@@ -100,6 +100,7 @@
      <Compile Include="Assets\Scripts\Player\SoulToPlayer.cs" />
      <Compile Include="Assets\Scripts\RotateSun.cs" />
      <Compile Include="Assets\Scripts\Spawner.cs" />
+     <Compile Include="Assets\Scripts\Test.cs" />
      <Compile Include="Assets\Scripts\Traps\Acid.cs" />
      <Compile Include="Assets\Scripts\Traps\AcidTrap.cs" />
      <Compile Include="Assets\Scripts\Traps\Arrow.cs" />

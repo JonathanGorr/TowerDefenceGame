@@ -21,9 +21,8 @@ public class Health : MonoBehaviour {
 
 	//components
 	private Rigidbody rigidBody;
-	private LevelManager manager;
-	[HideInInspector]
-	public StateMachine stateMachine;
+	[HideInInspector] public LevelManager manager;
+	[HideInInspector] public StateMachine stateMachine;
 
 	//transforms
 	private Transform sprite;
