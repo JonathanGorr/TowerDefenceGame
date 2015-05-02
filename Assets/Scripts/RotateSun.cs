@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class RotateSun : MonoBehaviour {
 
@@ -8,6 +9,16 @@ public class RotateSun : MonoBehaviour {
 
 	//gameobjects
 	private GameObject sun, moon;
+	private Text dayText;
+
+	//bools
+	private bool displayed;
+
+	//components
+	private LevelManager manager;
+
+	//audio
+	public AudioClip newDay, nightTime;
 
 	//values
 	public float timeScale = 1f;
@@ -16,6 +27,14 @@ public class RotateSun : MonoBehaviour {
 	public Vector3 offset = new Vector3 (0, 0, 35);
 	public float radius = 6;
 	public float timeRT = 0;
+	public float prevDayValue = 0;
+	
+	//values
+	private int currentDay = 1, mostDays, nextUnlock;
+	private int unlockday3 = 3;
+	private int unlockday6 = 6;
+	private int unlockday9 = 9;
+	private Text most, next;
 
 	//sky colors
 	public Color daytimeSkyColor = new Color(0.31f, 0.88f, 1f);
@@ -40,6 +59,12 @@ public class RotateSun : MonoBehaviour {
 	public const float startOfNighttime = startOfDusk + duskRLSeconds / gameDayRLSeconds;
 	public const float startOfSunset = startOfNighttime + nighttimeRLSeconds / gameDayRLSeconds;
 
+	void Awake()
+	{
+		manager = GameObject.Find ("LevelManager").GetComponent<LevelManager> ();
+		dayText = GameObject.Find ("DayCanvas").GetComponentInChildren<Text>();
+	}
+
 	void Start()
 	{
 		// Creating everything needed to demonstrate this from a single cube
@@ -63,11 +88,56 @@ public class RotateSun : MonoBehaviour {
 
 	public float TimeOfDay // game time 0 .. 1
 	{
-		get { return timeRT/gameDayRLSeconds; } //return timeRT/gameDayRLSeconds;
+		get { return timeRT/gameDayRLSeconds; }
 		set { timeRT = value * gameDayRLSeconds; }
+	}
+
+	IEnumerator DisplayDay(float delay)
+	{
+		//increment the day
+		currentDay ++;
+		SoundManager.instance.PlaySingle(newDay);
+		dayText.text = "Day " + currentDay;
+		dayText.GetComponent<Animator>().SetTrigger("DisplayDay");
+		yield return new WaitForSeconds (delay);
+		dayText.GetComponent<Animator>().SetTrigger("HideDay");
+		displayed = false;
+	}
+
+	private void UpdateNextUnlock(int newUnlock){
+		if (nextUnlock <= unlockday3)
+			nextUnlock = unlockday3;
+		else if (nextUnlock <= unlockday6)
+			nextUnlock = unlockday6;
+		else if (nextUnlock <= unlockday9)
+			nextUnlock = unlockday9;
+		
+		if (next)
+			next.text = "Next Unlock: " + newUnlock.ToString ("00");
+		else
+			print ("There is no next");
+	}
+
+	public void UpdateMostDays(int newMost){
+		if (most)
+			most.text = "Most Days Survived: " + newMost.ToString (" 00");
+		else
+			print ("There is no most");
+		
+		if(newMost > nextUnlock){
+			UpdateNextUnlock(newMost);
+		}
 	}
 	
 	void Update () {
+
+		//if morning
+		if(TimeOfDay > 0.01f && TimeOfDay < 0.02f && !displayed)
+		{
+			StartCoroutine("DisplayDay", 3f);
+			displayed = true;
+		}
+
 		TimeOfDay += timeScale/1000;
 		timeRT = (timeRT + Time.deltaTime) % gameDayRLSeconds;
 		Camera.main.backgroundColor = CalculateSkyColor();

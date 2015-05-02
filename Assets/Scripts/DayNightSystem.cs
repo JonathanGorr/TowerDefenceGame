@@ -69,7 +69,8 @@ public class DayNightSystem : MonoBehaviour {
 		
 		while (true)
 		{
-			manager.UpdateDay(1);
+			if(manager)
+				//manager.UpdateDay(1);
 			
 			yield return new WaitForSeconds (daylength);
 			//day stuff here

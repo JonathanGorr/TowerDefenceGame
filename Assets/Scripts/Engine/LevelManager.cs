@@ -36,12 +36,14 @@ public class LevelManager : Singleton<LevelManager> {
 
 	void Awake () {
 
+		/*
 		dayCanvas = GameObject.Find ("DayCanvas");
 
 		if (dayCanvas) {
 			canvas = dayCanvas.GetComponent<CanvasGroup> ();
 			dayText = dayCanvas.transform.Find ("DayText").GetComponent<Text> ();
 		}
+		*/
 
 		//ui
 		UI = GameObject.Find ("UI");
@@ -83,8 +85,10 @@ public class LevelManager : Singleton<LevelManager> {
 		souls = 10;
 		UpdateSoul();
 
+		/*
 		if(dayCanvas)
 			canvas.alpha = 0.0f;
+		*/
 	}
 	
 	void Update()
@@ -134,6 +138,7 @@ public class LevelManager : Singleton<LevelManager> {
 			print ("Soul text cannot be found");
 	}
 
+	/*
 	public void UpdateDay(int newDayValue)
 	{
 		day += newDayValue;
@@ -172,6 +177,7 @@ public class LevelManager : Singleton<LevelManager> {
 		else
 			print ("There is no next");
 	}
+	*/
 
 	public void Pause()
 	{
