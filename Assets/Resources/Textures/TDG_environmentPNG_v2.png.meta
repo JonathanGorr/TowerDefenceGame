@@ -1,0 +1,517 @@
+fileFormatVersion: 2
+guid: 460ebf784eee36f4f8a2e671d98609eb
+timeCreated: 1430611998
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: pad1
+    21300002: pad2
+    21300004: grass1
+    21300006: grass2
+    21300008: bush1
+    21300010: bush4
+    21300012: moonfull
+    21300014: moonquarter
+    21300016: sun
+    21300018: pad3
+    21300020: pad4
+    21300022: farland1
+    21300024: farland3
+    21300026: farland2
+    21300028: bush2
+    21300030: bush3
+    21300032: midland5
+    21300034: ruinbackright
+    21300036: ruinchunk
+    21300038: spire1
+    21300040: midland2
+    21300042: midland1
+    21300044: ruinmidlleft
+    21300046: spire2
+    21300048: spire3
+    21300050: spire4
+    21300052: TDG_environmentPNG_v2_28
+    21300054: midland4
+    21300056: ruinfrontleft
+    21300058: reeds1
+    21300060: reeds2
+    21300062: reeds3
+    21300064: frontland2
+    21300066: frontland1
+    21300068: treeline
+    21300070: pathshort
+    21300072: treelineleft
+    21300074: backland
+    21300076: pathmed
+    21300078: treelineright
+    21300080: pathlong
+    21300082: midland3
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -3
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: pad1
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 2347
+        width: 136
+        height: 53
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: pad2
+      rect:
+        serializedVersion: 2
+        x: 214
+        y: 2342
+        width: 138
+        height: 61
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: grass1
+      rect:
+        serializedVersion: 2
+        x: 418
+        y: 2160
+        width: 114
+        height: 211
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: grass2
+      rect:
+        serializedVersion: 2
+        x: 573
+        y: 2167
+        width: 186
+        height: 233
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: bush1
+      rect:
+        serializedVersion: 2
+        x: 1943
+        y: 2212
+        width: 347
+        height: 188
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: bush4
+      rect:
+        serializedVersion: 2
+        x: 2371
+        y: 2220
+        width: 130
+        height: 135
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: moonfull
+      rect:
+        serializedVersion: 2
+        x: 2765
+        y: 2241
+        width: 170
+        height: 168
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: moonquarter
+      rect:
+        serializedVersion: 2
+        x: 3084
+        y: 2232
+        width: 169
+        height: 164
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: sun
+      rect:
+        serializedVersion: 2
+        x: 3372
+        y: 2261
+        width: 125
+        height: 126
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: pad3
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 2223
+        width: 158
+        height: 49
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: pad4
+      rect:
+        serializedVersion: 2
+        x: 228
+        y: 2216
+        width: 127
+        height: 74
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: farland1
+      rect:
+        serializedVersion: 2
+        x: 782
+        y: 2218
+        width: 1052
+        height: 168
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: farland3
+      rect:
+        serializedVersion: 2
+        x: 53
+        y: 1941
+        width: 720
+        height: 122
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: farland2
+      rect:
+        serializedVersion: 2
+        x: 763
+        y: 1758
+        width: 1156
+        height: 226
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: bush2
+      rect:
+        serializedVersion: 2
+        x: 1927
+        y: 1948
+        width: 262
+        height: 117
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: bush3
+      rect:
+        serializedVersion: 2
+        x: 2263
+        y: 1948
+        width: 319
+        height: 102
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: midland5
+      rect:
+        serializedVersion: 2
+        x: 222
+        y: 1743
+        width: 493
+        height: 156
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: ruinbackright
+      rect:
+        serializedVersion: 2
+        x: 2362
+        y: 1631
+        width: 231
+        height: 191
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: ruinchunk
+      rect:
+        serializedVersion: 2
+        x: 1945
+        y: 1662
+        width: 334
+        height: 119
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: spire1
+      rect:
+        serializedVersion: 2
+        x: 2753
+        y: 1266
+        width: 135
+        height: 425
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: midland2
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 1448
+        width: 601
+        height: 165
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: midland1
+      rect:
+        serializedVersion: 2
+        x: 858
+        y: 1362
+        width: 1094
+        height: 219
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: ruinmidlleft
+      rect:
+        serializedVersion: 2
+        x: 2065
+        y: 1278
+        width: 592
+        height: 193
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: spire2
+      rect:
+        serializedVersion: 2
+        x: 2960
+        y: 1266
+        width: 128
+        height: 250
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: spire3
+      rect:
+        serializedVersion: 2
+        x: 3185
+        y: 1266
+        width: 131
+        height: 360
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: spire4
+      rect:
+        serializedVersion: 2
+        x: 3381
+        y: 1262
+        width: 225
+        height: 258
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TDG_environmentPNG_v2_28
+      rect:
+        serializedVersion: 2
+        x: 867
+        y: 1156
+        width: 7
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: midland4
+      rect:
+        serializedVersion: 2
+        x: 1209
+        y: 1070
+        width: 525
+        height: 90
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: ruinfrontleft
+      rect:
+        serializedVersion: 2
+        x: 2029
+        y: 764
+        width: 646
+        height: 417
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: reeds1
+      rect:
+        serializedVersion: 2
+        x: 2906
+        y: 803
+        width: 83
+        height: 335
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: reeds2
+      rect:
+        serializedVersion: 2
+        x: 3100
+        y: 780
+        width: 104
+        height: 378
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: reeds3
+      rect:
+        serializedVersion: 2
+        x: 3264
+        y: 830
+        width: 92
+        height: 319
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: frontland2
+      rect:
+        serializedVersion: 2
+        x: 1012
+        y: 749
+        width: 933
+        height: 117
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: frontland1
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 548
+        width: 979
+        height: 133
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: treeline
+      rect:
+        serializedVersion: 2
+        x: 1176
+        y: 510
+        width: 1555
+        height: 157
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: pathshort
+      rect:
+        serializedVersion: 2
+        x: 3098
+        y: 517
+        width: 367
+        height: 146
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: treelineleft
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 240
+        width: 1062
+        height: 162
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: backland
+      rect:
+        serializedVersion: 2
+        x: 1108
+        y: 42
+        width: 1681
+        height: 398
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: pathmed
+      rect:
+        serializedVersion: 2
+        x: 3014
+        y: 363
+        width: 458
+        height: 97
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: treelineright
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 67
+        width: 949
+        height: 87
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: pathlong
+      rect:
+        serializedVersion: 2
+        x: 2949
+        y: 66
+        width: 664
+        height: 192
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: midland3
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 757
+        width: 844
+        height: 521
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
