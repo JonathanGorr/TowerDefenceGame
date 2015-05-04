@@ -15,11 +15,9 @@ public class EnemyAttack : Attack {
 
 					print("damage done to player");
 
-					PlayerHealth health = other.GetComponentInParent<PlayerHealth>();
-					
-					health.TakeDamage (damage);
-					health.KnockBackPlayer();
-					
+					other.transform.parent.GetComponentInChildren<PlayerHealth>().TakeDamage (damage);
+					other.transform.parent.GetComponentInChildren<PlayerController>().playerHit = true;
+
 					//damage is dealt
 					damageDealt = true;
 					//delay

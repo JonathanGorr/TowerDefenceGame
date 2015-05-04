@@ -21,11 +21,6 @@ public class PlayerHealth : Health {
 		healthBar.value = health;
 	}
 
-	public void KnockBackPlayer()
-	{
-		controller.KnockBack();
-	}
-
 	public override void TakeDamage(int value)
 	{
 		base.TakeDamage (value);
