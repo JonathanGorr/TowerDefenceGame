@@ -8,6 +8,11 @@ public class EnemyHealth : Health {
 
 	public int droppedSouls = 1;
 
+	public void Start()
+	{
+		base.shadow = transform.parent.transform.Find ("Shadow");
+	}
+
 	public override void Update()
 	{
 		base.Update ();

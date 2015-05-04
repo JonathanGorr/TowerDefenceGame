@@ -106,6 +106,7 @@
      <Compile Include="Assets\Scripts\Traps\Arrow.cs" />
      <Compile Include="Assets\Scripts\Traps\ArrowTrap.cs" />
      <Compile Include="Assets\Scripts\Traps\TrapAttack.cs" />
+     <Compile Include="Assets\Shadow.cs" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderRGB.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\SeparableWeightedBlurDof34.shader" />

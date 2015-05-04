@@ -105,13 +105,6 @@ public class PlayerController : MonoBehaviour {
 				animator.SetInteger ("AnimState", 0);
 			}
 
-			/*
-			if(hit)
-			{
-				KnockBack();
-			}
-			*/
-
 			//attack on the side the cursor is on relative to player
 			if (action)
 			{
@@ -149,6 +142,8 @@ public class PlayerController : MonoBehaviour {
 
 	public virtual void KnockBack()
 	{
+		moveDirection.y = knockBackVerticalF;
+
 		if(left)
 		{
 			moveDirection.x = knockBackHorizontalF;
@@ -157,8 +152,6 @@ public class PlayerController : MonoBehaviour {
 		{
 			moveDirection.x = -knockBackHorizontalF;
 		}
-		
-		moveDirection.y = knockBackVerticalF;
 	}
 
 	//plays a random footstep sound at an interval

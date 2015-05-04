@@ -26,7 +26,7 @@ public class Health : MonoBehaviour {
 
 	//transforms
 	private Transform sprite;
-	private Transform shadow;
+	[HideInInspector] public Transform shadow;
 
 	//audio
 	public AudioClip[] hit;
@@ -36,10 +36,10 @@ public class Health : MonoBehaviour {
 
 		//import and find
 		sprite = transform.Find ("Sprite");
-		shadow = transform.Find ("Shadow");
+		//shadow = transform.Find ("Shadow"); //shadow is found by searching the parent
 		stateMachine = GetComponent<StateMachine> ();
 		manager = GameObject.Find ("LevelManager").GetComponent<LevelManager> ();
-		rigidBody = GetComponent<Rigidbody> ();
+		rigidBody = GetComponent<Rigidbody> (); 
 
 		//set this to max on start
 		health = maxHealth;
@@ -73,9 +73,7 @@ public class Health : MonoBehaviour {
 			StartCoroutine(Fade( 0f, fadeOutTime));
 		}
 
-		if (stateMachine) {
-			stateMachine.KnockBack ();
-		}
+		if (stateMachine) stateMachine.KnockBack ();
 
 		hurt = false;
 	}
@@ -96,9 +94,7 @@ public class Health : MonoBehaviour {
 			shadow.GetComponent<MeshRenderer> ().material.color = newMeshColor;
 
 			//Destroy gameobject if invisible
-			if (t >= .99f) {
-				OnKill ();
-			}
+			if (t >= .99f) OnKill ();
 
 			yield return null;
 		}

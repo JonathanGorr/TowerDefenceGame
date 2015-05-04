@@ -42,8 +42,4 @@ public class PlayerHealth : Health {
 		base.manager.GoToMenu();
 		Destroy (gameObject);
 	}
-
-	public void KnockBack()
-	{
-	}
 }

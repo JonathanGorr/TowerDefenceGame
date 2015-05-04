@@ -75,6 +75,7 @@ public class RotateSun : MonoBehaviour {
 
 	void Start()
 	{
+		lantern.intensity = 0.25f;
 		// Creating everything needed to demonstrate this from a single cube
 		player = GameObject.FindGameObjectWithTag ("Player").transform;
 		sun = GameObject.CreatePrimitive (PrimitiveType.Sphere);
@@ -151,7 +152,7 @@ public class RotateSun : MonoBehaviour {
 		switch (currentState) {
 
 			case States.Morning:
-				lantern.intensity = 0;
+				lantern.intensity = 0.25f;
 				//case/switch
 				if(!displayed)
 					StartCoroutine("DisplayDay", transitionDelay); displayed = true;
