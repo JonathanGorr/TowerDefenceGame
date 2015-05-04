@@ -11,18 +11,12 @@ public class ArrowTrap : MonoBehaviour {
 
 	public AudioClip fire;
 
+
+
 	void Start()
 	{
 		StartCoroutine(Fire());
 	}
-
-	/*private void OnTriggerEnter (Collider col)
-	{
-		if(col.tag == "Enemy")
-		{
-			StartCoroutine(Fire());
-		}
-	}*/
 
 	IEnumerator Fire()
 	{

@@ -18,10 +18,10 @@ public class BlockHealthSteve : MonoBehaviour {
 			LoseHealth(2);
 			StartCoroutine (WaitDamageCrusher());
 		}
-		if(col.tag == "Acid")
+		/*if(col.tag == "Acid")
 		{
 			LoseHealth(1);
-		}
+		}*/
 	}
 
 	private void OnTriggerExit (Collider col)
