@@ -184,6 +184,7 @@ public class RotateSun : MonoBehaviour {
 			break;
 				
 		case States.Evening:
+			lantern.intensity = 0.25f;
 			if(!healed)
 				StartCoroutine("HealPlayer");
 			break;

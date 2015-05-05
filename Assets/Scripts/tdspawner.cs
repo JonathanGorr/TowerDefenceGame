@@ -69,7 +69,8 @@ public class tdspawner : MonoBehaviour {
         yield return new WaitForSeconds (startWait2);
         while (true)
         {	
-        	for (int i = 0; i < enemyCount2; i++)
+			print ("YO");
+        	for (int i = 0; i <= enemyCount2; i++)
             {
             	Vector3 spawnPosition = new Vector3 (spawnPos.x, spawnPos.y, Random.Range (range1, range2));
 

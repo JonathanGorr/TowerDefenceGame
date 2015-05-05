@@ -5,6 +5,17 @@ public class EnemyAttack : Attack {
 
 	public override void OnTriggerEnter (Collider other)
 	{
+		if (other.gameObject.tag == "Heart") {
+			print("Objective hit by enemy");
+			
+			other.GetComponentInParent<ObjectiveHealth> ().TakeDamage (damage);
+			
+			//damage is dealt
+			damageDealt = true;
+			//delay
+			StartCoroutine("Delay");
+		}
+
 		if (attacking) {
 
 			//if the player hasnt dealt a single damage, can do damage
@@ -24,17 +35,7 @@ public class EnemyAttack : Attack {
 					StartCoroutine("Delay");
 				}
 				//if the object is the objective....
-				else if(other.transform.parent.tag == "Heart") {
-
-					print("Objective hit by enemy");
-
-					other.GetComponentInParent<ObjectiveHealth> ().TakeDamage (damage);
-					
-					//damage is dealt
-					damageDealt = true;
-					//delay
-					StartCoroutine("Delay");
-				}
+				// MOVED ABOVE!
 			}
 		}
 	}

@@ -47,4 +47,8 @@ public class Attack : MonoBehaviour {
 	public virtual void OnTriggerEnter(Collider other)
 	{
 	}
+
+	public virtual void OnTriggerStay(Collider other)
+	{
+	}
 }
