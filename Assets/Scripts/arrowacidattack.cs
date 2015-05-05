@@ -12,8 +12,9 @@ public class arrowacidattack : Attack {
 			{
 				//if the collider is an enemy...
 				if (other.tag == "Enemy") {
+					attacking = true;
+					
 					other.GetComponentInParent<EnemyHealth> ().TakeDamage (damage);
-
 					//damage is dealt
 					damageDealt = true;
 					//delay

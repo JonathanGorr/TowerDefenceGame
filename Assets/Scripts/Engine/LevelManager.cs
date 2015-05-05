@@ -116,6 +116,9 @@ public class LevelManager : Singleton<LevelManager> {
 
 			if(Input.GetKeyDown(KeyCode.R))
 				Restart();
+
+			if(Input.GetKeyDown(KeyCode.K))
+				DeathScreen();
 		}
 	}
 	
@@ -206,8 +209,8 @@ public class LevelManager : Singleton<LevelManager> {
 
 	public void DeathScreen()
 	{
-		deathMenu.SetActive(true);
 		Time.timeScale = 0;
+		deathMenu.SetActive(true);
 	}
 	
 	public void Restart()

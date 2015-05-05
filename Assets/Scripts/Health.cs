@@ -36,7 +36,7 @@ public class Health : MonoBehaviour {
 
 		//import and find
 		sprite = transform.Find ("Sprite");
-		//shadow = transform.Find ("Shadow"); //shadow is found by searching the parent
+		shadow = transform.Find ("Shadow"); //shadow is found by searching the parent
 		stateMachine = GetComponent<StateMachine> ();
 		manager = GameObject.Find ("LevelManager").GetComponent<LevelManager> ();
 		rigidBody = GetComponent<Rigidbody> (); 

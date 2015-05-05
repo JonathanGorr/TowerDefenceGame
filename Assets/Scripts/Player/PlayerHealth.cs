@@ -13,8 +13,8 @@ public class PlayerHealth : Health {
 
 		controller = GetComponent<PlayerController> ();
 
-		health = 20;
-		maxHealth = 20;
+		health = 10;
+		maxHealth = 10;
 
 		healthBar = GameObject.Find ("Health").GetComponent<Slider> ();
 		healthBar.maxValue = maxHealth;
@@ -34,7 +34,7 @@ public class PlayerHealth : Health {
 
 	public override void OnKill()
 	{
-		base.manager.GoToMenu();
-		Destroy (gameObject);
+		base.manager.DeathScreen();
+		//Destroy (gameObject);
 	}
 }

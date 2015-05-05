@@ -75,12 +75,14 @@
      <Compile Include="Assets\Scripts\Enemies\CrawlerController.cs" />
      <Compile Include="Assets\Scripts\Enemies\CreeperController.cs" />
      <Compile Include="Assets\Scripts\Enemies\CreeperSpawner.cs" />
+     <Compile Include="Assets\Scripts\Enemies\CrusherController.cs" />
      <Compile Include="Assets\Scripts\Enemies\EnemyAttack.cs" />
      <Compile Include="Assets\Scripts\Enemies\EnemyController.cs" />
      <Compile Include="Assets\Scripts\Enemies\EnemyHealth.cs" />
      <Compile Include="Assets\Scripts\Enemies\FlierController.cs" />
      <Compile Include="Assets\Scripts\Enemies\SmasherController.cs" />
      <Compile Include="Assets\Scripts\Enemies\StateMachine.cs" />
+     <Compile Include="Assets\Scripts\Enemies\StateMachineCrusher.cs" />
      <Compile Include="Assets\Scripts\Engine\AddRemoveObjects.cs" />
      <Compile Include="Assets\Scripts\Engine\CameraFollow.cs" />
      <Compile Include="Assets\Scripts\Engine\DayNightColors.cs" />
@@ -99,6 +101,7 @@
      <Compile Include="Assets\Scripts\Player\PlayerInput.cs" />
      <Compile Include="Assets\Scripts\Player\SoulToPlayer.cs" />
      <Compile Include="Assets\Scripts\RotateSun.cs" />
+     <Compile Include="Assets\Scripts\Shadow.cs" />
      <Compile Include="Assets\Scripts\Spawner.cs" />
      <Compile Include="Assets\Scripts\Test.cs" />
      <Compile Include="Assets\Scripts\Traps\Acid.cs" />
@@ -106,8 +109,8 @@
      <Compile Include="Assets\Scripts\Traps\Arrow.cs" />
      <Compile Include="Assets\Scripts\Traps\ArrowTrap.cs" />
      <Compile Include="Assets\Scripts\Traps\TrapAttack.cs" />
-     <Compile Include="Assets\Shadow.cs" />
-     <Compile Include="Assets\arrowacidattack.cs" />
+     <Compile Include="Assets\Scripts\arrowacidattack.cs" />
+     <Compile Include="Assets\tdspawner.cs" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderRGB.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\SeparableWeightedBlurDof34.shader" />

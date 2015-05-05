@@ -19,7 +19,12 @@ public class TDManager : MonoBehaviour
 	private Vector3 targetPos;
     private GameObject block;
     public GameObject ghostBlock;
+
+
     public GameObject enemy;
+    public GameObject[] enemyPool1;
+    public GameObject[] enemyPool2;
+
 	public LayerMask buildLayer;
 	public float spawnDelay = 5f;
 	private bool place, canBuild;

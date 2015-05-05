@@ -4,7 +4,6 @@ using System.Collections;
 public class BlockHealthSteve : MonoBehaviour {
 
 	public int health;
-	private bool blockhit;
 
 	private void OnTriggerEnter (Collider col)
 	{
@@ -50,10 +49,6 @@ public class BlockHealthSteve : MonoBehaviour {
 		yield return new WaitForSeconds (1);
 		LoseHealth(1);
 		StartCoroutine (WaitDamageCrusher());
-	}
-
-	void Update () {
-		//UpdateHealth();
 	}
 
 	public void LoseHealth (int hit)
