@@ -12,7 +12,7 @@ public class RotateSun : MonoBehaviour {
 	private Text dayText;
 
 	//bools
-	private bool displayed;
+	private bool displayed, vanquished, healed;
 
 	//components
 	private LevelManager manager;
@@ -31,6 +31,7 @@ public class RotateSun : MonoBehaviour {
 	public float timeRT = 0;
 	public float prevDayValue = 0;
 	public float transitionDelay = 3f;
+	public float healDelay = 3f;
 	
 	//values
 	private int currentDay, lastDay, mostDays, nextUnlock;
@@ -126,14 +127,36 @@ public class RotateSun : MonoBehaviour {
 			print ("There is no next");
 	}
 
+	public void VanquishEnemies()
+	{
+		GameObject[] enemies = GameObject.FindGameObjectsWithTag ("Enemy");
+
+		foreach(GameObject enemy in enemies)
+		{
+			enemy.GetComponent<EnemyHealth>().StartFade();
+		}
+
+		vanquished = true;
+	}
+
 	public void UpdateMostDays(int newMost){
-		if (most)
-			most.text = "Most Days Survived: " + newMost.ToString (" 00");
-		else
-			print ("There is no most");
+		if (most) most.text = "Most Days Survived: " + newMost.ToString (" 00");
+		else print ("There is no most");
 		
-		if(newMost > nextUnlock){
-			UpdateNextUnlock(newMost);
+		if(newMost > nextUnlock) { UpdateNextUnlock(newMost); }
+	}
+	
+	IEnumerator HealPlayer()
+	{
+		PlayerHealth health = player.GetComponent<PlayerHealth>();
+
+		while(currentState == States.Evening && health.health < health.maxHealth)
+		{
+			healed = true;
+			player.GetComponent<PlayerHealth> ().Heal (1);
+			//print ("healed");
+			yield return new WaitForSeconds(healDelay);
+			healed = false;
 		}
 	}
 	
@@ -151,24 +174,30 @@ public class RotateSun : MonoBehaviour {
 
 		switch (currentState) {
 
-			case States.Morning:
-				lantern.intensity = 0.25f;
-				//case/switch
-				if(!displayed)
-					StartCoroutine("DisplayDay", transitionDelay); displayed = true;
-				break;
+		case States.Morning:
+			lantern.intensity = 0.25f;
+			//case/switch
+			if(!displayed)
+				StartCoroutine("DisplayDay", transitionDelay); displayed = true;
+			if(!vanquished)
+				VanquishEnemies();
+			break;
 				
-			case States.Evening:
-				break;
+		case States.Evening:
+			if(!healed)
+				StartCoroutine("HealPlayer");
+			break;
 				
-			case States.Dusk:
-				lantern.intensity = .5f;
-				break;
+		case States.Dusk:
+			lantern.intensity = .5f;
+			break;
 				
-			case States.Night:
-				displayed = false;
-				lantern.intensity = 1;
-				break;
+		case States.Night:
+			//set these bools back to false
+			displayed = false;
+			vanquished = false;
+			lantern.intensity = 1;
+			break;
 		}
 
 		TimeOfDay += timeScale/1000;
@@ -177,7 +206,7 @@ public class RotateSun : MonoBehaviour {
 		RenderSettings.ambientLight = CalculateAmbientColor();
 		float sunangle = TimeOfDay * 360;
 		float moonangle = TimeOfDay * 360 + 180;
-		Vector3 midpoint = player.position; midpoint.y = offset.y; midpoint.z = offset.z; //midpoint = playerposition at floor height
+		Vector3 midpoint = transform.position;// = player.position; midpoint.y = offset.y; midpoint.z = offset.z;
 		Vector3 size = new Vector3 (planetSize, planetSize, planetSize);
 		sun.transform.position = midpoint + Quaternion.Euler(0,0,sunangle)*(radius*Vector3.right);
 		sun.transform.localScale = size;
@@ -222,8 +251,8 @@ public class RotateSun : MonoBehaviour {
 	void OnGUI()
 	{
 		Rect rect = new Rect(10, 10, 120, 20);
-		GUI.Label(rect, "time: " + TimeOfDay); rect.y+=20;
-		GUI.Label(rect, "timeRT: " + timeRT);
+		//GUI.Label(rect, "time: " + TimeOfDay); rect.y+=20;
+		//GUI.Label(rect, "timeRT: " + timeRT);
 		rect = new Rect(120, 10, 200, 10);
 		TimeOfDay = GUI.HorizontalSlider(rect, TimeOfDay, 0, 1);
 	}

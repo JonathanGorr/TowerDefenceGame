@@ -100,6 +100,11 @@ public class Health : MonoBehaviour {
 		}
 	}
 
+	public virtual void StartFade()
+	{
+		StartCoroutine(Fade( 0f, fadeOutTime));
+	}
+
 	public virtual void Heal(int heal)
 	{
 		health += heal;
