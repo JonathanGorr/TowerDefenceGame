@@ -9,6 +9,7 @@ public class RotateSun : MonoBehaviour {
 
 	//gameobjects
 	private GameObject sun, moon;
+	public GameObject sunSprite, moonSprite;
 	private Text dayText;
 
 	//bools
@@ -25,7 +26,8 @@ public class RotateSun : MonoBehaviour {
 
 	//values
 	public float timeScale = 1f;
-	public float planetSize = 1f;
+	public float planetSize1 = 3f;
+	public float planetSize2 = 4f;
 	public float lightDirection;
 	public Vector3 offset = new Vector3 (0, 0, 35);
 	public float radius = 6;
@@ -89,7 +91,10 @@ public class RotateSun : MonoBehaviour {
 		// Creating everything needed to demonstrate this from a single cube
 		player = GameObject.FindGameObjectWithTag ("Player").transform;
 		manager = GameObject.Find ("LevelManager").GetComponent<LevelManager> ();
-		sun = GameObject.CreatePrimitive (PrimitiveType.Sphere);
+
+		sunSprite = GameObject.FindGameObjectWithTag ("sun");
+		moonSprite = GameObject.FindGameObjectWithTag ("moon");
+		/*sun = GameObject.CreatePrimitive (PrimitiveType.Sphere);
 		sun.name = "sun";
 		sun.GetComponent<Renderer> ().material.color = Color.yellow;
 		sun.AddComponent<Light> ().type = LightType.Directional;
@@ -103,7 +108,17 @@ public class RotateSun : MonoBehaviour {
 		moon.GetComponent<Light> ().shadows = LightShadows.Hard;
 		moon.GetComponent<Light> ().color = new Color (0.5f, 0.5f, 0.5f);
 		moon.GetComponent<Light> ().intensity = 1f;
-		moon.GetComponent<Renderer> ().castShadows = false;
+		moon.GetComponent<Renderer> ().castShadows = false;*/
+
+		
+		//sunSprite.AddComponent<Light> ().type = LightType.Directional;
+		sunSprite.GetComponent<Light> ().shadows = LightShadows.Hard;
+		sunSprite.GetComponent<Light> ().color = new Color (1, 1, 0.5f);
+
+		//moonSprite.AddComponent<Light> ().type = LightType.Directional;
+		moonSprite.GetComponent<Light> ().shadows = LightShadows.Hard;
+		moonSprite.GetComponent<Light> ().color = new Color (0.5f, 0.5f, 0.5f);
+		moonSprite.GetComponent<Light> ().intensity = 1f;
 	}
 
 	public float TimeOfDay // game time 0 .. 1
@@ -199,7 +214,7 @@ public class RotateSun : MonoBehaviour {
 		switch (currentState) {
 
 		case States.Morning:
-			lantern.intensity = 0.25f;
+			lantern.intensity = 0.75f;
 			//case/switch
 			if(!displayed)
 				StartCoroutine("DisplayDay", transitionDelay); displayed = true;
@@ -208,13 +223,13 @@ public class RotateSun : MonoBehaviour {
 			break;
 				
 		case States.Evening:
-			lantern.intensity = 0.25f;
+			lantern.intensity = 0.5f;
 			if(!healed)
 				StartCoroutine("HealPlayer");
 			break;
 				
 		case States.Dusk:
-			lantern.intensity = .5f;
+			lantern.intensity = .75f;
 			break;
 				
 		case States.Night:
@@ -236,13 +251,19 @@ public class RotateSun : MonoBehaviour {
 			float sunangle = TimeOfDay * 360;
 			float moonangle = TimeOfDay * 360 + 180;
 			Vector3 midpoint = transform.position;// = player.position; midpoint.y = offset.y; midpoint.z = offset.z;
-			Vector3 size = new Vector3 (planetSize, planetSize, planetSize);
-			sun.transform.position = midpoint + Quaternion.Euler (0, 0, sunangle) * (radius * Vector3.right);
+			Vector3 size1 = new Vector3 (planetSize1, planetSize1, planetSize1);
+			Vector3 size2 = new Vector3 (planetSize2, planetSize2, planetSize2);
+			/*sun.transform.position = midpoint + Quaternion.Euler (0, 0, sunangle) * (radius * Vector3.right);
 			sun.transform.localScale = size;
 			sun.transform.LookAt (midpoint);
 			moon.transform.position = midpoint + Quaternion.Euler (0, 0, moonangle) * (radius * Vector3.right);
 			moon.transform.localScale = size;
-			moon.transform.LookAt (midpoint);
+			moon.transform.LookAt (midpoint);*/
+
+			sunSprite.transform.position = midpoint + Quaternion.Euler (0, 0, sunangle) * (radius * Vector3.right);
+			sunSprite.transform.localScale = size1;
+			moonSprite.transform.position = midpoint + Quaternion.Euler (0, 0, moonangle) * (radius * Vector3.right);
+			moonSprite.transform.localScale = size2;
 		} 
 		else
 			timeRT = stopTime;
