@@ -16,6 +16,12 @@ public class ObjectiveHealth : Health {
 	public override void Update ()
 	{
 		healthBar.value = health;
+
+		if(health <= 0)
+		{
+			manager.DeathScreen();
+		}
+
 		base.Update ();
 	}
 

@@ -40,11 +40,6 @@ public class tdspawner : MonoBehaviour {
 
 	void Update ()
 	{
-
-		if (cycle.CurrentState == RotateSun.States.Dusk ||
-		    cycle.CurrentState == RotateSun.States.Night)
-			print ("It's dusk");
-
 		if(target)
 			targetPos = target.transform.position;
 	}
@@ -86,7 +81,7 @@ public class tdspawner : MonoBehaviour {
 			if(cycle.CurrentState == RotateSun.States.Dusk ||
 			   cycle.CurrentState == RotateSun.States.Night)
 			{
-				print("Spawning enemies");
+				print("Spawning tougher enemies");
 
 	        	for (int i = 0; i <= enemyCount2; i++)
 	            {

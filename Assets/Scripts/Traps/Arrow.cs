@@ -10,12 +10,13 @@ public class Arrow : MonoBehaviour {
 		Destroy(gameObject, duration);
 	}
 
-	
-	void OnTriggerEnter (Collider col) 
+	/*
+	void OnTriggerEnter (Collider col)
 	{
 		if(col.tag == "Creeper" || col.tag == "Crawler" || col.tag == "EnemyHitbox" || col.tag == "Enemy" || col.tag == "Ground")
 		{
 			Destroy(gameObject);
 		}
 	}
+	*/
 }

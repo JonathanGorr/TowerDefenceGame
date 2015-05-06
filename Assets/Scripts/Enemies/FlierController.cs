@@ -6,7 +6,7 @@ public class FlierController : StateMachine {
 	public AudioClip flierSpawn;
 
 	// Use this for initialization
-	public void Awake () {
+	public void Start () {
 
 		if(SoundManager.instance)
 			SoundManager.instance.PlaySingle(flierSpawn);

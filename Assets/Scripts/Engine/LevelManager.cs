@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class LevelManager : Singleton<LevelManager> {
 
 	//gameobjects
-	private GameObject 
+	private GameObject
 		UI,
 		pauseMenu, 
 		blocksInstructions, 
@@ -20,7 +20,7 @@ public class LevelManager : Singleton<LevelManager> {
 
 	//souls
 	private Text soulText;
-	public int souls = 10;
+	[HideInInspector] public int souls = 10;
 
 	//values
 	private int day, mostDays, nextUnlock;
@@ -28,22 +28,10 @@ public class LevelManager : Singleton<LevelManager> {
 	private int unlockday6 = 6;
 	private int unlockday9 = 9;
 	private Text most, next;
-	
-	public float dayCanvasTransitionSpeed = 0.1f;
 
-	[HideInInspector]
-	public bool inMenu, paused;
+	[HideInInspector] public bool inMenu, paused;
 
 	void Awake () {
-
-		/*
-		dayCanvas = GameObject.Find ("DayCanvas");
-
-		if (dayCanvas) {
-			canvas = dayCanvas.GetComponent<CanvasGroup> ();
-			dayText = dayCanvas.transform.Find ("DayText").GetComponent<Text> ();
-		}
-		*/
 
 		//ui
 		UI = GameObject.Find ("UI");
@@ -85,12 +73,9 @@ public class LevelManager : Singleton<LevelManager> {
 		souls = 10;
 		UpdateSoul();
 
-		/*
-		if(dayCanvas)
-			canvas.alpha = 0.0f;
-		*/
+		UnPause ();
 	}
-	
+
 	void Update()
 	{
 		if(!inMenu)
@@ -196,7 +181,7 @@ public class LevelManager : Singleton<LevelManager> {
 		blocksInstructions.SetActive(false);
 		Time.timeScale = 1;
 	}
-	
+
 	public void Resume()
 	{
 		UnPause();

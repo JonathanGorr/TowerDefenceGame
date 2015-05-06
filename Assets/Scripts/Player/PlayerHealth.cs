@@ -29,12 +29,18 @@ public class PlayerHealth : Health {
 	public override void Update ()
 	{
 		healthBar.value = health;
+
+		if(health <= 0)
+		{
+			manager.DeathScreen();
+		}
+
 		base.Update ();
 	}
 
 	public override void OnKill()
 	{
 		base.manager.DeathScreen();
-		//Destroy (gameObject);
+		Destroy (gameObject);
 	}
 }

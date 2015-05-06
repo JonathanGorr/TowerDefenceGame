@@ -16,6 +16,7 @@ public class RotateSun : MonoBehaviour {
 
 	//components
 	private LevelManager manager;
+
 	//the players lantern
 	private Light lantern;
 
@@ -34,6 +35,7 @@ public class RotateSun : MonoBehaviour {
 	public float healDelay = 3f;
 	
 	//values
+	private float stopTime;
 	private int currentDay, lastDay, mostDays, nextUnlock;
 	private int unlockday3 = 3;
 	private int unlockday6 = 6;
@@ -86,6 +88,7 @@ public class RotateSun : MonoBehaviour {
 		lantern.intensity = 0.25f;
 		// Creating everything needed to demonstrate this from a single cube
 		player = GameObject.FindGameObjectWithTag ("Player").transform;
+		manager = GameObject.Find ("LevelManager").GetComponent<LevelManager> ();
 		sun = GameObject.CreatePrimitive (PrimitiveType.Sphere);
 		sun.name = "sun";
 		sun.GetComponent<Renderer> ().material.color = Color.yellow;
@@ -105,8 +108,22 @@ public class RotateSun : MonoBehaviour {
 
 	public float TimeOfDay // game time 0 .. 1
 	{
-		get { return timeRT/gameDayRLSeconds; }
-		set { timeRT = value * gameDayRLSeconds; }
+		get 
+		{
+			//if not paused
+			if(!manager.paused)
+				return timeRT/gameDayRLSeconds;
+			else
+				return stopTime/gameDayRLSeconds;
+		}
+		set 
+		{
+			//if not paused
+			if(!manager.paused)
+				timeRT = value * gameDayRLSeconds;
+			else
+				timeRT = value * stopTime;
+		}
 	}
 
 	IEnumerator DisplayDay(float delay)
@@ -209,19 +226,26 @@ public class RotateSun : MonoBehaviour {
 		}
 
 		TimeOfDay += timeScale/1000;
-		timeRT = (timeRT + Time.deltaTime) % gameDayRLSeconds;
-		Camera.main.backgroundColor = CalculateSkyColor();
-		RenderSettings.ambientLight = CalculateAmbientColor();
-		float sunangle = TimeOfDay * 360;
-		float moonangle = TimeOfDay * 360 + 180;
-		Vector3 midpoint = transform.position;// = player.position; midpoint.y = offset.y; midpoint.z = offset.z;
-		Vector3 size = new Vector3 (planetSize, planetSize, planetSize);
-		sun.transform.position = midpoint + Quaternion.Euler(0,0,sunangle)*(radius*Vector3.right);
-		sun.transform.localScale = size;
-		sun.transform.LookAt(midpoint);
-		moon.transform.position = midpoint + Quaternion.Euler(0,0,moonangle)*(radius*Vector3.right);
-		moon.transform.localScale = size;
-		moon.transform.LookAt(midpoint);
+
+		if (!manager.paused) 
+		{
+			stopTime = timeRT;
+			timeRT = (timeRT + Time.deltaTime) % gameDayRLSeconds;
+			Camera.main.backgroundColor = CalculateSkyColor ();
+			RenderSettings.ambientLight = CalculateAmbientColor ();
+			float sunangle = TimeOfDay * 360;
+			float moonangle = TimeOfDay * 360 + 180;
+			Vector3 midpoint = transform.position;// = player.position; midpoint.y = offset.y; midpoint.z = offset.z;
+			Vector3 size = new Vector3 (planetSize, planetSize, planetSize);
+			sun.transform.position = midpoint + Quaternion.Euler (0, 0, sunangle) * (radius * Vector3.right);
+			sun.transform.localScale = size;
+			sun.transform.LookAt (midpoint);
+			moon.transform.position = midpoint + Quaternion.Euler (0, 0, moonangle) * (radius * Vector3.right);
+			moon.transform.localScale = size;
+			moon.transform.LookAt (midpoint);
+		} 
+		else
+			timeRT = stopTime;
 	}
 	
 	Color CalculateSkyColor()
@@ -255,7 +279,8 @@ public class RotateSun : MonoBehaviour {
 		//else
 		return Color.Lerp(ambientNightColor, ambientDayColor, (time-startOfSunset)/(1.0f-startOfSunset));
 	}
-	
+
+	/*
 	void OnGUI()
 	{
 		Rect rect = new Rect(10, 10, 120, 20);
@@ -264,4 +289,5 @@ public class RotateSun : MonoBehaviour {
 		rect = new Rect(120, 10, 200, 10);
 		TimeOfDay = GUI.HorizontalSlider(rect, TimeOfDay, 0, 1);
 	}
+	*/
 }
