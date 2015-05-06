@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class arrowacidattack : Attack {
+public class ProjectileAttack : Attack {
 
 	public override void OnTriggerEnter (Collider other)
 	{

@@ -61,6 +61,13 @@ public class RotateSun : MonoBehaviour {
 	[HideInInspector] public enum States{ Morning, Evening, Dusk, Night }
 	[HideInInspector] public States currentState;
 
+	//this is used to get/set a state from outside this script
+	public States CurrentState
+	{
+		get { return currentState; }
+		set { currentState = value; }
+	}
+
 	//starts of times of day
 	public const float startOfDaytime = 0;
 	public const float startOfDusk = daytimeRLSeconds / gameDayRLSeconds;

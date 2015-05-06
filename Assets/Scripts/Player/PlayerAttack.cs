@@ -19,15 +19,6 @@ public class PlayerAttack : Attack {
 					//delay
 					StartCoroutine("Delay");
 				}
-				//if the object is the objective....
-				else if(other.tag == "Heart") {
-					other.GetComponentInParent<ObjectiveHealth> ().TakeDamage (damage);
-
-					//damage is dealt
-					damageDealt = true;
-					//delay
-					StartCoroutine("Delay");
-				}
 			}
 		}
 	}

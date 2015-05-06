@@ -1,11 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Enemies\StateMachine.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Engine\tdspawner.cs">
     <Files>
-      <File FileName="Assets\Scripts\RotateSun.cs" Line="79" Column="3" />
-      <File FileName="Assets\Scripts\tdspawner.cs" Line="77" Column="1" />
-      <File FileName="Assets\Scripts\Enemies\StateMachine.cs" Line="244" Column="40" />
-      <File FileName="Assets\Scripts\Enemies\FlierController.cs" Line="4" Column="36" />
+      <File FileName="Assets\Scripts\Engine\tdspawner.cs" Line="76" Column="54" />
+      <File FileName="Assets\Scripts\Engine\RotateSun.cs" Line="66" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

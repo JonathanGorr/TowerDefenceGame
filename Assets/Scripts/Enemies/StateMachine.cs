@@ -6,10 +6,9 @@ public class StateMachine : MonoBehaviour {
 	//components
 	private TDManager tdManager;
 	private TDEnemy tdEnemy;
-	[HideInInspector]
-	public Rigidbody rigidBody;
+	[HideInInspector] public Rigidbody rigidBody;
 	private EnemyAttack enemyAttack;
-	[HideInInspector]
+	//[HideInInspector] 
 	public Animator animator;
 	
 	//transforms
@@ -27,7 +26,6 @@ public class StateMachine : MonoBehaviour {
 	private bool
 		canAttack = true,
 		pathMover = true,
-		//newPath = true,
 		left;
 
 	[HideInInspector]

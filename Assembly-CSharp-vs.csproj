@@ -39,10 +39,10 @@
 	<Reference Include="System.Core" />
 	<Reference Include="System.Xml.Linq" />
 	<Reference Include="UnityEngine">
-	  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>E:/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>E:/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
@@ -70,8 +70,6 @@
      <Compile Include="Assets\Scripts\Blocks\BlockHealthSteve.cs" />
      <Compile Include="Assets\Scripts\Blocks\Building.cs" />
      <Compile Include="Assets\Scripts\Blocks\ObjectiveHealth.cs" />
-     <Compile Include="Assets\Scripts\DayNightController.cs" />
-     <Compile Include="Assets\Scripts\DayNightSystem.cs" />
      <Compile Include="Assets\Scripts\Enemies\CrawlerController.cs" />
      <Compile Include="Assets\Scripts\Enemies\CreeperController.cs" />
      <Compile Include="Assets\Scripts\Enemies\CreeperSpawner.cs" />
@@ -86,13 +84,19 @@
      <Compile Include="Assets\Scripts\Engine\AddRemoveObjects.cs" />
      <Compile Include="Assets\Scripts\Engine\CameraFollow.cs" />
      <Compile Include="Assets\Scripts\Engine\DayNightColors.cs" />
+     <Compile Include="Assets\Scripts\Engine\DayNightController.cs" />
+     <Compile Include="Assets\Scripts\Engine\DayNightSystem.cs" />
      <Compile Include="Assets\Scripts\Engine\Grid.cs" />
      <Compile Include="Assets\Scripts\Engine\LevelManager.cs" />
      <Compile Include="Assets\Scripts\Engine\MovingObject.cs" />
      <Compile Include="Assets\Scripts\Engine\RepCollision.cs" />
+     <Compile Include="Assets\Scripts\Engine\RotateSun.cs" />
+     <Compile Include="Assets\Scripts\Engine\Shadow.cs" />
      <Compile Include="Assets\Scripts\Engine\Singleton.cs" />
      <Compile Include="Assets\Scripts\Engine\SoundManager.cs" />
+     <Compile Include="Assets\Scripts\Engine\Spawner.cs" />
      <Compile Include="Assets\Scripts\Engine\Wall.cs" />
+     <Compile Include="Assets\Scripts\Engine\tdspawner.cs" />
      <Compile Include="Assets\Scripts\Health.cs" />
      <Compile Include="Assets\Scripts\Player\PickupScript.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerAttack.cs" />
@@ -100,17 +104,12 @@
      <Compile Include="Assets\Scripts\Player\PlayerHealth.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerInput.cs" />
      <Compile Include="Assets\Scripts\Player\SoulToPlayer.cs" />
-     <Compile Include="Assets\Scripts\RotateSun.cs" />
-     <Compile Include="Assets\Scripts\Shadow.cs" />
-     <Compile Include="Assets\Scripts\Spawner.cs" />
-     <Compile Include="Assets\Scripts\Test.cs" />
      <Compile Include="Assets\Scripts\Traps\Acid.cs" />
      <Compile Include="Assets\Scripts\Traps\AcidTrap.cs" />
      <Compile Include="Assets\Scripts\Traps\Arrow.cs" />
      <Compile Include="Assets\Scripts\Traps\ArrowTrap.cs" />
+     <Compile Include="Assets\Scripts\Traps\ProjectileAttack.cs" />
      <Compile Include="Assets\Scripts\Traps\TrapAttack.cs" />
-     <Compile Include="Assets\Scripts\arrowacidattack.cs" />
-     <Compile Include="Assets\Scripts\tdspawner.cs" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderRGB.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\SeparableWeightedBlurDof34.shader" />
@@ -180,7 +179,7 @@
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlurAndFlares.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendForBloom.shader" />
  <Reference Include="UnityEngine.UI">
- <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+ <HintPath>E:/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
