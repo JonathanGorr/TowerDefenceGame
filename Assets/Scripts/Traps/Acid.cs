@@ -3,30 +3,26 @@ using System.Collections;
 
 public class Acid : MonoBehaviour {
 
-
+	public GameObject deathInstance = null;
+	private Vector2 deathInstanceOffset = new Vector2(0,0);
 	
 	void OnTriggerEnter (Collider col) 
 	{
-		if(col.tag == "Enemy")
+		if(col.tag == "Enemy" || col.tag == "Player" || col.tag == "Ground")
 		{
-			//col.gameObject.GetComponent<EnemyHealth>().TakeDamage();
-			Destroy(gameObject);
+			OnKill();
 		}
+	}
 
-		/*if(col.tag == "Cube")
+	void OnKill()
+	{
+		if (deathInstance) 
 		{
-			//col.gameObject.GetComponent<BlockHealth>().LoseHealth();
-		}*/
-
-		if(col.tag == "Player")
-		{	
-			//col.gameObject.GetComponent<PlayerHealth>().LoseHealth();
-			Destroy(gameObject);
+			var pos = gameObject.transform.position;
+			GameObject clone = Instantiate (deathInstance, new
+			Vector3(pos.x + deathInstanceOffset.x, pos.y + deathInstanceOffset.y,
+			pos.z), Quaternion.identity) as GameObject;
 		}
-
-		if(col.tag == "Ground")
-		{
 			Destroy(gameObject);
-		}
 	}
 }

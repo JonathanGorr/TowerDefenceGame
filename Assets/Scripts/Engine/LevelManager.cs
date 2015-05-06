@@ -186,6 +186,7 @@ public class LevelManager : Singleton<LevelManager> {
 	{
 		pauseMenu.SetActive(true);
 		blocksInstructions.SetActive(true);
+		blockPanel.SetActive(true);
 		Time.timeScale = 0;
 	}
 	
