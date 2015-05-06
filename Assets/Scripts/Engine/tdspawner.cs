@@ -32,26 +32,34 @@ public class tdspawner : MonoBehaviour {
 		cycle = GameObject.Find("DayNightCycle").GetComponent<RotateSun>();
 		target = GameObject.Find ("Player");
 
-		StartCoroutine(SpawnWaves1());
-		StartCoroutine(SpawnWaves2());
+		StartCoroutine(SpawnWaves1(.5f));
+		StartCoroutine(SpawnWaves2(.5f));
 
 		spawnPos = spawn.transform.position;
 	}
 
-	void Update () 
+	void Update ()
 	{
+
+		if (cycle.CurrentState == RotateSun.States.Dusk ||
+		    cycle.CurrentState == RotateSun.States.Night)
+			print ("It's dusk");
+
 		if(target)
 			targetPos = target.transform.position;
 	}
 
-	IEnumerator SpawnWaves1()
+	IEnumerator SpawnWaves1(float interval)
     {
         yield return new WaitForSeconds (startWait);
         
-		while(cycle.CurrentState == RotateSun.States.Night)
+		while(true)
 		{
-			while (true)
-	        {
+			if(cycle.CurrentState == RotateSun.States.Dusk ||
+			   cycle.CurrentState == RotateSun.States.Night)
+			{
+				print("Spawning enemies");
+
 	        	for (int i = 0; i < enemyCount; i++)
 	            {
 	            	Vector3 spawnPosition = new Vector3 (spawnPos.x, spawnPos.y, Random.Range (range1, range2));
@@ -63,20 +71,23 @@ public class tdspawner : MonoBehaviour {
 					yield return new WaitForSeconds (spawnWait);
 	            }
 	            yield return new WaitForSeconds (waveWait);
+	    		enemyCount += 1;
 			}
-        	enemyCount += 1;
+			yield return new WaitForSeconds(interval);
 		}
     }
 
-   	IEnumerator SpawnWaves2()
+   	IEnumerator SpawnWaves2(float interval)
     {
-
         yield return new WaitForSeconds (startWait2);
 
-		while(cycle.CurrentState == RotateSun.States.Night)
+		while(true)
 		{
-	        while (true)
-	        {	
+			if(cycle.CurrentState == RotateSun.States.Dusk ||
+			   cycle.CurrentState == RotateSun.States.Night)
+			{
+				print("Spawning enemies");
+
 	        	for (int i = 0; i <= enemyCount2; i++)
 	            {
 	            	Vector3 spawnPosition = new Vector3 (spawnPos.x, spawnPos.y, Random.Range (range1, range2));
@@ -88,8 +99,9 @@ public class tdspawner : MonoBehaviour {
 					yield return new WaitForSeconds (spawnWait * 2);
 	            }
 	            yield return new WaitForSeconds (waveWait * 2);
+	    		enemyCount += 1;
 			}
-        	enemyCount += 1;
+			yield return new WaitForSeconds(interval);
 		}
     }
 }

@@ -20,10 +20,9 @@ public class TDManager : MonoBehaviour
     private GameObject block;
     public GameObject ghostBlock;
 
-
     public GameObject enemy;
-    public GameObject[] enemyPool1;
-    public GameObject[] enemyPool2;
+   // public GameObject[] enemyPool1;
+   // public GameObject[] enemyPool2;
 
 	public LayerMask buildLayer;
 	public float spawnDelay = 5f;
@@ -51,8 +50,6 @@ public class TDManager : MonoBehaviour
 		manager = GameObject.Find ("LevelManager").GetComponent<LevelManager> ();
 		spawn = GameObject.Find ("Spawn");
 		target = GameObject.Find ("Player");
-
-		StartCoroutine(SpawnEnemy());
     }
 	
 	void Update ()
@@ -203,15 +200,6 @@ public class TDManager : MonoBehaviour
 		}
     }
 
-    IEnumerator SpawnEnemy()
-    {
-        yield return new WaitForSeconds(spawnDelay);
-        GameObject e = Instantiate(enemy, spawn.transform.position, Quaternion.identity) as GameObject;
-		e.GetComponentInChildren<TDEnemy> ().spawn = spawn.transform;
-		e.GetComponentInChildren<TDEnemy> ().target = target.transform;
-        StartCoroutine(SpawnEnemy());
-    }
-	
 	public void Dirt()
 	{
 		block = dirtPrefab;
