@@ -112,6 +112,7 @@
      <Compile Include="Assets\Scripts\Traps\ProjectileAttack.cs" />
      <Compile Include="Assets\Scripts\Traps\TrapAttack.cs" />
      <Compile Include="Assets\Scripts\Traps\acidPop.cs" />
+     <Compile Include="Assets\titleManager.cs" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderRGB.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\SeparableWeightedBlurDof34.shader" />

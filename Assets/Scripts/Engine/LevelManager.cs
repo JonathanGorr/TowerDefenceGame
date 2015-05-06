@@ -27,7 +27,7 @@ public class LevelManager : Singleton<LevelManager> {
 	private int unlockday3 = 3;
 	private int unlockday6 = 6;
 	private int unlockday9 = 9;
-	private Text most, next;
+	private Text most, next, pauseText;
 
 	[HideInInspector] public bool inMenu, paused;
 
@@ -35,12 +35,13 @@ public class LevelManager : Singleton<LevelManager> {
 
 		//ui
 		UI = GameObject.Find ("UI");
-		pauseMenu = GameObject.Find ("PauseMenu");
+		//pauseMenu = GameObject.Find ("PauseMenu");
 		blocksInstructions = GameObject.Find ("BlocksInstructions");
 		blockPanel = GameObject.Find ("blockPanel");
 		instructionsPanel = GameObject.Find ("instructionsPanel");
 		deathMenu = GameObject.Find ("DeathMenu");
 		soulText = GameObject.Find("Souls").GetComponent<Text>();
+		pauseText = GameObject.Find("PauseText").GetComponent<Text>();
 
 		//days
 		//current = GameObject.Find ("CurrentDay").GetComponent<Text>();
@@ -52,6 +53,7 @@ public class LevelManager : Singleton<LevelManager> {
 		//text
 		most.text = "Most Days Survived: " + mostDays.ToString(" 00");
 		next.text = "Next Unlock: " + nextUnlock.ToString(" 00");
+		pauseText.text = "press esc to pause" ;
 
 		//target framerate
 		Application.targetFrameRate = 60;
@@ -62,7 +64,7 @@ public class LevelManager : Singleton<LevelManager> {
 		          Application.loadedLevelName == "KillScreen") ? true : false;
 
 		//set these as inactive by default
-		pauseMenu.SetActive (false);
+		//pauseMenu.SetActive (false);
 		blocksInstructions.SetActive (false);
 		blockPanel.SetActive (false);
 		instructionsPanel.SetActive (false);
@@ -169,7 +171,8 @@ public class LevelManager : Singleton<LevelManager> {
 
 	public void Pause()
 	{
-		pauseMenu.SetActive(true);
+		//pauseMenu.SetActive(true);
+		pauseText.text = "paused" ;
 		blocksInstructions.SetActive(true);
 		blockPanel.SetActive(true);
 		Time.timeScale = 0;
@@ -177,7 +180,8 @@ public class LevelManager : Singleton<LevelManager> {
 	
 	public void UnPause()
 	{
-		pauseMenu.SetActive(false);
+		//pauseMenu.SetActive(false);
+		pauseText.text = "press esc to pause" ;
 		blocksInstructions.SetActive(false);
 		Time.timeScale = 1;
 	}

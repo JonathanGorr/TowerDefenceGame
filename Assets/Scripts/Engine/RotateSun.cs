@@ -118,7 +118,7 @@ public class RotateSun : MonoBehaviour {
 		//moonSprite.AddComponent<Light> ().type = LightType.Directional;
 		moonSprite.GetComponent<Light> ().shadows = LightShadows.Hard;
 		moonSprite.GetComponent<Light> ().color = new Color (0.5f, 0.5f, 0.5f);
-		moonSprite.GetComponent<Light> ().intensity = 1f;
+		moonSprite.GetComponent<Light> ().intensity = 0f;
 	}
 
 	public float TimeOfDay // game time 0 .. 1
@@ -214,7 +214,7 @@ public class RotateSun : MonoBehaviour {
 		switch (currentState) {
 
 		case States.Morning:
-			lantern.intensity = 0.75f;
+			lantern.intensity = 0.5f;
 			//case/switch
 			if(!displayed)
 				StartCoroutine("DisplayDay", transitionDelay); displayed = true;
@@ -229,14 +229,14 @@ public class RotateSun : MonoBehaviour {
 			break;
 				
 		case States.Dusk:
-			lantern.intensity = .75f;
+			lantern.intensity = 1f;
 			break;
 				
 		case States.Night:
 			//set these bools back to false
 			displayed = false;
 			vanquished = false;
-			lantern.intensity = 1;
+			lantern.intensity = 2f;
 			break;
 		}
 
